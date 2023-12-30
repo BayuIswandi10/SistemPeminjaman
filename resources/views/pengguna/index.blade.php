@@ -136,7 +136,7 @@
                 <!-- MODAL -->
                 <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
                 <!-- tambahData Modal -->
-                <div class="modal fade" id="tambahData" tabindex="-1" role="dialog" aria-labelledby="tambahData" aria-hidden="true">
+       {{--      <div class="modal fade" id="tambahData" tabindex="-1" role="dialog" aria-labelledby="tambahData" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
                         <form  method="POST" action="{{ route('pengguna.store') }}" enctype="multipart/form-data">
                         @csrf
@@ -231,11 +231,11 @@
                         </form>
                         <!-- /.modal-content -->
                     </div>
-                </div>
+                </div> --}}
                 <!-- /.tambahData Modal -->
 
                 <!-- editData Modal -->
-                <div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="tambahData" aria-hidden="true">
+           {{--     <div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="tambahData" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
                         <form  method="POST"  action="{{ route('pengguna.update', $data->pengguna_id) }}" enctype="multipart/form-data">
                         @method('PUT')
@@ -316,7 +316,7 @@
                         </form>
                         <!-- /.modal-content -->
                     </div>
-                </div>
+                </div> --}}
                 <!-- /.editData Modal -->
                 <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
                 <!-- END MODAL -->
