@@ -120,7 +120,7 @@
                                     <!-- Penyesuaian sintaks untuk item-item berikutnya -->
                                     <li class="nav-item">
                                            <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
-                                                <i class="nav-icon fas fa-solid fa-user ml-3"></i>
+                                                <i class="nav-icon fas fa-toolbox ml-3"></i>
                                                 <p>
                                                     Barang
                                                     <span class="badge badge-info right"></span>
@@ -130,7 +130,7 @@
 
                                     <li class="nav-item">
                                            <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
-                                                <i class="nav-icon fas fa-solid fa-user ml-3"></i>
+                                                <i class="nav-icon fas fa-person-booth ml-3"></i>
                                                 <p>
                                                     Ruangan
                                                     <span class="badge badge-info right"></span>
@@ -139,8 +139,8 @@
                                     </li>
 
                                     <li class="nav-item">
-                                           <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
-                                                <i class="nav-icon fas fa-solid fa-user ml-3"></i>
+                                           <a href="{{ route('fasilitas.index') }}" class="nav-link {{ request()->routeIs('fasilitas.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-gears ml-3"></i>
                                                 <p>
                                                     Fasilitas
                                                     <span class="badge badge-info right"></span>
@@ -150,7 +150,7 @@
 
                                     <li class="nav-item">
                                            <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
-                                                <i class="nav-icon fas fa-solid fa-user ml-3"></i>
+                                                <i class="nav-icon fas fa-clock ml-3"></i>
                                                 <p>
                                                     Sesi
                                                     <span class="badge badge-info right"></span>

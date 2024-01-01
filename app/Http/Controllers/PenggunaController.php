@@ -68,9 +68,8 @@ class PenggunaController extends Controller
             // $pengguna->save();
         }
 
-        $pengguna = Pengguna::create($params);
 
-        if ($pengguna) {
+        if ($pengguna = Pengguna::create($params)) {
             return redirect(route('pengguna.index'))->with('success', 'Data berhasil ditambahkan!');
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');

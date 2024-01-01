@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Barang extends Model
 {
+    protected $primaryKey = 'barrang_id';
+    protected $table = 'barangs';
     public $timestamps = false;
     use HasFactory;
     protected $fillable=[
@@ -19,7 +21,7 @@ class Barang extends Model
         'lokasi_barang',
         'baris_lokasi',
         'gambar_barang',
-        'pengguna_id',
+        'created_by',
         'created_date',
         'status',
     ];

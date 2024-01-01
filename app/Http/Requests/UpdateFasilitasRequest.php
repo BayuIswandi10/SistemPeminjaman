@@ -3,10 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
 use Illuminate\Validation\Rule;
 
-class UpdatePenggunaRequest extends FormRequest
+class UpdateFasilitasRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,18 +25,11 @@ class UpdatePenggunaRequest extends FormRequest
     public function rules()
     {
         return [
-            'pengguna_id' => [
-                Rule::unique('penggunas')->ignore($this->route('pengguna')),
+            'fasilitas_id' => [
+                Rule::unique('fasilitas')->ignore($this->route('fasilitas')),
             ],
-            'nama'=>['required','max:100'],
-            'alamat'=>['required'],
-            'nohp'=>['required'],
-            'foto' => '|image|mimes:jpeg,png,jpg|max:2048',
-            'main_job'=>['required'],
-            'other_job'=>['required'],
-            'status',
-            'username',
-            'password',
+            'nama_fasilitas'=>['required','max:100'],
+            'foto_fasilitas' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }
