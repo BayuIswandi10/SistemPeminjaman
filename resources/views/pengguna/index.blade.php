@@ -72,7 +72,6 @@
                                         <th>Nomor Handphone</th>
                                         <th>Foto</th>
                                         <th>Role</th>
-                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -82,42 +81,41 @@
                                         <tr >
                                             <td >{{ ++$i }}</td>
                                             <td>{{ $data->pengguna_id }}</td>
-                                            <td>{{ $data->nama }}</td>
+                                            <td>
+                                                @if($data->status == "Pengajuan")
+                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->nama }}</span>
+                                                @elseif ($data->status == "Dipinjam")
+                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->nama }}</span>
+                                                @elseif ($data->status == "Selesai")
+                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->nama }}</span>
+                                                @elseif ($data->status == "Tidak Aktif")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->nama }}</span>
+                                                @elseif ($data->status == "Aktif")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->nama }}</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $data->alamat }}</td>
                                             <td>{{ $data->nohp }}</td>
                                             <td>
                                                 @if ($data->foto)
-                                                    <img src="{{ asset('storage/' . $data->foto) }}" alt="{{ $data->nama }}" style="max-width: 100px; max-height: 100px;">
+                                                    <img src="{{ asset($data->foto) }}" alt="{{ $data->nama }}" style="max-width: 100px; max-height: 100px;">
                                                 @else
                                                     No Image
-                                                @endif
+                                                @endif                                                
                                             </td>
                                             <td>{{ $data->main_job }}</td>
-                                            <td>
-                                                @if($data->status == "Pengajuan")
-                                                    <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
-                                                @elseif ($data->status == "Dipinjam")
-                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
-                                                @elseif ($data->status == "Selesai")
-                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
-                                                @elseif ($data->status == "Tidak Aktif")
-                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
-                                                @elseif ($data->status == "Aktif")
-                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
-                                                @endif
-                                            </td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('pengguna.edit', ['id' => $data->pengguna_id]) }}" class="btn btn-primary color-muted editbtn">
                                                         <i class="fa fa-pencil-square-o color-muted editbtn"></i>
                                                     </a>
-                                                    <form action="{{ route('pengguna.destroy', ['id' => $data->pengguna_id]) }}" method="POST">
+                                                    <form id="deleteForm_{{ $data->pengguna_id }}" action="{{ route('pengguna.destroy', ['id' => $data->pengguna_id]) }}" method="POST">
                                                         @csrf
-                                                        @method('PATCH')
+                                                        @method('DELETE')
                                                         <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $data->pengguna_id }}')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
-                                                    </form>
+                                                    </form>                                                    
                                                 </div>
                                             </td>
 
@@ -330,8 +328,8 @@
             columnDefs: [
                 {className: 'dt-body-center',targets: 0},
                 {className: 'dt-head-center',targets: 0},
-                {className: 'dt-body-center',targets: 8},
-                {className: 'dt-head-center',targets: 8}
+                {className: 'dt-body-center',targets: 7},
+                {className: 'dt-head-center',targets: 7}
             ],
               scrollX: true,
               responsive: true

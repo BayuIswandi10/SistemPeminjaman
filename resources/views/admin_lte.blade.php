@@ -67,7 +67,7 @@
                         @if(session()->has('logged_in'))
                             @php
                                 $logged_in = session('logged_in');
-                                $fotoPath = asset('storage/' . $logged_in->foto);
+                                $fotoPath = asset($logged_in->foto);
                             @endphp
                             <img src="{{ $fotoPath }}" class="img-circle" style="border-radius: 50%; width: 50px; height: 50px;">
                         @endif                    
@@ -86,8 +86,8 @@
                         <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                         <li class="nav-header">MENU</li>
-                            <li class="nav-item {{ request()->routeIs('pengguna.index') ? 'menu-open' : '' }}">
-                                <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
+                            <li class="nav-item {{ request()->routeIs('beranda.index') ? 'menu-open' : '' }}">
+                                <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('beranda.index') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
                                         Beranda
@@ -96,8 +96,8 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item ">
-                                <a href="#" class="nav-link ">
+                            <li class="nav-item {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit', 'fasilitas.index', 'fasilitas.create', 'fasilitas.edit', 'sesi.index', 'sesi.create', 'sesi.edit') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit', 'fasilitas.index', 'fasilitas.create', 'fasilitas.edit', 'sesi.index', 'sesi.create', 'sesi.edit') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-list-alt"></i>
                                     <p>
                                         Data
@@ -107,7 +107,7 @@
                                 <ul class="nav nav-treeview">
                                          {{--    @if (auth()->user()->role == 'Super Admin') --}} 
                                     <li class="nav-item">
-                                        <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
+                                        <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit') ? 'active' : '' }}">
                                             <i class="nav-icon fas fa-solid fa-user ml-3"></i>
                                             <p>
                                                 Admin
@@ -115,11 +115,12 @@
                                             </p>
                                         </a>
                                     </li>
+                                        
                                            {{--    @endif --}}
 
                                     <!-- Penyesuaian sintaks untuk item-item berikutnya -->
                                     <li class="nav-item">
-                                           <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
+                                           <a href="{{ route('barang.index') }}" class="nav-link {{ request()->routeIs('barang.index','barang.create','barang.edit') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-toolbox ml-3"></i>
                                                 <p>
                                                     Barang
@@ -129,7 +130,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                           <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
+                                           <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('ruangan.index','ruangan.create','ruangan.edit') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-person-booth ml-3"></i>
                                                 <p>
                                                     Ruangan
@@ -139,7 +140,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                           <a href="{{ route('fasilitas.index') }}" class="nav-link {{ request()->routeIs('fasilitas.index') ? 'active' : '' }}">
+                                           <a href="{{ route('fasilitas.index') }}" class="nav-link {{ request()->routeIs('fasilitas.index', 'fasilitas.create', 'fasilitas.edit') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-gears ml-3"></i>
                                                 <p>
                                                     Fasilitas
@@ -149,7 +150,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                           <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index') ? 'active' : '' }}">
+                                           <a href="{{ route('sesi.index') }}" class="nav-link {{ request()->routeIs('sesi.index', 'sesi.create', 'sesi.edit') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-clock ml-3"></i>
                                                 <p>
                                                     Sesi

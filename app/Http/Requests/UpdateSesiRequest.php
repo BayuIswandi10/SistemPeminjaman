@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSesiRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateSesiRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,12 @@ class UpdateSesiRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'sesi_id' => [
+                Rule::unique('sesis')->ignore($this->route('sesi')),
+            ],
+            'nama_sesi'=>['required','max:100'],
+            'sesi_awal'=>['required'],
+            'sesi_akhir'=>['required'],
         ];
     }
 }

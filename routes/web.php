@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\SesiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,7 @@ Route::get('pengguna/create',[PenggunaController::class,'create'])->name('penggu
 Route::post('pengguna',[PenggunaController::class,'store'])->name('pengguna.store');
 Route::get('pengguna/{id}/edit',[PenggunaController::class,'edit'])->name('pengguna.edit');
 Route::put('pengguna/{id}',[PenggunaController::class,'update'])->name('pengguna.update');
-Route::patch('pengguna/{id}',[PenggunaController::class,'destroy'])->name('pengguna.destroy');
+Route::delete('pengguna/{id}', [PenggunaController::class, 'destroy'])->name('pengguna.destroy');
 
 
 //Routes fasilitas
@@ -43,4 +45,24 @@ Route::middleware(['auth.pengguna'])->group(function () {
     Route::get('fasilitas/{id}/edit',[FasilitasController::class,'edit'])->name('fasilitas.edit');
     Route::put('fasilitas/{id}',[FasilitasController::class,'update'])->name('fasilitas.update');
     Route::patch('fasilitas/{id}',[FasilitasController::class,'destroy'])->name('fasilitas.destroy');    
+});
+
+//Routes sesi
+Route::middleware(['auth.pengguna'])->group(function () {
+    Route::get('sesi',[SesiController::class,'index'])->name('sesi.index');
+    Route::get('sesi/create',[SesiController::class,'create'])->name('sesi.create');
+    Route::post('sesi',[SesiController::class,'store'])->name('sesi.store');
+    Route::get('sesi/{id}/edit',[SesiController::class,'edit'])->name('sesi.edit');
+    Route::put('sesi/{id}',[SesiController::class,'update'])->name('sesi.update');
+    Route::delete('sesi/{id}',[SesiController::class,'destroy'])->name('sesi.destroy');    
+});
+
+//Routes barang
+Route::middleware(['auth.pengguna'])->group(function () {
+    Route::get('barang',[BarangController::class,'index'])->name('barang.index');
+    Route::get('barang/create',[BarangController::class,'create'])->name('barang.create');
+    Route::post('barang',[BarangController::class,'store'])->name('barang.store');
+    Route::get('barang/{id}/edit',[BarangController::class,'edit'])->name('barang.edit');
+    Route::put('barang/{id}',[BarangController::class,'update'])->name('barang.update');
+    Route::delete('barang/{id}',[BarangController::class,'destroy'])->name('barang.destroy');    
 });

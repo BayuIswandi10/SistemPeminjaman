@@ -81,7 +81,7 @@
                                             <td>{{ $data->nama_fasilitas }}</td>
                                             <td>
                                                 @if ($data->foto_fasilitas)
-                                                    <img src="{{ asset('storage/' . $data->foto_fasilitas) }}" alt="{{ $data->nama_fasilitas }}" style="max-width: 100px; max-height: 100px;">
+                                                    <img src="{{ asset($data->foto_fasilitas) }}" alt="{{ $data->nama_fasilitas }}" style="max-width: 100px; max-height: 100px;">
                                                 @else
                                                     No Image
                                                 @endif

@@ -91,7 +91,7 @@
                                         <input type="hidden" class="form-control" id="foto" name="foto" />
                                         <input type="file" id="foto" name="foto" class="custom-file-input" aria-describedby="lblfoto" />
                                     <label class="custom-file-label" for="foto">Pilih file</label>
-                                    <img src="{{ asset('storage/' . $pengguna->foto) }}" class="img-thumbnail" style="width:200px" />
+                                    <img src="{{ asset($pengguna->foto) }}" class="img-thumbnail" style="width:200px" />
                                 </div>
                                 <div class="form-group" hidden>
                                     <label for="status">Status <span style="color:red;">*</span></label>

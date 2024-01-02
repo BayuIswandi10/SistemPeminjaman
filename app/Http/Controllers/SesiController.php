@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSesiRequest;
+use App\Http\Requests\UpdateSesiRequest;
+use App\Models\Sesi;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class SesiController extends Controller
@@ -13,7 +17,8 @@ class SesiController extends Controller
      */
     public function index()
     {
-        //
+        $sesi = Sesi::all(); 
+        return view('sesi.index',['sesi'=>$sesi]);
     }
 
     /**
@@ -23,7 +28,7 @@ class SesiController extends Controller
      */
     public function create()
     {
-        //
+        return view('sesi.create'); 
     }
 
     /**
@@ -32,9 +37,16 @@ class SesiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSesiRequest $request)
     {
-        //
+        $params = $request->validated();    
+        $params['created_by'] = Session::get('logged_in')->sesi_id;
+        $params['status'] = 'Aktif';
+        if ($fasilitas = Sesi::create($params)) {
+            return redirect(route('sesi.index'))->with('success', 'Data berhasil ditambahkan!');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
+        }
     }
 
     /**
@@ -56,7 +68,8 @@ class SesiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $sesi = Sesi::findOrFail($id);
+        return view('sesi.edit', ['sesi' => $sesi]);
     }
 
     /**
@@ -66,9 +79,18 @@ class SesiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSesiRequest $request, $id)
     {
-        //
+        $fasilitas = Sesi::findOrFail($id);
+        $params = $request->validated();
+    
+        // Lakukan pembaruan data mahasiswa
+        $params['created_by'] = Session::get('logged_in')->sesi_id;
+        if ($fasilitas->update($params)) {
+            return redirect(route('sesi.index'))->with('success', 'Updated!');
+        } else {    
+            return back()->with('error', 'Failed to update sesi.');
+        }
     }
 
     /**
@@ -79,6 +101,15 @@ class SesiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sesi = Sesi::find($id);
+
+        if ($sesi) {
+            $sesi->status = 'Tidak Aktif';
+            $sesi->save();
+    
+            return redirect()->route('sesi.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        }
+    
+        return redirect()->route('sesi.index')->with('error', 'Data not found.');
     }
 }

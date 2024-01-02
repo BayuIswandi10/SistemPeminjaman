@@ -13,7 +13,7 @@ class StoreSesiRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreSesiRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nama_sesi'=>['required','max:100'],
+            'sesi_awal'=>['required'],
+            'sesi_akhir'=>['required'],
         ];
     }
 }

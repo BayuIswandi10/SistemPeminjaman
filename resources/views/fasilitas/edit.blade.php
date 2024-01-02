@@ -73,7 +73,7 @@
                                         <input type="hidden" class="form-control" id=foto_fasilitas name=foto_fasilitas />
                                         <input type="file" id=foto_fasilitas name=foto_fasilitas class="custom-file-input" aria-describedby="lblfoto" />
                                     <label class="custom-file-label" for=foto_fasilitas>Pilih file</label>
-                                    <img src="{{ asset('storage/' . $fasilitas->foto_fasilitas) }}" class="img-thumbnail" style="width:200px" />
+                                    <img src="{{ asset($fasilitas->foto_fasilitas) }}" class="img-thumbnail" style="width:200px" />
                                 </div>
                             </div>
                             </div>
