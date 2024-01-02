@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFasilitasRequest;
 use App\Http\Requests\UpdateFasilitasRequest;
 use App\Models\Fasilitas;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,8 @@ class FasilitasController extends Controller
      */
     public function create()
     {
-        return view('fasilitas.create');    }
+        return view('fasilitas.create');   
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,17 +42,14 @@ class FasilitasController extends Controller
     {
         $params = $request->validated();
         
+        $imageName = time() . '.' . $request->foto_fasilitas->extension();
+        $uploadedImage = $request->foto_fasilitas->move(public_path('assets/foto/fasilitas'), $imageName);
+        $imagePath = 'assets/foto/fasilitas/' . $imageName;
         
-        // Upload dan simpan gambar ke storage jika ada file yang diunggah
-        if ($request->hasFile('foto_fasilitas')) {
-            $image = $request->file('foto_fasilitas');
-            $path = $image->store('fasilitas_photos');
-            $params['foto_fasilitas'] = $path;
-        }
-        
-        
-        $params['created_by'] = Session::get('logged_in')->pengguna_id;
+        $params['created_by'] = Session::get('logged_in')->fasilitas_id;
         if ($fasilitas = Fasilitas::create($params)) {
+            $fasilitas->foto_fasilitas = $imagePath;
+            $fasilitas->save();
             return redirect(route('fasilitas.index'))->with('success', 'Data berhasil ditambahkan!');
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
@@ -94,35 +93,26 @@ class FasilitasController extends Controller
         $fasilitas = Fasilitas::findOrFail($id);
         $params = $request->validated();
     
-        $oldImagePath = $fasilitas->foto_fasilitas;
-    
+        // Simpan gambar baru
         if ($request->hasFile('foto_fasilitas')) {
-            $image = $request->file('foto_fasilitas');
-            
-            // Simpan gambar baru
-            $path = $image->store('fasilitas_photos');
-            $params['foto_fasilitas'] = $path;
+            $newImage = $request->file('foto_fasilitas');
+            $imageName = time() . '.' . $newImage->extension();
+            $newImage->move(public_path('assets/foto/fasilitas'), $imageName);
+            $newImagePath = 'assets/foto/fasilitas/' . $imageName;
     
-            if ($oldImagePath && Storage::exists($oldImagePath)) {
-                // Hapus gambar lama dari storage jika ada
-                Storage::delete($oldImagePath);
+            // Hapus gambar lama jika ada
+            if ($fasilitas->foto_fasilitas && File::exists(public_path($fasilitas->foto_fasilitas))) {
+                File::delete(public_path($fasilitas->foto_fasilitas));
             }
-        }
     
-        // Lakukan pembaruan data mahasiswa
-        $params['created_by'] = Session::get('logged_in')->pengguna_id;
+            $params['foto_fasilitas'] = $newImagePath;
+        }
+
+        // Lakukan pembaruan data fasilitas
         if ($fasilitas->update($params)) {
             return redirect(route('fasilitas.index'))->with('success', 'Updated!');
         } else {
-            // Jika terjadi kesalahan saat pembaruan mahasiswa
-            if ($request->hasFile('foto_fasilitas')) {
-                $newImagePath = $params['foto_fasilitas'] ?? null;
-                if ($newImagePath && Storage::exists($newImagePath)) {
-                    Storage::delete($newImagePath);
-                }
-            }
-    
-            // Kembalikan ke halaman sebelumnya dengan pesan kesalahan
+            // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update fasilitas.');
         }
     }
