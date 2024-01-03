@@ -85,7 +85,7 @@ class SesiController extends Controller
         $params = $request->validated();
     
         // Lakukan pembaruan data mahasiswa
-        $params['created_by'] = Session::get('logged_in')->sesi_id;
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($fasilitas->update($params)) {
             return redirect(route('sesi.index'))->with('success', 'Updated!');
         } else {    

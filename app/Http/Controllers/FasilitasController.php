@@ -46,7 +46,7 @@ class FasilitasController extends Controller
         $uploadedImage = $request->foto_fasilitas->move(public_path('assets/foto/fasilitas'), $imageName);
         $imagePath = 'assets/foto/fasilitas/' . $imageName;
         
-        $params['created_by'] = Session::get('logged_in')->fasilitas_id;
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($fasilitas = Fasilitas::create($params)) {
             $fasilitas->foto_fasilitas = $imagePath;
             $fasilitas->save();
@@ -109,6 +109,7 @@ class FasilitasController extends Controller
         }
 
         // Lakukan pembaruan data fasilitas
+        $params['created_by'] = Fasilitas::get('logged_in')->pengguna_id;
         if ($fasilitas->update($params)) {
             return redirect(route('fasilitas.index'))->with('success', 'Updated!');
         } else {

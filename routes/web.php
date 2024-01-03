@@ -5,6 +5,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SesiController;
 
 /*
@@ -65,4 +66,14 @@ Route::middleware(['auth.pengguna'])->group(function () {
     Route::get('barang/{id}/edit',[BarangController::class,'edit'])->name('barang.edit');
     Route::put('barang/{id}',[BarangController::class,'update'])->name('barang.update');
     Route::delete('barang/{id}',[BarangController::class,'destroy'])->name('barang.destroy');    
+});
+
+//Routes ruangan
+Route::middleware(['auth.pengguna'])->group(function () {
+    Route::get('ruangan',[RuanganController::class,'index'])->name('ruangan.index');
+    Route::get('ruangan/create',[RuanganController::class,'create'])->name('ruangan.create');
+    Route::post('ruangan',[RuanganController::class,'store'])->name('ruangan.store');
+    Route::get('ruangan/{id}/edit',[RuanganController::class,'edit'])->name('ruangan.edit');
+    Route::put('ruangan/{id}',[RuanganController::class,'update'])->name('ruangan.update');
+    Route::delete('ruangan/{id}',[RuanganController::class,'destroy'])->name('ruangan.destroy');    
 });

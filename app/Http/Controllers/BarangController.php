@@ -106,6 +106,7 @@ class BarangController extends Controller
         }
 
         // Lakukan pembaruan data barang
+        $params['created_by'] = Barang::get('logged_in')->pengguna_id;
         if ($barang->update($params)) {
             return redirect(route('barang.index'))->with('success', 'Updated!');
         } else {

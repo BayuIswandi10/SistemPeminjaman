@@ -96,8 +96,8 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit', 'fasilitas.index', 'fasilitas.create', 'fasilitas.edit', 'sesi.index', 'sesi.create', 'sesi.edit','barang.index','barang.create','barang.edit') ? 'menu-open' : '' }}">
-                                <a href="#" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit', 'fasilitas.index', 'fasilitas.create', 'fasilitas.edit', 'sesi.index', 'sesi.create', 'sesi.edit','barang.index','barang.create','barang.edit') ? 'active' : '' }}">
+                            <li class="nav-item {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit', 'fasilitas.index', 'fasilitas.create', 'fasilitas.edit', 'sesi.index', 'sesi.create', 'sesi.edit', 'barang.index','barang.create','barang.edit', 'ruangan.index','ruangan.create','ruangan.edit') ? 'menu-open' : '' }}">
+                                <a href="#" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit', 'fasilitas.index', 'fasilitas.create', 'fasilitas.edit', 'sesi.index', 'sesi.create', 'sesi.edit', 'barang.index','barang.create','barang.edit', 'ruangan.index','ruangan.create','ruangan.edit') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-list-alt"></i>
                                     <p>
                                         Data
@@ -130,7 +130,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                           <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('ruangan.index','ruangan.create','ruangan.edit') ? 'active' : '' }}">
+                                           <a href="{{ route('ruangan.index') }}" class="nav-link {{ request()->routeIs('ruangan.index','ruangan.create','ruangan.edit') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-person-booth ml-3"></i>
                                                 <p>
                                                     Ruangan
