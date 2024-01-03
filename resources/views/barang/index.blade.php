@@ -85,11 +85,11 @@
                                             <td>{{ $data->barang_id }}</td>
                                             <td>{{ $data->nama_barang }}</td>
                                             <td>{{ $data->nomor_aktiva }}</td>
-                                            <td>{{ $data->stok }}</td>
+                                            <td>{{ $data->stok  . ' ' . $data->satuan_barang }}</td>
                                             <td>{{ $data->keterangan_barang }}</td>
                                             <td>{{ $data->lokasi_barang }}</td>
                                             <td>
-                                                @if ($data->foto)
+                                                @if ($data->gambar_barang)
                                                     <img src="{{ asset($data->gambar_barang) }}" alt="{{ $data->nama_barang }}" style="max-width: 100px; max-height: 100px;">
                                                 @else
                                                     No Image

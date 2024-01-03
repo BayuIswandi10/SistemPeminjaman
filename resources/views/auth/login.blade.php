@@ -37,7 +37,7 @@
     <div class="nav-static-top">
         <div class="float-left">
             <a href="#">
-                <img class="mt-3 ml-4" src="{{ asset('assets/foto/fasilitas/logo.png') }}" style="height:40px;">
+                <img class="mt-3 ml-4" src="{{ asset('assets/foto/logo.png') }}" style="height:40px;">
             </a>
         </div>
     </div>

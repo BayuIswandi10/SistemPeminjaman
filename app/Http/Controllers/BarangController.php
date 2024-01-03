@@ -45,7 +45,7 @@ class BarangController extends Controller
         $uploadedImage = $request->gambar_barang->move(public_path('assets/foto/Barang'), $imageName);
         $imagePath = 'assets/foto/Barang/' . $imageName;
         
-        $params['created_by'] = Session::get('logged_in')->pengguna_id;
+        $params['created_by'] = Session::get('logged_in')->barang_id;
         if ($barang = Barang::create($params)) {
             $barang->gambar_barang = $imagePath; // Atur atribut gambar_barang
             $barang->save(); // Simpan perubahan
@@ -122,6 +122,15 @@ class BarangController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $barang = Barang::find($id);
+     
+        if ($barang) {
+            $barang->status = 'Tidak Aktif';
+            $barang->save();
+    
+            return redirect()->route('barang.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        }
+    
+        return redirect()->route('barang.index')->with('error', 'Data not found.');
     }
 }
