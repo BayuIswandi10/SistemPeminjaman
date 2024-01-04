@@ -45,7 +45,7 @@ class BarangController extends Controller
         $uploadedImage = $request->gambar_barang->move(public_path('assets/foto/Barang'), $imageName);
         $imagePath = 'assets/foto/Barang/' . $imageName;
         
-        $params['created_by'] = Session::get('logged_in')->barang_id;
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($barang = Barang::create($params)) {
             $barang->gambar_barang = $imagePath; // Atur atribut gambar_barang
             $barang->save(); // Simpan perubahan
@@ -106,7 +106,7 @@ class BarangController extends Controller
         }
 
         // Lakukan pembaruan data barang
-        $params['created_by'] = Barang::get('logged_in')->pengguna_id;
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($barang->update($params)) {
             return redirect(route('barang.index'))->with('success', 'Updated!');
         } else {

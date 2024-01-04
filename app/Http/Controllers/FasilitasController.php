@@ -109,7 +109,7 @@ class FasilitasController extends Controller
         }
 
         // Lakukan pembaruan data fasilitas
-        $params['created_by'] = Fasilitas::get('logged_in')->pengguna_id;
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($fasilitas->update($params)) {
             return redirect(route('fasilitas.index'))->with('success', 'Updated!');
         } else {

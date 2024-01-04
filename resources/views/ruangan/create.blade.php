@@ -65,7 +65,7 @@
                                 <label for="koor_upt">Fasilitas <span style="color:red;">*</span></label><br>
                                 @foreach ($fasilitas as $fasilitasid => $fasilitasname)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="activity_ids[]" value="{{ $fasilitasid }}">
+                                        <input class="form-check-input" type="checkbox" name="fasilitas_ids[]" value="{{ $fasilitasid }}">
                                         <label class="form-check-label">
                                             {{ $fasilitasname }}
                                         </label>
