@@ -58,7 +58,7 @@
                                 </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label for="pengguna_id">ID <span style="color:red;">*</span></label>
                                 <input type="text" class="form-control" name="pengguna_id" value="{{ old('pengguna_id') }}" placeholder="Masukan ID Anda">
                             </div>

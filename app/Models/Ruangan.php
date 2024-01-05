@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ruangan extends Model
 {
+    protected $primaryKey = 'ruangan_id';
+    protected $table = 'ruangans';
     public $timestamps = false;
     use HasFactory;
     protected $fillable=[
@@ -21,7 +23,7 @@ class Ruangan extends Model
         'pic_lab',
         'admin_lab1',
         'admin_lab2',
-        'pengguna_id',
+        'created_by',
         'created_date',
         'status',
         
