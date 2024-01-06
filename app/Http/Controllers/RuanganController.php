@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBarangRequest;
 use App\Http\Requests\StoreRuanganRequest;
 use App\Models\Fasilitas;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class RuanganController extends Controller
 {
@@ -21,6 +21,32 @@ class RuanganController extends Controller
         $ruangan = Ruangan::all();
         return view('ruangan.index',['ruangan'=>$ruangan]);
         
+    }
+
+    public function detail($id)
+    {       
+        $ruangan = Ruangan::findOrFail($id);
+        
+        // Pastikan variabel $ruangan bukan boolean (false)
+        if (!$ruangan instanceof Ruangan) {
+            // Lakukan penanganan kesalahan di sini, misalnya:
+            return redirect()->route('route_name')->with('error', 'Ruangan tidak ditemukan');
+        }
+
+        $fasilitasDetail = $this->getFasilitasDetail($id);
+    
+        return view('ruangan.detail', ['ruangan' => $ruangan, 'fasilitasDetail' => $fasilitasDetail]);
+    }
+    
+    public function getFasilitasDetail($id)
+    {
+        $fasilitasDetail = DB::table('fasilitas as a')
+            ->join('fasilitas_ruangan as b', 'a.fasilitas_id', '=', 'b.fasilitas_id')
+            ->select('b.*', 'a.nama_fasilitas', 'a.foto_fasilitas')
+            ->where('b.ruangan_id', $id)
+            ->get();
+
+        return $fasilitasDetail;
     }
 
     /**
@@ -66,14 +92,24 @@ class RuanganController extends Controller
         $imagePath4 = 'assets/foto/ruangan/' . $imageName4;
         
         $params['created_by'] = Session::get('logged_in')->pengguna_id;
-        if ($ruangan = Ruangan::create($params)) {
-            $ruangan->fasilitas()->sync($params['fasilitas_ids']);
+            if ($ruangan = Ruangan::create($params)) {
+            // Mengambil fasilitas yang dipilih
+            $fasilitas_ids = $params['fasilitas_ids'];
+
+            // Mendapatkan jumlah fasilitas yang dipilih
+            $fasilitasCount = count($fasilitas_ids);
+
+            // Menghubungkan fasilitas yang dipilih dengan ruangan
+            $ruangan->fasilitas()->attach($fasilitas_ids, [
+                'jumlah' => $fasilitasCount,
+                'status' => 'Aktif'
+            ]);            
             $ruangan->foto1 = $imagePath1; // Atur atribut foto1        
             $ruangan->foto2 = $imagePath2; // Atur atribut foto2
             $ruangan->foto3 = $imagePath3; // Atur atribut foto3
             $ruangan->foto4 = $imagePath4; // Atur atribut foto4            
             $ruangan->save(); // Simpan perubahan
-            return redirect(route('barang.index'))->with('success', 'Data berhasil ditambahkan!');
+            return redirect(route('ruangan.index'))->with('success', 'Data berhasil ditambahkan!');
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
         } 

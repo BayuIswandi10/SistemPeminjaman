@@ -23,6 +23,6 @@ class Fasilitas extends Model
     }
 
     public function ruangan(){
-        return $this->belongsToMany(Ruangan::class);
+        return $this->belongsToMany(Ruangan::class, 'fasilitas_ruangan', 'fasilitas_id', 'ruangan_id');
     }
 }

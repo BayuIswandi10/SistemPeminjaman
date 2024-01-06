@@ -27,7 +27,8 @@ class StoreRuanganRequest extends FormRequest
             'nama_ruangan'=>['required','max:100'],
             'lokasi_ruangan'=>['required'],
             'kapasitas_ruangan'=>['required'],
-            'fasilitas_ids'=>['required'],
+            'fasilitas_ids'=>['required','array'],
+            'keterangan_ruangan' => ['required'],
             'foto1' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto2' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto3' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -36,6 +37,7 @@ class StoreRuanganRequest extends FormRequest
             'pic_lab'=>['required'],
             'admin_lab1'=>['required'],
             'admin_lab2'=>['required'],
+            'status' => ['required'],
         ];
     }
 }

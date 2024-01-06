@@ -92,14 +92,12 @@
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->nama_ruangan }}</span>
                                                 @endif  
                                             </td>
-                                            <td>{{ $data->Kapasitas_ruangan }}</td>
-                                            <td>{{ $data->stok  . ' ' . "Orang" }}</td>
-                                            <td>{{ $data->PIC }}</td>
-                                            <td>{{ $data->lokasi_ruangan }}</td>
+                                            <td>{{ $data->kapasitas_ruangan }}</td>
+                                            <td>{{ $data->pic_lab }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{ route('ruangan.edit', ['id' => $data->ruangan_id]) }}" class="btn btn-primary color-muted editbtn">
-                                                        <i class="fa fa-pencil-square-o color-muted editbtn"></i>
+                                                    <a href="{{ route('ruangan.detail', ['id' => $data->ruangan_id]) }}" class="btn btn-info ml-2">
+                                                        <i class="fa fa-list color-muted""></i>
                                                     </a>
                                                     <form id="deleteForm_{{ $data->ruangan_id }}" action="{{ route('ruangan.destroy', ['id' => $data->ruangan_id]) }}" method="POST">
                                                         @csrf

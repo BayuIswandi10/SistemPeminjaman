@@ -28,8 +28,7 @@ Route::get('logins',[AuthController::class,'index'])->name('logins.index');
 Route::post('logins/auth',[AuthController::class,'login'])->name('logins.auth');
 Route::get('logout',[AuthController::class,'logout'])->name('logins.logout');
 
-//Routes pengguna
-
+//Routes pengguna 
 Route::get('pengguna',[PenggunaController::class,'index'])->name('pengguna.index');
 Route::get('pengguna/create',[PenggunaController::class,'create'])->name('pengguna.create');
 Route::post('pengguna',[PenggunaController::class,'store'])->name('pengguna.store');
@@ -71,6 +70,7 @@ Route::middleware(['auth.pengguna'])->group(function () {
 //Routes ruangan
 Route::middleware(['auth.pengguna'])->group(function () {
     Route::get('ruangan',[RuanganController::class,'index'])->name('ruangan.index');
+    Route::get('ruangan/{id}', [RuanganController::class, 'detail'])->name('ruangan.detail');
     Route::get('ruangan/create',[RuanganController::class,'create'])->name('ruangan.create');
     Route::post('ruangan',[RuanganController::class,'store'])->name('ruangan.store');
     Route::get('ruangan/{id}/edit',[RuanganController::class,'edit'])->name('ruangan.edit');

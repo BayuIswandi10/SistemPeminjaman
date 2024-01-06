@@ -34,8 +34,9 @@ class Ruangan extends Model
     }
 
     public function fasilitas(){
-        return $this->belongsToMany(Fasilitas::class);
+        return $this->belongsToMany(Fasilitas::class, 'fasilitas_ruangan', 'ruangan_id', 'fasilitas_id');
     }
+    
     public function peminjaman_ruangan(){
         return $this->hasMany(PeminjamanRuangan::class);
     }

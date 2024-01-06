@@ -40,7 +40,7 @@ class SesiController extends Controller
     public function store(StoreSesiRequest $request)
     {
         $params = $request->validated();    
-        $params['created_by'] = Session::get('logged_in')->sesi_id;
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
         $params['status'] = 'Aktif';
         if ($fasilitas = Sesi::create($params)) {
             return redirect(route('sesi.index'))->with('success', 'Data berhasil ditambahkan!');

@@ -112,7 +112,7 @@
                                 <option value="Eko Abdul Goffar">Eko Abdul Goffar</option>
                                 </select>
                             </div>                           
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label for="keterangan_ruangan">Kondisi ruangan <span style="color:red;">*</span></label>
                                 <input type="text" class="form-control" value="Baik" id="keterangan_ruangan" name="keterangan_ruangan" placeholder="Masukkan Kondisi ruangan" required/>
                             </div>
