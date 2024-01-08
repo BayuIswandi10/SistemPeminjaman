@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -15,6 +16,12 @@ class DashboardController extends Controller
     public function index()
     {
         return view('Dashboard.dashboard');
+    }
+
+    public function beranda()
+    {
+        $barang = Barang::all();
+        return view('Dashboard.beranda',['barang'=>$barang]);
     }
 
     /**

@@ -90,30 +90,38 @@ class RuanganController extends Controller
         $imageName4 = time() . '_4.' . $request->foto4->extension();
         $request->foto4->move(public_path('assets/foto/ruangan'), $imageName4);
         $imagePath4 = 'assets/foto/ruangan/' . $imageName4;
-        
-        $params['created_by'] = Session::get('logged_in')->pengguna_id;
-            if ($ruangan = Ruangan::create($params)) {
-            // Mengambil fasilitas yang dipilih
-            $fasilitas_ids = $params['fasilitas_ids'];
-
-            // Mendapatkan jumlah fasilitas yang dipilih
-            $fasilitasCount = count($fasilitas_ids);
-
-            // Menghubungkan fasilitas yang dipilih dengan ruangan
-            $ruangan->fasilitas()->attach($fasilitas_ids, [
-                'jumlah' => $fasilitasCount,
-                'status' => 'Aktif'
-            ]);            
-            $ruangan->foto1 = $imagePath1; // Atur atribut foto1        
-            $ruangan->foto2 = $imagePath2; // Atur atribut foto2
-            $ruangan->foto3 = $imagePath3; // Atur atribut foto3
-            $ruangan->foto4 = $imagePath4; // Atur atribut foto4            
-            $ruangan->save(); // Simpan perubahan
+    
+        $pengguna = Session::get('logged_in');
+        $params['created_by'] = $pengguna->pengguna_id;
+    
+        $ruangan = Ruangan::create($params);
+    
+        if ($ruangan) {
+            // Menyimpan fasilitas yang dipilih
+            $fasilitasData = [];
+            foreach ($params['fasilitas_ids'] as $index => $fasilitasId) {
+                $fasilitasData[$fasilitasId] = [
+                    'jumlah' => $params['jumlah'][$index],
+                    'status' => 'Aktif'
+                ];
+            }
+    
+            // Menyimpan relasi antara ruangan dan fasilitas di tabel pivot
+            $ruangan->fasilitas()->attach($fasilitasData);
+    
+            // Menyimpan lokasi foto ke dalam model ruangan yang baru dibuat
+            $ruangan->foto1 = $imagePath1;
+            $ruangan->foto2 = $imagePath2;
+            $ruangan->foto3 = $imagePath3;
+            $ruangan->foto4 = $imagePath4;
+            $ruangan->save();
+    
             return redirect(route('ruangan.index'))->with('success', 'Data berhasil ditambahkan!');
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
-        } 
+        }
     }
+    
 
     /**
      * Display the specified resource.

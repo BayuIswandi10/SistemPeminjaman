@@ -120,7 +120,7 @@
                                 <th hidden>ID Galeri</th>
                                 <th hidden>Nama Foto</th>
                                 <th>Foto Ruangan</th>
-                                @if(session('role') == 'Super Admin')
+                                @if(session('main_job') === 'Super Admin')
                                     <th>Aksi</th>
                                 @endif
                             </tr>

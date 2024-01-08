@@ -86,8 +86,8 @@
                         <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                         <li class="nav-header">MENU</li>
-                            <li class="nav-item {{ request()->routeIs('beranda.index') ? 'menu-open' : '' }}">
-                                <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('beranda.index') ? 'active' : '' }}">
+                            <li class="nav-item {{ request()->routeIs('Dashboard.beranda') ? 'menu-open' : '' }}">
+                                <a href="{{ route('Dashboard.beranda') }}" class="nav-link {{ request()->routeIs('Dashboard.beranda') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
                                         Beranda
@@ -105,18 +105,17 @@
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
-                                         {{--    @if (auth()->user()->role == 'Super Admin') --}} 
-                                    <li class="nav-item">
-                                        <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit') ? 'active' : '' }}">
-                                            <i class="nav-icon fas fa-solid fa-user ml-3"></i>
-                                            <p>
-                                                Admin
-                                                <span class="badge badge-info right"></span>
-                                            </p>
-                                        </a>
-                                    </li>
-                                        
-                                           {{--    @endif --}}
+                                    @if(session()->has('logged_in') && session('logged_in')->main_job === 'Super Admin')                                        <li class="nav-item">
+                                            <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-solid fa-user ml-3"></i>
+                                                <p>
+                                                    Admin
+                                                    <span class="badge badge-info right"></span>
+                                                </p>
+                                            </a>
+                                        </li>
+                                    @endif
+                                
 
                                     <!-- Penyesuaian sintaks untuk item-item berikutnya -->
                                     <li class="nav-item">

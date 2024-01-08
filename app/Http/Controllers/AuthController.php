@@ -50,7 +50,7 @@ class AuthController extends Controller
             //Menyimpan informasi login
             $request->session()->put('logged_in', $pengguna);
 
-            return redirect(route('pengguna.index'))->with('success', 'Login Berhasil!');
+            return redirect(route('Dashboard.beranda'))->with('success', 'Login Berhasil!');
         } else {
             // Autentikasi gagal
             return redirect(route('logins.index'))->with('error', 'Username atau Password Salah!');

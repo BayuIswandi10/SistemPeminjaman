@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label for="stok">Jumlah <span  style="color:red;">*</span></label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" name="stok" value="{{ old('stok') }}" placeholder="Masukkan Nomor Telepon Barang" minlength="11" maxlength="13" required/>
+                                    <input type="number" class="form-control" name="stok" value="{{ old('stok') }}" placeholder="Masukkan Jumlah Barang" minlength="11" maxlength="13" required/>
                                     <br>
                                     <div class="input-group-append">
                                       <select name="satuan_barang" value="{{ old('satuan_barang') }}" class="form-control" required>
