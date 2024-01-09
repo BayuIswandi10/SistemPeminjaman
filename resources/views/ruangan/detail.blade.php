@@ -32,7 +32,7 @@
                     <h3 class="card-title">Detail Ruangan </h3>
                     {{-- @if(session('main_job') == "Super Admin") --}}
                     <button class="btn btn-outline-primary float-right editbtn" data-toggle="modal" data-target="#editDetailData">
-                        <a href="#"> <i class="fa fa-pencil mr-1"></i> Ubah Data</a>
+                        <a href="{{ route('ruangan.edit', ['id' => $ruangan->ruangan_id]) }}"> <i class="fa fa-pencil mr-1"></i> Ubah Data</a>
                     </button>
                     {{-- @endif --}}
                 </div>

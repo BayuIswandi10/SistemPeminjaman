@@ -142,7 +142,9 @@ class RuanganController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ruangan = Ruangan::findOrFail($id);
+        $fasilitas = Fasilitas::orderBy('nama_fasilitas', 'asc')->get()->pluck('nama_fasilitas', 'fasilitas_id');
+        return view('ruangan.edit', ['ruangan' => $ruangan,'fasilitas'=>$fasilitas]);
     }
 
     /**
