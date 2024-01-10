@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRuanganRequest;
+use App\Http\Requests\UpdateRuanganRequest;
 use App\Models\Fasilitas;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
@@ -144,8 +145,23 @@ class RuanganController extends Controller
     {
         $ruangan = Ruangan::findOrFail($id);
         $fasilitas = Fasilitas::orderBy('nama_fasilitas', 'asc')->get()->pluck('nama_fasilitas', 'fasilitas_id');
-        return view('ruangan.edit', ['ruangan' => $ruangan,'fasilitas'=>$fasilitas]);
+        
+        // Ambil data fasilitas yang terkait dengan ruangan
+        $fasilitasRuangan = [];
+        foreach ($ruangan->fasilitas as $fasilitasItem) {
+            $fasilitasRuangan[$fasilitasItem->fasilitas_id] = [
+                'jumlah' => $fasilitasItem->pivot->jumlah,
+                'nama_fasilitas' => $fasilitasItem->nama_fasilitas
+            ];
+        }
+    
+        return view('ruangan.edit', [
+            'ruangan' => $ruangan,
+            'fasilitas' => $fasilitas,
+            'fasilitasRuangan' => $fasilitasRuangan // Kirim data fasilitas yang terkait dengan ruangan
+        ]);
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -154,9 +170,31 @@ class RuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRuanganRequest $request, $id)
     {
-        //
+        $ruangan = Ruangan::findOrFail($id);
+        $params = $request->validated();
+    
+        // Update data ruangan
+        $params['created_by'] = Session::get('logged_in')->pengguna_id;
+        if ($ruangan->update($params)) {
+    
+            // Menyimpan fasilitas yang dipilih
+            $fasilitasData = [];
+            foreach ($params['fasilitas_ids'] as $index => $fasilitasId) {
+                $fasilitasData[$fasilitasId] = [
+                    'jumlah' => $params['jumlah'][$index],
+                    'status' => 'Aktif'
+                ];
+            }
+    
+            // Synchronize relasi antara ruangan dan fasilitas di tabel pivot
+            $ruangan->fasilitas()->syncWithoutDetaching($fasilitasData);
+    
+            return redirect(route('ruangan.index'))->with('success', 'Data ruangan berhasil diubah!');
+        } else {
+            return back()->with('error', 'Gagal mengubah data ruangan.');
+        }
     }
 
     /**

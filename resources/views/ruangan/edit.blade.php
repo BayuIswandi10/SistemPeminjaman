@@ -74,18 +74,20 @@
                                     <label for="nama_fasilitas">Nama Fasilitas <span style="color:red;">*</span></label>
                                     <button onclick="tambahComboBox()">Tambah Combo Box</button>
                                     <div id="container" style="display: flex; flex-direction: column;">
-                                        <div class="combo-box" style="display: flex; align-items: center;">
-                                            <select class="form-control" name="fasilitas_ids[]" onchange="validateComboBox(this)" required>
-                                                <option selected value="" disabled>-- Pilih Fasilitas --</option>
-                                                @foreach ($fasilitas as $fasilitasId => $fasilitasName)
-                                                    <option value="{{ $fasilitasId }}" @selected(old('fasilitas_ids[]') == $fasilitasId)>
-                                                        {{ $fasilitasName }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <input type="number" name="jumlah[]" class="jumlah-input" placeholder="Jumlah">
-                                            <button onclick="hapusComboBox(this)">Hapus</button>
-                                        </div>
+                                        @foreach($fasilitasRuangan as $fasilitasId => $fasilitasData)
+                                            <div class="combo-box" style="display: flex; align-items: center;">
+                                                <select class="form-control" name="fasilitas_ids[]" required>
+                                                    <option selected value="{{ $fasilitasId }}">{{ $fasilitasData['nama_fasilitas'] }}</option>
+                                                    @foreach ($fasilitas as $id => $nama)
+                                                        @if($id != $fasilitasId)
+                                                            <option value="{{ $id }}">{{ $nama }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                                <input type="number" name="jumlah[]" class="jumlah-input" value="{{ $fasilitasData['jumlah'] }}" placeholder="Jumlah">
+                                                <button onclick="hapusComboBox(this)">Hapus</button>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -155,5 +157,52 @@
         </div> 
     </section>
 </div>   
+
+<script>
+    let counter = 1;
+
+    function tambahComboBox() {
+        counter++;
+
+        const container = document.getElementById('container');
+
+        const newComboBox = document.createElement('div');
+        newComboBox.classList.add('combo-box');
+        newComboBox.style.display = 'flex';
+        newComboBox.style.alignItems = 'center';
+        newComboBox.innerHTML = `
+            <select class="form-control" name="fasilitas_ids[]" onchange="validateComboBox(this)" required>
+                <option selected value="" disabled>-- Pilih Fasilitas --</option>
+                @foreach ($fasilitas as $fasilitasId => $fasilitasName)
+                    <option value="{{ $fasilitasId }}" @selected(old('fasilitas_ids[]') == $fasilitasId)>
+                        {{ $fasilitasName }}
+                    </option>
+                @endforeach
+            </select>
+            <input type="number" name="jumlah[]" class="jumlah-input" placeholder="Jumlah">
+            <button onclick="hapusComboBox(this)">Hapus</button>
+        `;
+
+        container.appendChild(newComboBox);
+    }
+
+    function hapusComboBox(button) {
+        const comboBox = button.parentNode;
+        comboBox.remove();
+    }
+
+    function validateComboBox(selectElement) {
+        const allSelects = document.querySelectorAll('select[name^="fasilitas_ids"]');
+        const selectedValues = Array.from(allSelects).map(select => select.value);
+
+        const currentValue = selectElement.value;
+        const currentIndex = Array.from(allSelects).indexOf(selectElement);
+
+        if (selectedValues.filter(value => value === currentValue).length > 1) {
+            alert('Fasilitas ini sudah anda pilih');
+            selectElement.value = '';
+        }
+    }
+</script>
 
 @endsection
