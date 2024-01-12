@@ -66,7 +66,6 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>ID</th>
                                         <th>Nama Barang</th>
                                         <th>Nomor Aktiva</th>
                                         <th>Jumlah Barang</th>
@@ -82,7 +81,6 @@
                                     @foreach ($barang as $data)
                                         <tr >
                                             <td >{{ ++$i }}</td>
-                                            <td>{{ $data->barang_id }}</td>
                                             <td>{{ $data->nama_barang }}</td>
                                             <td>{{ $data->nomor_aktiva }}</td>
                                             <td>{{ $data->stok  . ' ' . $data->satuan_barang }}</td>
@@ -332,8 +330,8 @@
             columnDefs: [
                 {className: 'dt-body-center',targets: 0},
                 {className: 'dt-head-center',targets: 0},
-                {className: 'dt-body-center',targets: 9},
-                {className: 'dt-head-center',targets: 9}
+                {className: 'dt-body-center',targets: 8},
+                {className: 'dt-head-center',targets: 8}
             ],
               scrollX: true,
               responsive: true

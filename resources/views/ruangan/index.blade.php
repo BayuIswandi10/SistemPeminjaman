@@ -66,10 +66,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>ID</th>
                                         <th>Nama Ruangan</th>
                                         <th>Kapasitas</th>
                                         <th>PIC</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -78,22 +78,22 @@
                                     @foreach ($ruangan as $data)
                                         <tr >
                                             <td >{{ ++$i }}</td>
-                                            <td>{{ $data->ruangan_id }}</td>
-                                            <td>
-                                                @if($data->status == "Pengajuan")
-                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->nama_ruangan }}</span>
-                                                @elseif ($data->status == "Dipinjam")
-                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->nama_ruangan }}</span>
-                                                @elseif ($data->status == "Selesai")
-                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->nama_ruangan }}</span>
-                                                @elseif ($data->status == "Tidak Aktif")
-                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->nama_ruangan }}</span>
-                                                @elseif ($data->status == "Aktif")
-                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->nama_ruangan }}</span>
-                                                @endif  
-                                            </td>
+                                            <td>{{ $data->nama_ruangan }}</td>
                                             <td>{{ $data->kapasitas_ruangan }}</td>
                                             <td>{{ $data->pic_lab }}</td>
+                                            <td>
+                                                @if($data->status == "Pengajuan")
+                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Dipinjam")
+                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Selesai")
+                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tidak Aktif")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Aktif")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
+                                                @endif  
+                                            </td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('ruangan.detail', ['id' => $data->ruangan_id]) }}" class="btn btn-info ml-2">

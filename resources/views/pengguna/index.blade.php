@@ -66,11 +66,11 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>ID</th>
                                         <th>Nama</th>
                                         <th>Alamat</th>
                                         <th>Nomor Handphone</th>
                                         <th>Foto</th>
+                                        <th>Status</th>
                                         <th>Role</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -80,20 +80,7 @@
                                     @foreach ($pengguna as $data)
                                         <tr >
                                             <td >{{ ++$i }}</td>
-                                            <td>{{ $data->pengguna_id }}</td>
-                                            <td>
-                                                @if($data->status == "Pengajuan")
-                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->nama }}</span>
-                                                @elseif ($data->status == "Dipinjam")
-                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->nama }}</span>
-                                                @elseif ($data->status == "Selesai")
-                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->nama }}</span>
-                                                @elseif ($data->status == "Tidak Aktif")
-                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->nama }}</span>
-                                                @elseif ($data->status == "Aktif")
-                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->nama }}</span>
-                                                @endif
-                                            </td>
+                                            <td>{{ $data->nama }}</td>
                                             <td>{{ $data->alamat }}</td>
                                             <td>{{ $data->nohp }}</td>
                                             <td>
@@ -102,6 +89,19 @@
                                                 @else
                                                     No Image
                                                 @endif                                                
+                                            </td>
+                                            <td>                                               
+                                                @if($data->status == "Pengajuan")
+                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Dipinjam")
+                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Selesai")
+                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tidak Aktif")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Aktif")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
+                                                @endif                                              
                                             </td>
                                             <td>{{ $data->main_job }}</td>
                                             <td>

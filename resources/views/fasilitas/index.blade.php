@@ -66,7 +66,6 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>ID</th>
                                         <th>Nama</th>
                                         <th>Foto</th>
                                         <th>Aksi</th>
@@ -77,7 +76,6 @@
                                     @foreach ($fasilitas as $data)
                                         <tr >
                                             <td >{{ ++$i }}</td>
-                                            <td>{{ $data->fasilitas_id }}</td>
                                             <td>{{ $data->nama_fasilitas }}</td>
                                             <td>
                                                 @if ($data->foto_fasilitas)
@@ -310,8 +308,8 @@
             columnDefs: [
                 {className: 'dt-body-center',targets: 0},
                 {className: 'dt-head-center',targets: 0},
-                {className: 'dt-body-center',targets: 4},
-                {className: 'dt-head-center',targets: 4},
+                {className: 'dt-body-center',targets: 3},
+                {className: 'dt-head-center',targets: 3},
             ],
             scrollX: true,
             responsive: true

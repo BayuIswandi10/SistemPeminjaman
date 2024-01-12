@@ -24,9 +24,14 @@ Route::get('/', function () {
     return view('Dashboard.dashboard');
 });
 
+//Dashboard Mahasiswa
+Route::get('dashboard',[DashboardController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+
 //Routes Login & Logout 
 Route::get('logins',[AuthController::class,'index'])->name('logins.index');
+Route::get('loginsMahasiswa',[AuthController::class,'loginMahasiswa'])->name('logins.loginMahasiswa');
 Route::post('logins/auth',[AuthController::class,'login'])->name('logins.auth');
+Route::post('logins/loginAksiMahasiswa',[AuthController::class,'loginAksiMahasiswa'])->name('logins.loginAksiMahasiswa');
 Route::get('logout',[AuthController::class,'logout'])->name('logins.logout');
 
 //Routes pengguna 

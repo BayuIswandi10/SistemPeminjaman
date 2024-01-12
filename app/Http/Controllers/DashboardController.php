@@ -24,6 +24,11 @@ class DashboardController extends Controller
         return view('Dashboard.beranda',['barang'=>$barang]);
     }
 
+    public function indexMahasiswa()
+    {
+        return view('Dashboard.dashboardMahasiswa');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

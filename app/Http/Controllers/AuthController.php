@@ -6,6 +6,7 @@ use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -18,6 +19,10 @@ class AuthController extends Controller
     public function index()
     {
         return view('auth.login');
+    }
+    public function loginMahasiswa()
+    {
+        return view('auth.loginMahasiswa');
     }
 
     public function login(Request $request)
@@ -62,7 +67,6 @@ class AuthController extends Controller
         Auth::guard('pengguna')->logout();
         return redirect(route('logins.index'))->with('success', 'Berhasil Logout');
     }
-
 
     /**
      * Show the form for creating a new resource.

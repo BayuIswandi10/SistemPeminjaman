@@ -57,21 +57,21 @@
 
                 </div>
                 <hr>
-                <h4 class="login-box-msg">Masuk Admin</h4>
-                <form action="{{ route('logins.auth') }}" method="POST">
+                <h4 class="login-box-msg">Masuk Mahasiswa</h4>
+                <form action="{{ route('logins.loginAksiMahasiswa') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label>Username <span style="color:red;">*</span></label>
-                        <input type="text" class="form-control" value="{{ old('Username') }}" id="Username" name="Username">
+                        <input type="text" class="form-control" id="username" name="username" >
                     </div>
 
                     <div class="form-group">
                         <label>Kata Sandi <span style="color:red;">*</span></label>
-                        <input type="password" class="form-control" id="Password" name="Password">
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
                     
                     <div class="form-group">
-                        <p>Masuk Sebagai Mahasiswa ?<a href="{{ route('logins.loginMahasiswa') }}" style="color: #1767b1"> Klik Disini</a></p>
+                        <p>Masuk Sebagai Admin ?<a href="{{ route('logins.index') }}" style="color: #1767b1"> Klik Disini</a></p>
                     </div>
 
                     <div class="text-center">

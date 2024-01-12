@@ -47,24 +47,8 @@
                         </div>
                     </div>
                 </div>
-        
-                <!-- Dropdown after login -->
-                {{-- 
-                <div class="main_nav_item" id="setelahlogin" style="display: none; margin-right: 3%;">
-                    <a href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;">
-                        <i class="fa fa-user" style="font-size:12px;color: black;"></i>
-                        <script>document.write(getCookie('nama'))</script>
-                    </a>
-                    <div class="dropdown-menu" style="width: 200px;">
-                        <div class="col-lg-12">
-                            <button class="btn btn-danger col-lg-8" style="margin:10px;" onclick="logOut()">KELUAR</button>
-                        </div>
-                    </div>
-                </div> 
-                --}}
             </div>
         </header>
-        
     </div>
 
     <!-- Home -->

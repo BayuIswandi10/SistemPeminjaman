@@ -66,10 +66,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>ID</th>
                                         <th>nama_sesi</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -78,22 +78,22 @@
                                     @foreach ($sesi as $data)
                                         <tr >
                                             <td >{{ ++$i }}</td>
-                                            <td>{{ $data->sesi_id }}</td>
-                                            <td>
-                                                @if($data->status == "Pengajuan")
-                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->nama_sesi }}</span>
-                                                @elseif ($data->status == "Dipinjam")
-                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->nama_sesi }}</span>
-                                                @elseif ($data->status == "Selesai")
-                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->nama_sesi }}</span>
-                                                @elseif ($data->status == "Tidak Aktif")
-                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->nama_sesi }}</span>
-                                                @elseif ($data->status == "Aktif")
-                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->nama_sesi }}</span>
-                                                @endif
-                                            </td>
+                                            <td>{{ $data->nama_sesi }}</td>
                                             <td>{{ $data->sesi_awal }}</td>
                                             <td>{{ $data->sesi_akhir }}</td>
+                                            <td>
+                                                @if($data->status == "Pengajuan")
+                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Dipinjam")
+                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Selesai")
+                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tidak Aktif")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Aktif")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
+                                                @endif  
+                                            </td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('sesi.edit', ['id' => $data->sesi_id]) }}" class="btn btn-primary color-muted editbtn">
@@ -319,8 +319,8 @@
             columnDefs: [
                 {className: 'dt-body-center',targets: 0},
                 {className: 'dt-head-center',targets: 0},
-                {className: 'dt-body-center',targets: 5},
-                {className: 'dt-head-center',targets: 5},
+                {className: 'dt-body-center',targets: 4},
+                {className: 'dt-head-center',targets: 4},
             ],
             scrollX: true,
             responsive: true

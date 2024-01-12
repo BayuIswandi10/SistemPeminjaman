@@ -63,7 +63,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="nama_fasilitas">Nama Fasilitas <span style="color:red;">*</span></label>
-                                <button onclick="tambahComboBox()">Tambah Combo Box</button>
+                                <button class="btn btn-primary btn-sm" onclick="tambahComboBox()">Tambah Combo Box</button>
                                 <div id="container" style="display: flex; flex-direction: column;">
                                     <div class="combo-box" style="display: flex; align-items: center;">
                                         <select class="form-control" name="fasilitas_ids[]" onchange="validateComboBox(this)" required>
@@ -75,7 +75,7 @@
                                             @endforeach
                                         </select>
                                         <input type="number" name="jumlah[]" class="jumlah-input" placeholder="Jumlah">
-                                        <button onclick="hapusComboBox(this)">Hapus</button>
+                                        <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@
                 @endforeach
             </select>
             <input type="number" name="jumlah[]" class="jumlah-input" placeholder="Jumlah">
-            <button onclick="hapusComboBox(this)">Hapus</button>
+            <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
         `;
 
         container.appendChild(newComboBox);
