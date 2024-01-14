@@ -34,6 +34,7 @@ class UpdateBarangRequest extends FormRequest
             'stok'=>['required'],
             'satuan_barang'=>['required'],
             'keterangan_barang'=>['required'],
+            'gambar_barang'=>'|image|mimes:jpeg,png,jpg|max:2048',
             'lokasi_barang'=>['required'],
             'baris_lokasi'=>['required'],
             'status'=>['required'],

@@ -124,32 +124,39 @@
                                 <input type="text" class="form-control" value="Baik" id="keterangan_ruangan" name="keterangan_ruangan" placeholder="Masukkan Kondisi ruangan" required/>
                             </div>
                             <div class="form-group">
-                                <label for="foto1" id="foto1">Foto ruangan 1<span class="form-group-text" style="color:red;">*</span></label><br>
+                                <label for="foto1">Foto 1 <span class="form-group-text" style="color:red;">*</span></label><br>
                                 <div class="custom-file">
-                                <input type="file" id="foto1" name="foto1" class="custom-file-input" required />
-                                <label class="custom-file-label" for="foto1">Pilih file</label>
+                                    <input type="file" id="foto1" name="foto1" class="custom-file-input" onchange="validateImage(this, 'image-preview-1');" />
+                                    <label class="custom-file-label" for="foto1">Pilih file</label>
                                 </div>
+                                <img id="image-preview-1" src="{{ old('foto1') }}" class="mt-2" style="max-width: 100%;" />
                             </div>
+                            
                             <div class="form-group">
-                                <label for="foto2" id="foto2">Foto ruangan 2<span class="form-group-text" style="color:red;">*</span></label><br>
+                                <label for="foto2">Foto 2 <span class="form-group-text" style="color:red;">*</span></label><br>
                                 <div class="custom-file">
-                                <input type="file" id="foto2" name="foto2" class="custom-file-input" required />
-                                <label class="custom-file-label" for="foto2">Pilih file</label>
+                                    <input type="file" id="foto2" name="foto2" class="custom-file-input" onchange="validateImage(this, 'image-preview-2');" />
+                                    <label class="custom-file-label" for="foto2">Pilih file</label>
                                 </div>
+                                <img id="image-preview-2" src="{{ old('foto2') }}" class="mt-2" style="max-width: 100%;" />
                             </div>
+                            
                             <div class="form-group">
-                                <label for="foto3" id="foto3">Foto ruangan 3<span class="form-group-text" style="color:red;">*</span></label><br>
+                                <label for="foto3">Foto 3 <span class="form-group-text" style="color:red;">*</span></label><br>
                                 <div class="custom-file">
-                                <input type="file" id="foto3" name="foto3" class="custom-file-input" required />
-                                <label class="custom-file-label" for="foto3">Pilih file</label>
+                                    <input type="file" id="foto3" name="foto3" class="custom-file-input" onchange="validateImage(this, 'image-preview-3');" />
+                                    <label class="custom-file-label" for="foto3">Pilih file</label>
                                 </div>
+                                <img id="image-preview-3" src="{{ old('foto3') }}" class="mt-2" style="max-width: 100%;" />
                             </div>
+                            
                             <div class="form-group">
-                                <label for="foto4" id="foto4">Foto ruangan 4<span class="form-group-text" style="color:red;">*</span></label><br>
+                                <label for="foto4">Foto 4 <span class="form-group-text" style="color:red;">*</span></label><br>
                                 <div class="custom-file">
-                                <input type="file" id="foto4" name="foto4" class="custom-file-input" required />
-                                <label class="custom-file-label" for="foto4">Pilih file</label>
+                                    <input type="file" id="foto4" name="foto4" class="custom-file-input" onchange="validateImage(this, 'image-preview-4');" />
+                                    <label class="custom-file-label" for="foto4">Pilih file</label>
                                 </div>
+                                <img id="image-preview-4" src="{{ old('foto4') }}" class="mt-2" style="max-width: 100%;" />
                             </div>
                             <div class="form-group" hidden>
                                 <label for="created_date">Created Date <span style="color:red;">*</span></label>
@@ -219,6 +226,63 @@
             selectElement.value = '';
         }
     }
-</script>
 
+        // Display validation errors in Swal
+        @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Whoops!',
+            html: '<ul>' +
+                @foreach ($errors->all() as $error)
+                    '<li>{{ $error }}</li>' +
+                @endforeach
+                '</ul>'
+        });
+    @endif
+
+    // Display success message in Swal
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}'
+        });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}'
+        });
+    @endif
+
+    function validateImage(input, previewId) {
+        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+        var file = input.files[0];
+
+        if (file) {
+            if (allowedFormats.includes(file.type)) {
+                var preview = document.getElementById(previewId);
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
+                    icon: 'error'
+                });
+                input.value = ''; // Clear the input to prevent submission of invalid file
+                document.getElementById(previewId).src = ''; // Clear the preview image
+            }
+        }
+    }
+
+</script>
 @endsection

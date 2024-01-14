@@ -29,7 +29,7 @@ class UpdateFasilitasRequest extends FormRequest
                 Rule::unique('fasilitas')->ignore($this->route('fasilitas')),
             ],
             'nama_fasilitas'=>['required','max:100'],
-            'foto_fasilitas' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_fasilitas' => '|image|mimes:jpeg,png,jpg|max:2048',
             'status'=>['required'],
         ];
     }

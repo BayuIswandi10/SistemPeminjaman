@@ -90,12 +90,12 @@
                                     <input type="text" class="form-control" value="{{ $pengguna->other_job }}" name="other_job" placeholder="Masukkan Pekerjaan Lain" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="foto" id="lblfoto">Foto Admin <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <label for="foto" id="foto">Foto <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="hidden" class="form-control" id="foto" name="foto" />
-                                        <input type="file" id="foto" name="foto" class="custom-file-input" aria-describedby="lblfoto" />
-                                    <label class="custom-file-label" for="foto">Pilih file</label>
-                                    <img src="{{ asset($pengguna->foto) }}" class="img-thumbnail" style="width:200px" />
+                                        <input type="file" id="foto" name="foto" class="custom-file-input" aria-describedby="foto" onchange="validateImage(this);" />
+                                        <label class="custom-file-label" for="foto">Pilih file</label>
+                                    </div>
+                                    <img id="image-preview" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($pengguna->foto) }}" />
                                 </div>
                                 <div class="form-group" hidden>
                                     <label for="status">Status <span style="color:red;">*</span></label>
@@ -116,5 +116,64 @@
         </div> 
     </section>
 </div>   
+
+<script>
+    // Display validation errors in Swal
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'error',
+        title: 'Whoops!',
+        html: '<ul>' +
+            @foreach ($errors->all() as $error)
+                '<li>{{ $error }}</li>' +
+            @endforeach
+            '</ul>'
+        });
+    @endif
+
+    // Display success message in Swal
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}'
+        });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}'
+        });
+    @endif
+    
+    function validateImage(input) {
+        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+        var file = input.files[0];
+
+        if (file) {
+            if (allowedFormats.includes(file.type)) {
+                var preview = document.getElementById('image-preview');
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
+                    icon: 'error'
+                });
+                input.value = ''; // Clear the input to prevent submission of an invalid file
+                document.getElementById('image-preview').src = ''; // Clear the preview
+            }
+        }
+    }
+</script>
 
 @endsection

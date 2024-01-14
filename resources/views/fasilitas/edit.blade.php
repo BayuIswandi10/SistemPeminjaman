@@ -49,9 +49,9 @@
                                     <input type="date" class="form-control" name="created_date" value="{{ old('created_date') ? old('created_date') : now()->format('Y-m-d') }}" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="foto_fasilitas" id="lblfoto">Foto Fasilitas <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <label for="foto_fasilitas" id="foto_fasilitas">Foto Fasilitas <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="file" id="foto_fasilitas" name="foto_fasilitas" class="custom-file-input" aria-describedby="lblfoto" onchange="validateImage(this);" />
+                                        <input type="file" id="foto_fasilitas" name="foto_fasilitas" class="custom-file-input" aria-describedby="foto_fasilitas" onchange="validateImage(this);" />
                                         <label class="custom-file-label" for="foto_fasilitas">Pilih file</label>
                                     </div>
                                     <img id="image-preview" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($fasilitas->foto_fasilitas) }}" />
@@ -107,7 +107,7 @@
             text: '{{ session('error') }}'
         });
     @endif
-    
+
     function validateImage(input) {
         var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
         var file = input.files[0];

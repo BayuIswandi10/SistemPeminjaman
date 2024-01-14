@@ -47,14 +47,6 @@
             <div class="card-body">
                 <div class="text-center">
                     <b class="h2">Peminjaman Ruangan dan Barang</b>
-
-                    @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
-
                 </div>
                 <hr>
                 <h4 class="login-box-msg">Masuk Mahasiswa</h4>
@@ -85,26 +77,29 @@
 </body>
 
 
-@if (Session::has('error'))
+@if (session('success'))
 <script>
-    console.log('Error');
     Swal.fire({
-        title: 'Pesan',
-        text: '{{ Session::get('error') }}',
-        icon: 'error'
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        showConfirmButton: false,
+        timer: 2000
     });
 </script>
 @endif
 
-@if (Session::has('successLogout'))
-<script>
-    console.log('success');
-    Swal.fire({
-        title: 'Pesan',
-        text: '{{ Session::get('successLogout') }}',
-        icon: 'success'
-    });
-</script>
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}',
+            showConfirmButton: false,
+            timer: 2000
+        });
+    </script>
 @endif
+
 
 @endsection

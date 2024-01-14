@@ -87,9 +87,9 @@
                                     </div>
                                   </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label for="keterangan_barang">Kondisi Barang <span style="color:red;">*</span></label>
-                                <input type="text" class="form-control" value="{{ old('keterangan_barang') }}" name="keterangan_barang" placeholder="Masukkan Kondisi Barang" required/>
+                                <input type="text" class="form-control" value="Baik" name="keterangan_barang" placeholder="Masukkan Kondisi Barang" required/>
                             </div>
                             <div class="form-group">
                                 <label for="lokasi_barang">Lokasi Barang <span style="color:red;">*</span></label>
@@ -100,11 +100,16 @@
                                 <input type="text" class="form-control" value="{{ old('baris_lokasi') }}" name="baris_lokasi" placeholder="Masukkan Baris Lokasi Barang" required/>
                             </div>
                             <div class="form-group">
-                                <label for="gambar_barang" id="gambar_barang">Foto Barang <span class="form-group-text" style="color:red;">*</span></label><br>
+                                <label for="gambar_barang">Foto Barang <span class="form-group-text" style="color:red;">*</span></label><br>
                                 <div class="custom-file">
-                                <input type="file" id="gambar_barang" name="gambar_barang" class="custom-file-input" required />
-                                <label class="custom-file-label" for="gambar_barang">Pilih file</label>
+                                    <input type="file" id="gambar_barang" name="gambar_barang" class="custom-file-input" onchange="validateImage(this);" />
+                                    <label class="custom-file-label" for="gambar_barang">Pilih file</label>
                                 </div>
+                                @if(old('gambar_barang'))
+                                    <img id="image-preview" src="{{ old('gambar_barang') }}" class="mt-2" style="max-width: 100%;" />
+                                @else
+                                    <img id="image-preview" class="mt-2" style="max-width: 100%;" />
+                                @endif
                             </div>
                             <div class="form-group" hidden>
                                 <label for="created_date">Created Date <span style="color:red;">*</span></label>
@@ -128,5 +133,64 @@
         </div> 
     </section>
 </div>   
+
+<script>
+    // Display validation errors in Swal
+    @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Whoops!',
+            html: '<ul>' +
+                @foreach ($errors->all() as $error)
+                    '<li>{{ $error }}</li>' +
+                @endforeach
+                '</ul>'
+        });
+    @endif
+
+    // Display success message in Swal
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}'
+        });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}'
+        });
+    @endif
+
+    function validateImage(input) {
+        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+        var file = input.files[0];
+
+        if (file) {
+            if (allowedFormats.includes(file.type)) {
+                var preview = document.getElementById('image-preview');
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
+                    icon: 'error'
+                });
+                input.value = ''; // Clear the input to prevent submission of invalid file
+                document.getElementById('image-preview').src = ''; // Clear the preview image
+            }
+        }
+    }
+</script>
 
 @endsection

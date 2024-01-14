@@ -102,8 +102,7 @@ class RuanganController extends Controller
             $fasilitasData = [];
             foreach ($params['fasilitas_ids'] as $index => $fasilitasId) {
                 $fasilitasData[$fasilitasId] = [
-                    'jumlah' => $params['jumlah'][$index],
-                    'status' => 'Aktif'
+                    'jumlah' => $params['jumlah'][$index]
                 ];
             }
     
@@ -183,8 +182,7 @@ class RuanganController extends Controller
             $fasilitasData = [];
             foreach ($params['fasilitas_ids'] as $index => $fasilitasId) {
                 $fasilitasData[$fasilitasId] = [
-                    'jumlah' => $params['jumlah'][$index],
-                    'status' => 'Aktif'
+                    'jumlah' => $params['jumlah'][$index]
                 ];
             }
     
