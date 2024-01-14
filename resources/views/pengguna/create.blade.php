@@ -75,19 +75,24 @@
                                 <input type="number" class="form-control" name="nohp" value="{{ old('nohp') }}" placeholder="Masukkan Nomor Telepon Admin" minlength="11" maxlength="13" required/>
                             </div>
                             <div class="form-group">
-                                <label for="other_job">Other Job <span style="color:red;">*</span></label>
-                                <input type="text" class="form-control" value="{{ old('other_job') }}" name="other_job" placeholder="Masukkan Pekerjaan Lain" required/>
-                            </div>
-                            <div class="form-group">
-                                <label for="main_job">Role <span style="color:red;">*</span></label><br>
-                                <select class="form-control" value="{{ old('main_job') }}" name="main_job" aria-label="Default select example" required>
+                                <label for="role">Role <span style="color:red;">*</span></label><br>
+                                <select class="form-control" value="{{ old('role') }}" name="role" aria-label="Default select example" required>
                                 <option selected value="" disabled>-- Pilih Role --</option>
                                 <option value="Super Admin">Super Admin</option>
+                                <option value="Admin">Admin</option>
                                 <option value="Koor UPT">Koor UPT</option>
                                 <option value="PIC Lab">PIC Lab</option>
                                 <option value="Admin Lab 1">Admin Lab 1</option>
                                 <option value="Admin Lab 2">Admin Lab 2</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="main_job">Main Job <span style="color:red;">*</span></label>
+                                <input type="text" class="form-control" value="{{ old('main_job') }}" name="main_job" placeholder="Masukkan Pekerjaan Utama" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="other_job">Other Job <span style="color:red;">*</span></label>
+                                <input type="text" class="form-control" value="{{ old('other_job') }}" name="other_job" placeholder="Masukkan Pekerjaan Lain" required/>
                             </div>
                             <div class="form-group">
                                 <label for="foto" id="foto">Foto PIC <span class="form-group-text" style="color:red;">*</span></label><br>

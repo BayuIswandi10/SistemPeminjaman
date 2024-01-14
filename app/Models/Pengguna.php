@@ -17,6 +17,7 @@ class Pengguna extends Authenticatable
         'alamat',
         'nohp',
         'foto',
+        'role',
         'main_job',
         'other_job',
         'status',

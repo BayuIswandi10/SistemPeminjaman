@@ -29,9 +29,9 @@
                 <nav class="main_nav_container">
                     <div class="main_nav">
                         <ul class="main_nav_list d-flex">
-                            <li class="main_nav_item active"><a href="{{ url('Dashboard') }}">Beranda</a></li>
-                            <li class="main_nav_item"><a href="{{ url('Dashboard/strukturOrganisasi') }}">Member</a></li>
-                            <li class="main_nav_item"><a href="{{ url('Dashboard/peminjamanRuangan') }}">Peminjaman Ruangan</a></li>
+                            <li class="main_nav_item active"><a href="{{ route('dashboard') }}">Beranda</a></li>
+                            <li class="main_nav_item"><a href="{{ route('member.index') }}">Member</a></li>
+                            <li class="main_nav_item"><a href="{{ route('peminjamanRuangan.index') }}">Peminjaman Ruangan</a></li>
                             <li class="main_nav_item"><a href="{{ url('Dashboard/peminjamanBarang') }}">Peminjaman Barang</a></li>
                         </ul>
                     </div>

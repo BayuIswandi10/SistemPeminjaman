@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\PeminjamanBarang;
+use App\Models\PeminjamanRuangan;
+use App\Models\Pengguna;
+use App\Models\Ruangan;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 class DashboardController extends Controller
 {
@@ -18,16 +21,74 @@ class DashboardController extends Controller
         return view('Dashboard.dashboard');
     }
 
-    public function beranda()
+    public function member()
     {
-        $barang = Barang::all();
-        return view('Dashboard.beranda',['barang'=>$barang]);
+        $pengguna = Pengguna::whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1', 'Admin Lab 2'])->get();
+        return view('member.index', ['pengguna' => $pengguna]);
     }
 
-    public function indexMahasiswa()
-    {
-        return view('Dashboard.dashboardMahasiswa');
+    public function ruangan()
+    {       
+        $ruangan = Ruangan::all();
+        return view('peminjamanRuangan.index',['ruangan'=>$ruangan]);
+        
     }
+
+    public function beranda()
+    {
+        $ruanganData = Ruangan::where('status', 'Aktif')->count();
+        $barangData = Barang::where('status', 'Aktif')->count(); 
+        $peminjamanruanganData = PeminjamanRuangan::where('status', 'Aktif')->count();
+        $peminjamanbarangData = PeminjamanBarang::where('status', 'Aktif')->count(); 
+    
+        $chartRuangan = $this->ChartRuangan(); // Assuming this function returns the correct data
+        $chartBarang = $this->ChartBarang(); // Assuming this function returns the correct data
+        $pieChart = $this->PieChart(); // Assuming this function returns the correct data
+    
+        // Retrieve other necessary data...
+    
+        return view('Dashboard.beranda', compact('ruanganData', 'barangData', 'chartRuangan', 'chartBarang', 'pieChart', 'peminjamanruanganData','peminjamanbarangData' ));
+    }
+    
+
+    public function ChartRuangan()
+    {
+        // Implement your logic to retrieve Ruangan chart data
+        // Example:
+        $chartData = [
+            'labelbulan' => ['January', 'February', 'March'],
+            'namaruangan' => ['Room A', 'Room B', 'Room C'],
+            'datajumlah' => [10, 15, 20],
+        ];
+
+        return json_encode($chartData);
+    }
+
+    public function ChartBarang()
+    {
+        // Implement your logic to retrieve Barang chart data
+        // Example:
+        $chartData = [
+            'bulan' => ['January', 'February', 'March'],
+            'barang' => ['Item A', 'Item B', 'Item C'],
+            'jumlah' => [5, 10, 15],
+        ];
+
+        return json_encode($chartData);
+    }
+
+    public function PieChart()
+    {
+        // Implement your logic to retrieve Pie chart data
+        // Example:
+        $chartData = [
+            'Pagi' => 30,
+            'Malam' => 20,
+        ];
+
+        return json_encode($chartData);
+    }
+
 
     /**
      * Show the form for creating a new resource.

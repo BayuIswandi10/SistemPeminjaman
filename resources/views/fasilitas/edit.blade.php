@@ -39,25 +39,6 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <div class="alert-title"><h4>Whoops!</h4></div>
-                                        There are some problems with your input.
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                </div>
-                                @endif
-
-                                @if (session('success'))
-                                    <div class="alert alert-success">{{ session('success') }}</div>
-                                @endif
-
-                                @if (session('error'))
-                                    <div class="alert alert-danger">{{ session('error') }}</div>
-                                @endif
                                 <div class="form-group">
                                     <label for="nama_fasilitas">Nama <span style="color:red;">*</span></label>
                                     <input type="text" class="form-control" name="nama_fasilitas" value="{{ $fasilitas->nama_fasilitas }}" placeholder="Masukan Nama Fasilitas Anda" required>
@@ -70,10 +51,14 @@
                                 <div class="form-group">
                                     <label for="foto_fasilitas" id="lblfoto">Foto Fasilitas <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="hidden" class="form-control" id=foto_fasilitas name=foto_fasilitas />
-                                        <input type="file" id=foto_fasilitas name=foto_fasilitas class="custom-file-input" aria-describedby="lblfoto" />
-                                    <label class="custom-file-label" for=foto_fasilitas>Pilih file</label>
-                                    <img src="{{ asset($fasilitas->foto_fasilitas) }}" class="img-thumbnail" style="width:200px" />
+                                        <input type="file" id="foto_fasilitas" name="foto_fasilitas" class="custom-file-input" aria-describedby="lblfoto" onchange="validateImage(this);" />
+                                        <label class="custom-file-label" for="foto_fasilitas">Pilih file</label>
+                                    </div>
+                                    <img id="image-preview" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($fasilitas->foto_fasilitas) }}" />
+                                </div>
+                                <div class="form-group" hidden >
+                                    <label for="status">Status <span style="color:red;">*</span></label>
+                                    <input type="text" class="form-control" value="{{ $fasilitas->status }}" name="status" placeholder="Masukkan Pekerjaan Lain" />
                                 </div>
                             </div>
                             </div>
@@ -91,4 +76,62 @@
     </section>
 </div>   
 
+<script>
+    // Display validation errors in Swal
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'error',
+        title: 'Whoops!',
+        html: '<ul>' +
+            @foreach ($errors->all() as $error)
+                '<li>{{ $error }}</li>' +
+            @endforeach
+            '</ul>'
+        });
+    @endif
+
+    // Display success message in Swal
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}'
+        });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}'
+        });
+    @endif
+    
+    function validateImage(input) {
+        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+        var file = input.files[0];
+
+        if (file) {
+            if (allowedFormats.includes(file.type)) {
+                var preview = document.getElementById('image-preview');
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
+                    icon: 'error'
+                });
+                input.value = ''; // Clear the input to prevent submission of an invalid file
+                document.getElementById('image-preview').src = ''; // Clear the preview
+            }
+        }
+    }
+</script>
 @endsection

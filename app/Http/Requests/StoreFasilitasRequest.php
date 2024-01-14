@@ -28,6 +28,7 @@ class StoreFasilitasRequest extends FormRequest
         return [
             'nama_fasilitas'=>['required','max:100'],
             'foto_fasilitas' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'status'=>['required'],
         ];
     }
 }

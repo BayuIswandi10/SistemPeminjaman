@@ -16,6 +16,7 @@ class Fasilitas extends Model
         'foto_fasilitas',
         'created_by',
         'created_date',
+        'status',
     ];
 
     public function pengguna(){

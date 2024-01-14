@@ -89,9 +89,9 @@
                                                     <a href="{{ route('fasilitas.edit', ['id' => $data->fasilitas_id]) }}" class="btn btn-primary color-muted editbtn">
                                                         <i class="fa fa-pencil-square-o color-muted editbtn"></i>
                                                     </a>
-                                                    <form action="{{ route('fasilitas.destroy', ['id' => $data->fasilitas_id]) }}" method="POST">
+                                                    <form id="deleteForm_{{ $data->fasilitas_id }}" action="{{ route('fasilitas.destroy', ['id' => $data->fasilitas_id]) }}" method="POST">
                                                         @csrf
-                                                        @method('PATCH')
+                                                        @method('DELETE')
                                                         <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $data->fasilitas_id }}')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>

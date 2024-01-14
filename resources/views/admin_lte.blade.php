@@ -105,7 +105,7 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                @if(session()->has('logged_in') && session('logged_in')->main_job === 'Super Admin')                                        <li class="nav-item">
+                                @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                        <li class="nav-item">
                                         <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit') ? 'active' : '' }}">
                                             <i class="nav-icon fas fa-solid fa-user ml-3"></i>
                                             <p>

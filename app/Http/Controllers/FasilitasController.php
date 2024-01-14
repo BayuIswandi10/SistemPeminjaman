@@ -126,6 +126,15 @@ class FasilitasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fasilitas = Fasilitas::find($id);
+
+        if ($fasilitas) {
+            $fasilitas->status = 'Tidak Aktif';
+            $fasilitas->save();
+    
+            return redirect()->route('fasilitas.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        }
+    
+        return redirect()->route('fasilitas.index')->with('error', 'Data not found.');
     }
 }

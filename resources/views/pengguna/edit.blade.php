@@ -71,19 +71,23 @@
                                     <input type="number" class="form-control" name="nohp" value="{{ $pengguna->nohp }}" placeholder="Masukkan Nomor Telepon Admin" minlength="11" maxlength="13" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="other_job">Other Job <span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" value="{{ $pengguna->other_job }}" name="other_job" placeholder="Masukkan Pekerjaan Lain" />
+                                    <label for="role">Role <span style="color:red;">*</span></label><br>
+                                    <select class="form-control" name="role" aria-label="Default select example" required>
+                                        <option disabled>-- Pilih Role --</option>
+                                        <option value="Super Admin" {{ $pengguna->role == 'Super Admin' ? 'selected' : '' }}>Super Admin</option>
+                                        <option value="Koor UPT" {{ $pengguna->role == 'Koor UPT' ? 'selected' : '' }}>Koor UPT</option>
+                                        <option value="PIC Lab" {{ $pengguna->role == 'PIC Lab' ? 'selected' : '' }}>PIC Lab</option>
+                                        <option value="Admin Lab 1" {{ $pengguna->role == 'Admin Lab 1' ? 'selected' : '' }}>Admin Lab 1</option>
+                                        <option value="Admin Lab 2" {{ $pengguna->role == 'Admin Lab 2' ? 'selected' : '' }}>Admin Lab 2</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="main_job">Role <span style="color:red;">*</span></label><br>
-                                    <select class="form-control" name="main_job" aria-label="Default select example" required>
-                                        <option disabled>-- Pilih Role --</option>
-                                        <option value="Super Admin" {{ $pengguna->main_job == 'Super Admin' ? 'selected' : '' }}>Super Admin</option>
-                                        <option value="Koor UPT" {{ $pengguna->main_job == 'Koor UPT' ? 'selected' : '' }}>Koor UPT</option>
-                                        <option value="PIC Lab" {{ $pengguna->main_job == 'PIC Lab' ? 'selected' : '' }}>PIC Lab</option>
-                                        <option value="Admin Lab 1" {{ $pengguna->main_job == 'Admin Lab 1' ? 'selected' : '' }}>Admin Lab 1</option>
-                                        <option value="Admin Lab 2" {{ $pengguna->main_job == 'Admin Lab 2' ? 'selected' : '' }}>Admin Lab 2</option>
-                                    </select>
+                                    <label for="main_job">Main Job <span style="color:red;">*</span></label>
+                                    <input type="text" class="form-control" value="{{ $pengguna->main_job }}" name="main_job" placeholder="Masukkan Pekerjaan Lain" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="other_job">Other Job <span style="color:red;">*</span></label>
+                                    <input type="text" class="form-control" value="{{ $pengguna->other_job }}" name="other_job" placeholder="Masukkan Pekerjaan Lain" />
                                 </div>
                                 <div class="form-group">
                                     <label for="foto" id="lblfoto">Foto Admin <span class="form-group-text" style="color:red;">*</span></label><br>

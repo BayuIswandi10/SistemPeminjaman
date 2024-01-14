@@ -28,6 +28,7 @@ class StorePenggunaRequest extends FormRequest
             'alamat'=>['required'],
             'nohp'=>['required'],
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'role'=>['required'],
             'main_job'=>['required'],
             'other_job'=>['required'],
             'status'=>['required'],

@@ -103,7 +103,7 @@
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
                                                 @endif                                              
                                             </td>
-                                            <td>{{ $data->main_job }}</td>
+                                            <td>{{ $data->role }}</td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('pengguna.edit', ['id' => $data->pengguna_id]) }}" class="btn btn-primary color-muted editbtn">

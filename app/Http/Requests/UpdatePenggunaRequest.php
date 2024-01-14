@@ -33,6 +33,7 @@ class UpdatePenggunaRequest extends FormRequest
             'alamat'=>['required'],
             'nohp'=>['required'],
             'foto' => '|image|mimes:jpeg,png,jpg|max:2048',
+            'role'=>['required'],
             'main_job'=>['required'],
             'other_job'=>['required'],
             'status',

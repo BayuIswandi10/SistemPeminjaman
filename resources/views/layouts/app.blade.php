@@ -44,7 +44,7 @@
     
     <!-- Custom Header Style -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/Style/Header_style.css') }}">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 

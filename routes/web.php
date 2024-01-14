@@ -5,9 +5,11 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardMahasiswaController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SesiController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +22,17 @@ use App\Http\Controllers\SesiController;
 |
 */
 
-Route::get('/', function () {
-    return view('Dashboard.dashboard');
-});
+// Route::get('/', function () {
+//     return view('Dashboard.dashboard');
+// });
+
+Route::view('/', 'Dashboard.dashboard')->name('dashboard');
 
 //Dashboard Mahasiswa
-Route::get('dashboard',[DashboardController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+Route::get('dashboard',[DashboardMahasiswaController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+Route::get('member',[DashboardController::class,'member'])->name('member.index');
+Route::get('peminjamanRuangan',[DashboardController::class,'ruangan'])->name('peminjamanRuangan.index');
+
 
 //Routes Login & Logout 
 Route::get('logins',[AuthController::class,'index'])->name('logins.index');
@@ -50,7 +57,7 @@ Route::middleware(['auth.pengguna'])->group(function () {
     Route::post('fasilitas',[FasilitasController::class,'store'])->name('fasilitas.store');
     Route::get('fasilitas/{id}/edit',[FasilitasController::class,'edit'])->name('fasilitas.edit');
     Route::put('fasilitas/{id}',[FasilitasController::class,'update'])->name('fasilitas.update');
-    Route::patch('fasilitas/{id}',[FasilitasController::class,'destroy'])->name('fasilitas.destroy');    
+    Route::delete('fasilitas/{id}',[FasilitasController::class,'destroy'])->name('fasilitas.destroy');    
 });
 
 //Routes sesi

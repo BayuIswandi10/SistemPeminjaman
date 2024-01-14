@@ -74,9 +74,11 @@
                         <p>Masuk Sebagai Mahasiswa ?<a href="{{ route('logins.loginMahasiswa') }}" style="color: #1767b1"> Klik Disini</a></p>
                     </div>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+                    <div class="text-center">                    
+                        <a href="{{ route('dashboard') }}" class="btn btn-danger ">Kembali</a>
+                        <button type="submit" class="btn btn-primary">Masuk</button>                
                     </div>
+                    
                 </form>
             </div>
         </div>

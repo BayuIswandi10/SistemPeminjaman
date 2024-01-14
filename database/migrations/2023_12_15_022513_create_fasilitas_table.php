@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('foto_fasilitas');
             $table->foreignId('created_by')->constrained('penggunas', 'pengguna_id');       
             $table->timestamp('created_date')->useCurrent();
+            $table->string('status');
             $table->timestamps(false); // Menonaktifkan timestamps
         });
 
