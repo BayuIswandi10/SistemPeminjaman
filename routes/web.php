@@ -28,10 +28,11 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::view('/', 'Dashboard.dashboard')->name('dashboard');
 
-//Dashboard Mahasiswa
+//Dashboard
 Route::get('dashboard',[DashboardMahasiswaController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
 Route::get('member',[DashboardController::class,'member'])->name('member.index');
 Route::get('peminjamanRuangan',[DashboardController::class,'ruangan'])->name('peminjamanRuangan.index');
+Route::get('peminjamanRuangan/{id}', [DashboardController::class, 'detail'])->name('peminjamanRuangan.detail');
 
 
 //Routes Login & Logout 

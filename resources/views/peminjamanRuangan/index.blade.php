@@ -123,7 +123,7 @@
                         <li class="division__list--item margin" style="width: 450px;">
                             <div class="item--inner">
                                 <div class="item__wrapper">
-                                    <div class="img" style="background-image: url({{ asset('assets/foto/Ruangan/' . $row->foto) }});"></div>
+                                    <div class="img" style="background-image: url({{ asset($row->foto1) }});"></div>
                                 </div>
                             </div>
                             <div class="item--content" style="height: 100%">
@@ -131,7 +131,7 @@
                                     <span class="" style="font-family: 'Cambria';font-size: 40px;color: white;font-style: bold;">{{ $row->nama_ruangan }}</span>
                                 </div>
                                 <div style="vertical-align: bottom;height: 20%">
-                                    <a href="{{ url('Dashboard/detailRuangan/' . $row->id_ruangan) }}" class="button-pesan">LIHAT RUANGAN</a>
+                                    <a href="{{ route('peminjamanRuangan.detail', ['id' => $row->ruangan_id]) }}" class="button-pesan">LIHAT RUANGAN</a>
                                 </div>
                             </div>
                         </li>
