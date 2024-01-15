@@ -165,7 +165,7 @@
                         <li class="main_nav_item active"><a href="{{ route('dashboard') }}">Beranda</a></li>
                         <li class="main_nav_item"><a href="{{ route('member.index') }}">Member</a></li>
                         <li class="main_nav_item"><a href="{{ route('peminjamanRuangan.index') }}">Peminjaman Ruangan</a></li>
-                        <li class="main_nav_item"><a href="{{ url('Dashboard/peminjamanBarang') }}">Peminjaman Barang</a></li>
+                        <li class="main_nav_item"><a href="{{ route('peminjamanBarang.index') }}">Peminjaman Barang</a></li>
                     </ul>
                 </div>
             </nav>
@@ -194,13 +194,13 @@
                         <div class="col-md-12 row">
                             <div  class="cardview">
                                 <center><div style="border-radius: 50%;width: 80px;height: 80px;background-color: #f5d908">
-                                    <img class="spek" src="{{ asset('assets/foto/') }}">
+                                    <img class="spek" src="{{ asset('assets/foto/capacity.png') }}">
                                 </div></center>
                                 <center><p class="deskripsi2">{{ $ruangan->kapasitas_ruangan }} Orang</p></center>
                             </div>
                             <div class="cardview">
                                 <center><div style="border-radius: 50%;width: 80px;height: 80px;background-color: #f5d908">
-                                    <img class="spek" src="{{ asset('assets/foto/fasilitas/pin-point.png') }}">
+                                    <img class="spek" src="{{ asset('assets/foto/pin-point.png') }}">
                                 </div></center>
                                 <center><p class="deskripsi2">{{ $ruangan->lokasi_ruangan }}</p></center>
                             </div>
@@ -209,18 +209,20 @@
                     <h4 class="deskripsi" style="margin-top: 25px;">Fasilitas</h4>
                     <div class="row">
                         <div class="col-md-12 row">
-                            @if($fasilitasDetail->count() > 0)
-                                <div class="cardview2">
-                                    @foreach ($fasilitasDetail as $fasilitas)
-                                        <center>
-                                            <div class="center" style="border-radius: 50%;width: 100px;height: 100px;background-color: #f5d908;">
-                                                <img class="spek-fasilitas center" src="{{ asset( $fasilitas->foto_fasilitas) }}">
+                            <div class="form-group">
+                                <div id="dataFasilitas" class="text-warning" style="display: flex; flex-wrap: wrap;">
+                                    @if($fasilitasDetail->count() > 0)
+                                        @foreach ($fasilitasDetail as $fasilitas)
+                                            <div style="border-radius: 50%; width: 80px; height: 80px; background-color:  #f5d908; margin-right: 10px;">
+                                                <img class="spek-fasilitas center" src="{{ asset($fasilitas->foto_fasilitas) }}" width="50">
                                             </div>
-                                        </center>
-                                    @endforeach
+                                        @endforeach
+                                    @else
+                                        <p>Tidak ada detail fasilitas untuk ruangan ini.</p>
+                                    @endif
                                 </div>
-                            @endif
-                        </div>
+                            </div>
+                        </div>                                                                                        
                     </div>
                     <!-- PIC -->
                     <h4 class="deskripsi" style="margin-top: 10px;">PIC</h4>

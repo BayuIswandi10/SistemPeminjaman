@@ -97,7 +97,7 @@
                             <li class="main_nav_item active"><a href="{{ route('dashboard') }}">Beranda</a></li>
                             <li class="main_nav_item"><a href="{{ route('member.index') }}">Member</a></li>
                             <li class="main_nav_item"><a href="{{ route('peminjamanRuangan.index') }}">Peminjaman Ruangan</a></li>
-                            <li class="main_nav_item"><a href="{{ url('Dashboard/peminjamanBarang') }}">Peminjaman Barang</a></li>
+                            <li class="main_nav_item"><a href="{{ route('peminjamanBarang.index') }}">Peminjaman Barang</a></li>
                         </ul>
                     </div>
                 </nav>

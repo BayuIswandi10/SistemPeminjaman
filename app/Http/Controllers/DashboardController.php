@@ -61,6 +61,12 @@ class DashboardController extends Controller
         return $fasilitasDetail;
     }
 
+    public function barang()
+    {
+        $barang = Barang::all();
+        return view('peminjamanBarang.index',['barang'=>$barang]);
+    }
+
     public function beranda()
     {
         $ruanganData = Ruangan::where('status', 'Aktif')->count();

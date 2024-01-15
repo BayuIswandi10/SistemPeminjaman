@@ -172,21 +172,46 @@
 
         if (file) {
             if (allowedFormats.includes(file.type)) {
-                var preview = document.getElementById('image-preview');
-                var reader = new FileReader();
+                if (file.size > 2048 * 1024) { // Check file size (max: 2048 KB)
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Ukuran file tidak boleh melebihi 2048 KB.',
+                        icon: 'error'
+                    });
+                    input.value = ''; // Clear the input to prevent submission of an invalid file
+                    document.getElementById('image-preview').src = ''; // Clear the preview image
+                } else {
+                    var preview = document.getElementById('image-preview');
+                    var reader = new FileReader();
 
-                reader.onloadend = function () {
-                    preview.src = reader.result;
+                    reader.onloadend = function () {
+                        var img = new Image();
+                        img.src = reader.result;
+
+                        img.onload = function () {
+                            if (img.width > 417 || img.height > 369) { // Check image dimensions (max: 417x369)
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Ukuran gambar tidak boleh melebihi 417x369 pixel.',
+                                    icon: 'error'
+                                });
+                                input.value = ''; // Clear the input to prevent submission of an invalid file
+                                document.getElementById('image-preview').src = ''; // Clear the preview image
+                            } else {
+                                preview.src = reader.result;
+                            }
+                        };
+                    }
+
+                    reader.readAsDataURL(file);
                 }
-
-                reader.readAsDataURL(file);
             } else {
                 Swal.fire({
                     title: 'Error',
                     text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
                     icon: 'error'
                 });
-                input.value = ''; // Clear the input to prevent submission of invalid file
+                input.value = ''; // Clear the input to prevent submission of an invalid file
                 document.getElementById('image-preview').src = ''; // Clear the preview image
             }
         }

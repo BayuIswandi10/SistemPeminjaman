@@ -33,7 +33,7 @@ Route::get('dashboard',[DashboardMahasiswaController::class,'indexMahasiswa'])->
 Route::get('member',[DashboardController::class,'member'])->name('member.index');
 Route::get('peminjamanRuangan',[DashboardController::class,'ruangan'])->name('peminjamanRuangan.index');
 Route::get('peminjamanRuangan/{id}', [DashboardController::class, 'detail'])->name('peminjamanRuangan.detail');
-
+Route::get('peminjamanBarang',[DashboardController::class,'barang'])->name('peminjamanBarang.index');
 
 //Routes Login & Logout 
 Route::get('logins',[AuthController::class,'index'])->name('logins.index');
