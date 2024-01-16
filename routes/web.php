@@ -28,8 +28,10 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::view('/', 'Dashboard.dashboard')->name('dashboard');
 
+//Dashboard Mahasiswa Setelah Login
+Route::get('dashboard',[DashboardController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+
 //Dashboard
-Route::get('dashboard',[DashboardMahasiswaController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
 Route::get('member',[DashboardController::class,'member'])->name('member.index');
 Route::get('peminjamanRuangan',[DashboardController::class,'ruangan'])->name('peminjamanRuangan.index');
 Route::get('peminjamanRuangan/{id}', [DashboardController::class, 'detail'])->name('peminjamanRuangan.detail');
@@ -37,9 +39,9 @@ Route::get('peminjamanBarang',[DashboardController::class,'barang'])->name('pemi
 
 //Routes Login & Logout 
 Route::get('logins',[AuthController::class,'index'])->name('logins.index');
-Route::get('loginsMahasiswa',[AuthController::class,'loginMahasiswa'])->name('logins.loginMahasiswa');
+Route::get('loginsMahasiswa',[DashboardController::class,'showLoginForm'])->name('logins.loginMahasiswa');
 Route::post('logins/auth',[AuthController::class,'login'])->name('logins.auth');
-Route::post('logins/loginAksiMahasiswa',[AuthController::class,'loginAksiMahasiswa'])->name('logins.loginAksiMahasiswa');
+Route::post('logins/loginAksiMahasiswa',[DashboardController::class,'login'])->name('logins.loginAksiMahasiswa');
 Route::get('logout',[AuthController::class,'logout'])->name('logins.logout');
 
 //Routes pengguna 

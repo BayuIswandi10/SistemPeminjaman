@@ -50,13 +50,14 @@
                 </div>
                 <hr>
                 <h4 class="login-box-msg">Masuk Mahasiswa</h4>
-                <form action="{{ route('logins.loginAksiMahasiswa') }}" method="POST">
+                {{-- <form method="POST" action="{{ route('logins.loginAksiMahasiswa') }}"> --}}
+                    <form>
                     @csrf
                     <div class="form-group">
-                        <label>Username <span style="color:red;">*</span></label>
+                        <label>NIM <span style="color:red;">*</span></label>
                         <input type="text" class="form-control" id="username" name="username" >
                     </div>
-
+                
                     <div class="form-group">
                         <label>Kata Sandi <span style="color:red;">*</span></label>
                         <input type="password" class="form-control" id="password" name="password">
@@ -68,14 +69,84 @@
 
                     <div class="text-center">                    
                         <a href="{{ route('dashboard') }}" class="btn btn-danger ">Kembali</a>
-                        <button type="submit" class="btn btn-primary">Masuk</button>                
+                        {{-- <button type="submit" class="btn btn-primary">Masuk</button>                --}}
+                        <button type="button" onclick="LOGIN()" class="btn btn-primary">Masuk</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </body>
-
+<script type="text/javascript">
+    function LOGIN()
+    {
+        alert();
+      // call get token function
+        var tokenObj = "";
+        var paramtoken = {
+          grant_type: 'password',
+          username: "sample123",
+          password: "sample123"
+        };
+        var token = '';
+        var usernameUser = document.getElementById('username').value;
+        var pass = document.getElementById('password').value;
+        $.ajax({
+          url: "https://api.polytechnic.astra.ac.id:2906/api_dev/AccessToken/Get",
+          type: "POST",
+          contentType: "application/x-www-form-urlencoded",
+          data: paramtoken,
+          success: function (data){
+            tokenObj = data;
+            token = data.access_token; 
+            token_type = data.token_type;
+            // console.log(" toket : " + token);
+          },
+          complete:function (){
+            $.ajax({
+              url: "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/LoginSIA?username="+usernameUser+"&password="+pass,
+              header: {Authorization: token_type+' '+ token},
+              type: "POST",
+              contentType: "application/json",
+              success: function (data) {
+                console.log(data);
+                  var npk = data["npk"];
+                  var username = data["username"];
+                  var nama = data["nama"];
+                  const d = new Date();
+                  d.setTime(d.getTime() + (1*24*60*60*1000));
+                  let expires = "expires="+ d.toUTCString();
+                  if(username!=''&&username!='undefined'){
+                    //set cookies
+                      document.cookie = "nim=" + username + ";"+expires+"; path=/";
+                      document.cookie = "nama=" + nama + ";" + expires + ";path=/";
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Login Berhasil!',
+                        showConfirmButton: false,
+                        sleep:1000
+                      })
+                      window.location.href = "{{ route('dashboard.indexMahasiswa') }}";
+                      //alert berhasil make swal
+                      //kirim ke controller login paramnya bisa username, pass, nama, role                      
+                  }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Username atau Password Salah!'
+                      })                   }
+              },
+              error :function(error){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Username atau Password Salah!'
+                  })              }
+          });
+          }
+        });
+    }
+</script>
 
 @if (session('success'))
 <script>
