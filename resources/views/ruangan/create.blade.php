@@ -62,8 +62,7 @@
                                 <input type="number" class="form-control" name="kapasitas_ruangan" value="{{ old('kapasitas_ruangan') }}" placeholder="Masukkan Kapasitas ruangan" required/>
                             </div>
                             <div class="form-group">
-                                <label for="nama_fasilitas">Nama Fasilitas <span style="color:red;">*</span></label>
-                                <button class="btn btn-primary btn-sm" onclick="tambahComboBox()">Tambah Combo Box</button>
+                                <button class="btn btn-primary btn-sm" onclick="tambahComboBox()">Tambah Fasilitas</button>
                                 <div id="container" style="display: flex; flex-direction: column;">
                                     <div class="combo-box" style="display: flex; align-items: center;">
                                         <select class="form-control" name="fasilitas_ids[]" onchange="validateComboBox(this)" required>
@@ -81,44 +80,48 @@
                             </div>
                             <div class="form-group">
                                 <label for="koor_upt">Koor UPT <span style="color:red;">*</span></label><br>
-                                <select class="form-control" value="{{ old('koor_upt') }}" name="koor_upt" aria-label="Default select example" required>
-                                <option selected value="" disabled>-- Pilih Role --</option>
-                                <option value="Sisia Dika Ariyanto">Sisia Dika Ariyanto</option>
-                                <option value="Candra Bagus Kristanto">Candra Bagus Kristanto</option>
-                                <option value="Kristina Hutajulu">Kristina Hutajulu</option>
-                                <option value="Eko Abdul Goffar">Eko Abdul Goffar</option>
+                                <select name="koor_upt" class="form-control" >
+                                    <option value="">-- pilih Admin Lab --</option>
+                                    @foreach ($pengguna as $penggunaID => $name)
+                                        <option value="{{ $name }}" @if(old('koor_upt') == $name) selected @endif>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="pic_lab">PIC Lab <span style="color:red;">*</span></label><br>
-                                <select class="form-control" value="{{ old('pic_lab') }}" name="pic_lab" aria-label="Default select example" required>
-                                <option selected value="" disabled>-- Pilih Role --</option>
-                                <option value="Sisia Dika Ariyanto">Sisia Dika Ariyanto</option>
-                                <option value="Candra Bagus Kristanto">Candra Bagus Kristanto</option>
-                                <option value="Kristina Hutajulu">Kristina Hutajulu</option>
-                                <option value="Eko Abdul Goffar">Eko Abdul Goffar</option>
+                                <select name="pic_lab" class="form-control" >
+                                    <option value="">-- pilih PIC --</option>
+                                    @foreach ($pengguna as $penggunaID => $name)
+                                        <option value="{{ $name }}" @if(old('pic_lab') == $name) selected @endif>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="admin_lab1">Admin Lab 1 <span style="color:red;">*</span></label><br>
-                                <select class="form-control" value="{{ old('admin_lab1') }}" name="admin_lab1" aria-label="Default select example" required>
-                                <option selected value="" disabled>-- Pilih Role --</option>
-                                <option value="Sisia Dika Ariyanto">Sisia Dika Ariyanto</option>
-                                <option value="Candra Bagus Kristanto">Candra Bagus Kristanto</option>
-                                <option value="Kristina Hutajulu">Kristina Hutajulu</option>
-                                <option value="Eko Abdul Goffar">Eko Abdul Goffar</option>
+                                <select name="admin_lab1" class="form-control" >
+                                    <option value="">-- pilih Admin Lab --</option>
+                                    @foreach ($pengguna as $penggunaID => $name)
+                                        <option value="{{ $name }}" @if(old('admin_lab1') == $name) selected @endif>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="admin_lab2">Admin Lab 2 <span style="color:red;">*</span></label><br>
-                                <select class="form-control" value="{{ old('admin_lab2') }}" name="admin_lab2" aria-label="Default select example" required>
-                                <option selected value="" disabled>-- Pilih Role --</option>
-                                <option value="Sisia Dika Ariyanto">Sisia Dika Ariyanto</option>
-                                <option value="Candra Bagus Kristanto">Candra Bagus Kristanto</option>
-                                <option value="Kristina Hutajulu">Kristina Hutajulu</option>
-                                <option value="Eko Abdul Goffar">Eko Abdul Goffar</option>
+                                <select name="admin_lab2" class="form-control" >
+                                    <option value="">-- pilih Admin Lab --</option>
+                                    @foreach ($pengguna as $penggunaID => $name)
+                                        <option value="{{ $name }}" @if(old('admin_lab2') == $name) selected @endif>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                            </div>                           
+                            </div>                                                     
                             <div class="form-group" hidden>
                                 <label for="keterangan_ruangan">Kondisi ruangan <span style="color:red;">*</span></label>
                                 <input type="text" class="form-control" value="Baik" id="keterangan_ruangan" name="keterangan_ruangan" placeholder="Masukkan Kondisi ruangan" required/>
@@ -164,7 +167,7 @@
                             </div>
                             <div class="form-group" hidden >
                                 <label for="status">Status <span style="color:red;">*</span></label>
-                                <input type="text" class="form-control" name="status" value="Aktif" id="status">
+                                <input type="text" class="form-control" name="status" value="Tersedia" id="status">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

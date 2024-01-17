@@ -97,23 +97,15 @@
     <div class="row" style="margin-top: 100px; width: 100%; height:100%; background-color: #0059ab; margin-left: 0px; margin-right: 0px;">
         <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN </h1></center>
         <center>
-            <form enctype="multipart/form-data" action="{{ url('Peminjaman/updateRuanganSetelah/') }}" method="post" style="margin-top: 50px;align-items: left;">
+            <form enctype="multipart/form-data" action="{{ route('simpan_ruangan.mahasiswa') }}" method="post" style="margin-top: 50px;align-items: left;">
+                @csrf
                 <br>
-                {{-- <div class="col-md-6 row">
-                    <div class="col-md-4 left">
-                        <span style="color: white;font-size: 18px;">Nomor Pengajuan</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" style="color: black;" name="no_pengajuan" class="form-control" required="true" value="{{ $row->no_pengajuan }}" readonly="true">
-                        <input hidden type="text" style="color: black;" name="id_Peminjaman" class="form-control" placeholder="id_Peminjaman" required="true" value="{{ $row->id_peminjaman }}" readonly="true">
-                    </div>
-                </div> --}}
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white;font-size: 18px;">NIM</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" name="nim" class="form-control" placeholder="NIM" required="true" value="{{ $_COOKIE['nim'] }}" readonly="true">
+                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $_COOKIE['nama'] }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -121,7 +113,7 @@
                         <span style="color: white;font-size: 18px;">Nama</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" name="nama" class="form-control" placeholder="nama" required="true" value="{{ $_COOKIE['nama'] }}" readonly="true">
+                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $_COOKIE['nim'] }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -129,8 +121,8 @@
                         <span style="color: white; font-size: 18px;">Ruangan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" readonly name="ruangan" class="form-control" style="color: black;" value="{{ $ruangan->nama_ruangan }}" required="true">
-                        <input type="hidden" readonly name="idruangan" class="form-control" style="color: black;" value="{{ $ruangan->id_ruangan }}" required="true">
+                        <input type="text" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $ruangan->nama_ruangan }}" required="true">
+                        <input type="hidden" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $ruangan->ruangan_id }}" required="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -138,7 +130,7 @@
                         <span style="color: white; font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="date" class="form-control" name="created_date" value="{{ old('created_date') ? old('created_date') : now()->format('Y-m-d') }}" required />
+                        <input type="date" class="form-control" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -154,6 +146,14 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                        <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="time" class="form-control" name="waktu_kembali" value="{{ old('waktu_kembali')}}" required />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -179,7 +179,15 @@
                     <div class="col-md-8 left">
                       <span style="color: white;font-size: 18px;text-align: justify; display: block;">Peminjam harus memasukkan foto ruangan sebelum pemakaian dengan batas waktu 15 menit setelah waktu mulai peminjaman ruangan</span>       
                     </div>
-                  </div>            
+                  </div> 
+                <div class="col-md-6 row" style="margin-top: 20px;" hidden>
+                    <div class="col-md-4 left">
+                        <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="status" value="Pengajuan" id="status" />
+                    </div>
+                </div>         
                 <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">
                     <div class="col-md-6 ">
                         <input type="submit" name="submit" value="SUBMIT" class="button-pesan">
@@ -215,25 +223,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-@if(isset($sukses))
-    @if($sukses == 1)
-        <script>
-            swal("Berhasil!", "Pengajuan Peminjaman Ruangan berhasil !", "success");
-        </script>
-    @elseif($sukses == 2)
-        <script>  
-            swal("Gagal!", "Ukuran gambar terlalu besar!", "error");
-            setTimeout(() => { history.back(); }, 1000);
-        </script>
-    @elseif($sukses == 3)
-        <script>  
-            swal("Gagal!", "Waktu sudah dipesan!", "error");
-            setTimeout(() => { history.back(); }, 1000);
-        </script>
-    @endif
+<script>
+// Display validation errors in Swal
+@if ($errors->any())
+Swal.fire({
+    icon: 'error',
+    title: 'Whoops!',
+    html: '<ul>' +
+        @foreach ($errors->all() as $error)
+            '<li>{{ $error }}</li>' +
+        @endforeach
+        '</ul>'
+});
 @endif
 
+// Display success message in Swal
+@if (session('success'))
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('success') }}'
+});
+@endif
+
+// Display error message in Swal
+@if (session('error'))
+Swal.fire({
+    icon: 'error',
+    title: 'Error!',
+    text: '{{ session('error') }}'
+});
+@endif
+</script>
 <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/popper.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/bootstrap.min.js') }}"></script>

@@ -120,9 +120,6 @@
                                 <th hidden>ID Galeri</th>
                                 <th hidden>Nama Foto</th>
                                 <th>Foto Ruangan</th>
-                                @if(session('main_job') === 'Super Admin')
-                                    <th>Aksi</th>
-                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -165,14 +162,6 @@
                                             No Image
                                         @endif                                                
                                     </td>
-                                    {{-- @if(session('role') == 'Super Admin') --}}
-                                        <td>
-                                            <div class="btn-group">
-                                                <a href="javascript:void(0);" class="btn btn-primary editGambarbtn" tooltip=""><i class="fa fa-pencil-square-o color-muted"></i></a>
-                                                <a href="{{ URL::to('functions/deleteGaleri/' . $ruangan->id_ruangan . '-' . $ruangan->id_galeri) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin menghapus data berikut?')"><i class="fas fa-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    {{-- @endif --}}
                                 </tr>
                         </tbody>
                     </table>

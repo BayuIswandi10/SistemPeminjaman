@@ -31,11 +31,13 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
+                            @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                             <button class="btn btn-primary btn-md float-right">
                                 <a href="{{ route('ruangan.create') }}" class="text-white">
                                     <i class="fa fa-plus mr-1"></i> Tambah Data
                                 </a>
                             </button>
+                            @endif
                         </div>
                         <div class="card-body">
                             @if (session('success'))
@@ -70,7 +72,9 @@
                                         <th>Kapasitas</th>
                                         <th>PIC</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
+                                            <th>Aksi</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,8 +96,11 @@
                                                     <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Aktif")
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tersedia")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
                                                 @endif  
                                             </td>
+                                            @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('ruangan.detail', ['id' => $data->ruangan_id]) }}" class="btn btn-info ml-2">
@@ -108,6 +115,7 @@
                                                     </form>                                                    
                                                 </div>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

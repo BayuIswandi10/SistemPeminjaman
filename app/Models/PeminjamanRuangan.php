@@ -11,15 +11,15 @@ class PeminjamanRuangan extends Model
     use HasFactory;
     protected $fillable=[
         'ruangan_id',
+        'no_pengajuan',
         'nim_peminjaman',
         'nama_peminjam',
         'tanggal_pinjam',
-        'id_sesi',
+        'sesi_id',
         'jumlah_pengguna',
         'keperluan',
         'pengguna_id',
         'foto_sebelum',
-        'tanggal_kembali',
         'waktu_kembali',
         'foto_setelah',
         'status',

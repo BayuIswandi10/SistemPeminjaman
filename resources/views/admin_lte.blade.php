@@ -105,7 +105,9 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                        <li class="nav-item">
+                                {{-- @if(session()->has('logged_in') && in_array(session('logged_in')->role, ['Super Admin', 'Admin', 'Koor UPT'])) --}}
+                                @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
+                                 <li class="nav-item">
                                         <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit') ? 'active' : '' }}">
                                             <i class="nav-icon fas fa-solid fa-user ml-3"></i>
                                             <p>
@@ -119,13 +121,13 @@
 
                                 <!-- Penyesuaian sintaks untuk item-item berikutnya -->
                                 <li class="nav-item">
-                                        <a href="{{ route('barang.index') }}" class="nav-link {{ request()->routeIs('barang.index','barang.create','barang.edit') ? 'active' : '' }}">
-                                            <i class="nav-icon fas fa-toolbox ml-3"></i>
-                                            <p>
-                                                Barang
-                                                <span class="badge badge-info right"></span>
-                                            </p>
-                                        </a>
+                                    <a href="{{ route('barang.index') }}" class="nav-link {{ request()->routeIs('barang.index','barang.create','barang.edit') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-toolbox ml-3"></i>
+                                        <p>
+                                            Barang
+                                            <span class="badge badge-info right"></span>
+                                        </p>
+                                    </a>
                                 </li>
 
                                 <li class="nav-item">

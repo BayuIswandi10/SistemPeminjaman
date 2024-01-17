@@ -10,13 +10,13 @@ class PeminjamanBarang extends Model
     public $timestamps = false;
     use HasFactory;
     protected $fillable=[
+        'no_pengajuan',
         'nim_peminjaman',
         'nama_peminjam',
         'tanggal_pinjam',
         'sesi_id',
         'keperluan',
         'foto_sebelum',
-        'tanggal_kembali',
         'waktu_kembali',
         'foto_setelah',
         'status',

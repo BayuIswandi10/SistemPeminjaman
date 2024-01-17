@@ -31,11 +31,13 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
+                            @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                             <button class="btn btn-primary btn-md float-right">
                                 <a href="{{ route('sesi.create') }}" class="text-white">
                                     <i class="fa fa-plus mr-1"></i> Tambah Data
                                 </a>
                             </button>
+                            @endif
                         </div>
                         <div class="card-body">
                             @if (session('success'))
@@ -70,7 +72,9 @@
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
                                         <th>Status</th>
-                                        <th>Aksi</th>
+                                        @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
+                                            <th>Aksi</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,6 +98,7 @@
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
                                                 @endif  
                                             </td>
+                                            @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ route('sesi.edit', ['id' => $data->sesi_id]) }}" class="btn btn-primary color-muted editbtn">
@@ -109,7 +114,7 @@
                                                     
                                                 </div>
                                             </td>
-
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

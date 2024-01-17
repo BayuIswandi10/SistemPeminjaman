@@ -30,13 +30,6 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::view('/', 'Dashboard.dashboard')->name('dashboard');
 
-//Dashboard Mahasiswa Setelah Login
-Route::get('dashboardMhs',[DashboardMahasiswaController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
-Route::get('memberMhs',[DashboardMahasiswaController::class,'member'])->name('member.mahasiswa');
-Route::get('peminjamanBarangMhs',[DashboardMahasiswaController::class,'barang'])->name('peminjamanBarang.mahasiswa');
-Route::get('peminjamanRuanganMhs',[DashboardMahasiswaController::class,'ruangan'])->name('peminjamanRuangan.mahasiswa');
-Route::get('peminjamanRuanganMhs/{id}', [DashboardMahasiswaController::class, 'detail'])->name('peminjamanRuanganDetail.mahasiswa');
-
 //Dashboard sebelum login
 Route::get('member',[DashboardController::class,'member'])->name('member.index');
 Route::get('peminjamanRuangan',[DashboardController::class,'ruangan'])->name('peminjamanRuangan.index');
@@ -105,5 +98,13 @@ Route::middleware(['auth.pengguna'])->group(function () {
     Route::get('beranda',[DashboardController::class,'beranda'])->name('Dashboard.beranda');  
 });
 
-//Routes peminjaman ruangan
+//Dashboard Mahasiswa Setelah Login
+Route::get('dashboardMhs',[DashboardMahasiswaController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+Route::get('memberMhs',[DashboardMahasiswaController::class,'member'])->name('member.mahasiswa');
+Route::get('peminjamanBarangMhs',[DashboardMahasiswaController::class,'barang'])->name('peminjamanBarang.mahasiswa');
+Route::get('peminjamanRuanganMhs',[DashboardMahasiswaController::class,'ruangan'])->name('peminjamanRuangan.mahasiswa');
+Route::get('peminjamanRuanganMhs/{id}', [DashboardMahasiswaController::class, 'detail'])->name('peminjamanRuanganDetail.mahasiswa');
+
+//Routes peminjaman ruangan mahasiswa
 Route::get('pesanan_ruangan/{id}', [PeminjamanRuanganController::class, 'detail'])->name('pesanan_ruangan.mahasiswa');
+Route::post('simpan_ruangan', [PeminjamanRuanganController::class, 'store'])->name('simpan_ruangan.mahasiswa');

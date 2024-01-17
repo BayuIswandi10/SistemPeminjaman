@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRuanganRequest;
 use App\Http\Requests\UpdateRuanganRequest;
 use App\Models\Fasilitas;
+use App\Models\Pengguna;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -57,9 +58,18 @@ class RuanganController extends Controller
      */
     public function create()
     {
-        $fasilitas = Fasilitas::orderBy('nama_fasilitas', 'asc')->get()->pluck('nama_fasilitas', 'fasilitas_id');
+        $fasilitas = Fasilitas::where('status', 'Aktif')
+        ->orderBy('nama_fasilitas', 'asc')
+        ->get()
+        ->pluck('nama_fasilitas', 'fasilitas_id');
+        
+        $pengguna = Pengguna::where('status', 'Aktif')
+        ->whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1'])
+        ->orderBy('nama', 'asc')
+        ->get()
+        ->pluck('nama', 'pengguna_id');
 
-        return view('ruangan.create',['fasilitas'=>$fasilitas]);
+        return view('ruangan.create',['fasilitas'=>$fasilitas, 'pengguna'=>$pengguna]);
     }
 
     /**
@@ -143,8 +153,16 @@ class RuanganController extends Controller
     public function edit($id)
     {
         $ruangan = Ruangan::findOrFail($id);
-        $fasilitas = Fasilitas::orderBy('nama_fasilitas', 'asc')->get()->pluck('nama_fasilitas', 'fasilitas_id');
+        $fasilitas = Fasilitas::where('status', 'Aktif')
+        ->orderBy('nama_fasilitas', 'asc')
+        ->get()
+        ->pluck('nama_fasilitas', 'fasilitas_id');
         
+        $pengguna = Pengguna::where('status', 'Aktif')
+        ->whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1'])
+        ->orderBy('nama', 'asc')
+        ->get()
+        ->pluck('nama', 'pengguna_id');        
         // Ambil data fasilitas yang terkait dengan ruangan
         $fasilitasRuangan = [];
         foreach ($ruangan->fasilitas as $fasilitasItem) {
@@ -157,7 +175,8 @@ class RuanganController extends Controller
         return view('ruangan.edit', [
             'ruangan' => $ruangan,
             'fasilitas' => $fasilitas,
-            'fasilitasRuangan' => $fasilitasRuangan // Kirim data fasilitas yang terkait dengan ruangan
+            'fasilitasRuangan' => $fasilitasRuangan, // Kirim data fasilitas yang terkait dengan ruangan
+            'pengguna' => $pengguna
         ]);
     }
     
@@ -203,6 +222,15 @@ class RuanganController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ruangan = Ruangan::find($id);
+
+        if ($ruangan) {
+            $ruangan->status = 'Tidak Aktif';
+            $ruangan->save();
+    
+            return redirect()->route('ruangan.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        }
+    
+        return redirect()->route('ruangan.index')->with('error', 'Data not found.');
     }
 }
