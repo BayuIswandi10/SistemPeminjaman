@@ -87,7 +87,7 @@
     <div class="super_container">
         <!-- Header -->
         <header class="header d-flex flex-row" style="top: 10px; height: 70px;">
-            @include('navbarMenu2')
+            @include('navbarMenu')
         </header>
     </div>
     <center>
@@ -106,7 +106,7 @@
                                     <span class="" style="font-family: 'Cambria';font-size: 40px;color: white;font-style: bold;">{{ $row->nama_ruangan }}</span>
                                 </div>
                                 <div style="vertical-align: bottom;height: 20%">
-                                    <a href="{{ route('peminjamanRuangan.detail', ['id' => $row->ruangan_id]) }}" class="button-pesan">LIHAT RUANGAN</a>
+                                    <a href="{{ route('peminjamanRuanganDetail.mahasiswa', ['id' => $row->ruangan_id]) }}" class="button-pesan">LIHAT RUANGAN</a>
                                 </div>
                             </div>
                         </li>

@@ -26,7 +26,7 @@
 
         <!-- Header -->
         <header class="header d-flex flex-row" style="top: 10px; height: 70px; flex-wrap: wrap;">
-            @include('navbarMenu2')
+            @include('navbarMenu')
         </header>
     </div>
 

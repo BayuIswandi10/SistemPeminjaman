@@ -22,11 +22,6 @@ class DashboardController extends Controller
         return view('Dashboard.dashboard');
     }
 
-    public function indexMahasiswa()
-    {
-        return view('Dashboard.dashboardMahasiswa');
-    }
-
     public function showLoginForm()
     {
         return view('auth.loginMahasiswa');

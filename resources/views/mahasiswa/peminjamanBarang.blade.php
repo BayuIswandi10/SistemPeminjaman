@@ -31,7 +31,7 @@
     <div class="super_container">
         <!-- Header -->
         <header class="header d-flex flex-row" style="top: 10px; height: 70px;">
-            @include('navbarMenu2')
+            @include('navbarMenu')
         </header>
     </div>
     <!-- Home -->

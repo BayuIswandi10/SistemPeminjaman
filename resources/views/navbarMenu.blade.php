@@ -41,10 +41,10 @@
     <nav class="main_nav_container" style="padding-right: 0;">
         <div class="main_nav" style="margin-top: 0;">
             <ul class="main_nav_list" style="font-size: 12px; ">
-                <li class="main_nav_item active" style="margin-right: 20px;"><a href="{{ route('dashboard') }}">Beranda</a></li>
-                <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('member.index') }}">Member</a></li>
-                <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('peminjamanRuangan.index') }}">Peminjaman Ruangan</a></li>
-                <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('peminjamanBarang.index') }}">Peminjaman Barang</a></li>
+                <li class="main_nav_item active" style="margin-right: 20px;"><a href="{{ route('dashboard.indexMahasiswa') }}">Beranda</a></li>
+                <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('member.mahasiswa') }}">Member</a></li>
+                <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('peminjamanRuangan.mahasiswa') }}">Peminjaman Ruangan</a></li>
+                <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('peminjamanBarang.mahasiswa') }}">Peminjaman Barang</a></li>
                 
                 @if (isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
                     <div class="main_nav_item" style="margin-right: 20px;">

@@ -155,7 +155,7 @@
 <div class="super_container">
     <!-- Header -->
     <header class="header d-flex flex-row" style="top: 10px; height: 70px;">
-        @include('navbarMenu2')
+        @include('navbarMenu')
     </header>
 
     <!-- Home -->
@@ -230,6 +230,11 @@
                 @endforeach
             </div>
         </div>
+        <?php if (isset($_COOKIE['nim'])&&$_COOKIE['nim']!='') { ?>
+            <center><div class="col-md-3" style="margin-bottom: 1%">
+                <a href="{{ route('pesanan_ruangan.mahasiswa', ['id' => $ruangan->ruangan_id]) }}" class="button-pesan" >PESAN RUANGAN</a>
+            </div></center>
+        <?php }?>
     </div>
 
     <footer class="footer" style="padding-top: 0px;margin-top: 0px;">

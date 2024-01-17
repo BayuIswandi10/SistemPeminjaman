@@ -80,7 +80,6 @@
 <script type="text/javascript">
     function LOGIN()
     {
-        alert();
       // call get token function
         var tokenObj = "";
         var paramtoken = {

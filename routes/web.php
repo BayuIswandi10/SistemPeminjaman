@@ -7,8 +7,10 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardMahasiswaController;
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\PeminjamanRuanganController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SesiController;
+use App\Models\PeminjamanBarang;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -29,20 +31,24 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 Route::view('/', 'Dashboard.dashboard')->name('dashboard');
 
 //Dashboard Mahasiswa Setelah Login
-Route::get('dashboard',[DashboardController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+Route::get('dashboardMhs',[DashboardMahasiswaController::class,'indexMahasiswa'])->name('dashboard.indexMahasiswa');
+Route::get('memberMhs',[DashboardMahasiswaController::class,'member'])->name('member.mahasiswa');
+Route::get('peminjamanBarangMhs',[DashboardMahasiswaController::class,'barang'])->name('peminjamanBarang.mahasiswa');
+Route::get('peminjamanRuanganMhs',[DashboardMahasiswaController::class,'ruangan'])->name('peminjamanRuangan.mahasiswa');
+Route::get('peminjamanRuanganMhs/{id}', [DashboardMahasiswaController::class, 'detail'])->name('peminjamanRuanganDetail.mahasiswa');
 
-//Dashboard
+//Dashboard sebelum login
 Route::get('member',[DashboardController::class,'member'])->name('member.index');
 Route::get('peminjamanRuangan',[DashboardController::class,'ruangan'])->name('peminjamanRuangan.index');
 Route::get('peminjamanRuangan/{id}', [DashboardController::class, 'detail'])->name('peminjamanRuangan.detail');
 Route::get('peminjamanBarang',[DashboardController::class,'barang'])->name('peminjamanBarang.index');
 
-//Routes Login & Logout 
+//Routes Login & Logout Pengguna
 Route::get('logins',[AuthController::class,'index'])->name('logins.index');
 Route::get('loginsMahasiswa',[DashboardController::class,'showLoginForm'])->name('logins.loginMahasiswa');
 Route::post('logins/auth',[AuthController::class,'login'])->name('logins.auth');
-Route::post('logins/loginAksiMahasiswa',[DashboardController::class,'login'])->name('logins.loginAksiMahasiswa');
 Route::get('logout',[AuthController::class,'logout'])->name('logins.logout');
+//Route::post('logins/loginAksiMahasiswa',[DashboardController::class,'login'])->name('logins.loginAksiMahasiswa');
 
 //Routes pengguna 
 Route::get('pengguna',[PenggunaController::class,'index'])->name('pengguna.index');
@@ -98,3 +104,6 @@ Route::middleware(['auth.pengguna'])->group(function () {
 Route::middleware(['auth.pengguna'])->group(function () {
     Route::get('beranda',[DashboardController::class,'beranda'])->name('Dashboard.beranda');  
 });
+
+//Routes peminjaman ruangan
+Route::get('pesanan_ruangan/{id}', [PeminjamanRuanganController::class, 'detail'])->name('pesanan_ruangan.mahasiswa');
