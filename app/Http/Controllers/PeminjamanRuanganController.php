@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePeminjamanRuanganRequest;
+use App\Http\Requests\UpdatePeminjamanRuanganRequest;
 use App\Models\PeminjamanBarang;
 use App\Models\PeminjamanRuangan;
+use Illuminate\Support\Facades\File;
 use App\Models\Ruangan;
 use App\Models\Sesi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class PeminjamanRuanganController extends Controller
 {
@@ -79,49 +82,94 @@ class PeminjamanRuanganController extends Controller
         return $nomorPengajuan;
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function index()
     {
-        //
+        $nimPeminjaman = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
+
+        if ($nimPeminjaman) {
+            $peminjamanRuangan = PeminjamanRuangan::with(['ruangan', 'sesi'])
+                ->where('nim_peminjaman', $nimPeminjaman)
+                ->get();
+            return view('peminjamanRuangan.pengembalian_ruangan', compact('peminjamanRuangan'));
+        } else {
+            // Handle jika cookie NIM tidak ditemukan
+            return redirect()->route('logins.loginMahasiswa')->with('error', 'Anda belum login atau sesi login telah berakhir.');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function riwayatPeminjamanRuangan()
     {
-        //
+        $peminjamanRuangan = PeminjamanRuangan::with(['ruangan', 'sesi'])->get();
+        return view('riwayatPeminjaman.riwayatPeminjamanRuangan', compact('peminjamanRuangan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $PeminjamanRuangan = PeminjamanRuangan::find($id);
+    
+        if ($PeminjamanRuangan) {
+            $PeminjamanRuangan->status = 'Ditolak';
+            $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $PeminjamanRuangan->save();
+    
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        }
+    
+        return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
+    }
+    public function acc($id)
+    {
+        $PeminjamanRuangan = PeminjamanRuangan::find($id);
+        if ($PeminjamanRuangan) {
+            $PeminjamanRuangan->status = 'Disetujui';
+            $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $PeminjamanRuangan->save();
+    
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        }
+    
+        return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
+    }
+
+    public function editRuanganSebelum($id)
+    {       
+        $peminjamanRuangan = PeminjamanRuangan::findOrFail($id);
+
+        $sesi = Sesi::orderBy('nama_sesi', 'asc')
+        ->get()
+        ->pluck('nama_sesi', 'sesi_id');
+
+        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc')
+        ->get()
+        ->pluck('nama_ruangan', 'ruangan_id');
+    
+        return view('peminjamanRuangan.form_ruangan_sebelum', ['peminjamanRuangan' => $peminjamanRuangan, 'sesi' => $sesi, 'ruangan' => $ruangan ]);
+    }
+
+    public function updateRuanganSebelum(UpdatePeminjamanRuanganRequest $request, $id)
+    {       
+        $peminjamanRuangan = PeminjamanRuangan::findOrFail($id);
+        $params = $request->validated();
+    
+        // Simpan gambar baru
+        if ($request->hasFile('foto_sebelum')) {
+            $newImage = $request->file('foto_sebelum');
+            $imageName = time() . '.' . $newImage->extension();
+            $newImage->move(public_path('assets/foto/riwayat_ruangan'), $imageName);
+            $newImagePath = 'assets/foto/riwayat_ruangan/' . $imageName;
+    
+            // Hapus gambar lama jika ada
+            if ($peminjamanRuangan->foto_sebelum && File::exists(public_path($peminjamanRuangan->foto_sebelum))) {
+                File::delete(public_path($peminjamanRuangan->foto_sebelum));
+            }
+    
+            $params['foto_sebelum'] = $newImagePath;
+        }
+        if ($peminjamanRuangan->update($params)) {
+            return redirect(route('riwayat_peminjaman_ruangan.mahasiswa'))->with('success', 'Updated!');
+        } else {
+            // Jika terjadi kesalahan saat pembaruan fasilitas
+            return back()->with('error', 'Failed to update.');
+        }
     }
 }
