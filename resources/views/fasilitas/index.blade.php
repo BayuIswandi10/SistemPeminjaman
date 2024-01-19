@@ -70,6 +70,7 @@
                                         <th>No</th>
                                         <th>Nama</th>
                                         <th>Foto</th>
+                                        <th>Status</th>
                                         @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                                             <th>Aksi</th>
                                         @endif
@@ -87,6 +88,19 @@
                                                 @else
                                                     No Image
                                                 @endif
+                                            </td>
+                                            <td>
+                                                @if($data->status == "Pengajuan")
+                                                <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Dipinjam")
+                                                    <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Selesai")
+                                                    <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tidak Aktif")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Aktif")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
+                                                @endif  
                                             </td>
                                             @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                                             <td>
@@ -307,7 +321,7 @@
         </div>
     </section>
 </div>
-<script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function() {
         var table = $('#dataTable').DataTable({
             columnDefs: [
@@ -320,6 +334,7 @@
             responsive: true
         });
     });
+
 
     function confirmDelete(fasilitasId) {
         Swal.fire({

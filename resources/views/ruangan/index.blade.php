@@ -135,8 +135,8 @@
             columnDefs: [
                 {className: 'dt-body-center',targets: 0},
                 {className: 'dt-head-center',targets: 0},
-                {className: 'dt-body-center',targets: 5},
-                {className: 'dt-head-center',targets: 5}
+                {className: 'dt-body-center',targets: 4},
+                {className: 'dt-head-center',targets: 4}
             ],
               scrollX: true,
               responsive: true

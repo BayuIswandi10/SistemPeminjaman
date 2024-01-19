@@ -95,17 +95,27 @@
 
     <!-- Home -->
     <div class="row" style="margin-top: 100px; width: 100%; height:100%; background-color: #0059ab; margin-left: 0px; margin-right: 0px;">
-        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN </h1></center>
+        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN SEBELUM</h1></center>
         <center>
-            <form enctype="multipart/form-data" action="{{ route('simpan_ruangan.mahasiswa') }}" method="post" style="margin-top: 50px;align-items: left;">
+            <form enctype="multipart/form-data" action="{{ route('pesanan_ruangan.updateRuanganSebelum', $peminjamanRuangan->peminjaman_ruangan_id) }}" method="post" style="margin-top: 50px;align-items: left;">
+                @method('PUT')
                 @csrf
                 <br>
+                <div class="col-md-6 row">
+                    <div class="col-md-4 left">
+                        <span style="color: white;font-size: 18px;">Nomor Pengajuan</span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" style="color: black;" name="no_pengajuan" class="form-control" required="true" value="{{ $peminjamanRuangan->no_pengajuan }}" readonly="true">
+                        <input hidden type="text" style="color: black;" name="id_Peminjaman" class="form-control" placeholder="id_Peminjaman" required="true" value="{{ $peminjamanRuangan->peminjaman_ruangan_id }}" readonly="true">
+                    </div>
+                </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white;font-size: 18px;">NIM</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $_COOKIE['nim'] }}" readonly="true">
+                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $_COOKIE['nama'] }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -113,7 +123,7 @@
                         <span style="color: white;font-size: 18px;">Nama</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $_COOKIE['nama'] }}" readonly="true">
+                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $_COOKIE['nim'] }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -121,28 +131,27 @@
                         <span style="color: white; font-size: 18px;">Ruangan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $ruangan->nama_ruangan }}" required="true">
-                        <input type="hidden" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $ruangan->ruangan_id }}" required="true">
+                        <input type="text" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $peminjamanRuangan->ruangan->nama_ruangan }}" required="true">
+                        <input type="hidden" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $peminjamanRuangan->ruangan_id }}" required="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
+                        <span style="color: white;font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="date" class="form-control" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
+                        <input id="datepciker" type="date" value="{{ $peminjamanRuangan->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
                     </div>
-                </div>
+                </div>                
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Sesi Pinjam</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="sesi_id" class="form-control" >
-                            <option value="">-- pilih sesi --</option>
+                        <select name="sesi_id" class="form-control" required="true" readonly="true">
                             @foreach ($sesi as $sesiID => $name)
-                                <option value="{{ $sesiID }}" @selected(old('sesi_id') == $sesiID)>
-                                    {{ $name }}
+                            <option value="{{ $sesiID }}" @if(old('sesi_id', $peminjamanRuangan->sesi_id) == $sesiID) selected @endif>
+                                {{ $name }}
                                 </option>
                             @endforeach
                         </select>
@@ -153,7 +162,7 @@
                         <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ old('waktu_kembali')}}" required />
+                        <input type="time" class="form-control" name="waktu_kembali" value="{{ $peminjamanRuangan->waktu_kembali }}" required="true" readonly="true" />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -161,7 +170,7 @@
                         <span style="color: white; font-size: 18px;">Jumlah Pengguna</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="number" class="form-control" name="jumlah_pengguna" value="{{ old('jumlah_pengguna')}}" required />
+                        <input type="number" class="form-control" name="jumlah_pengguna" value="{{ ($peminjamanRuangan->jumlah_pengguna)}}" required="true" readonly="true" />
                     </div>
                 </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -169,7 +178,20 @@
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea type="text" class="form-control" name="keperluan" value="{{ old('keperluan')}}" rows="4" cols="50" required="true" ></textarea>
+                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanRuangan->keperluan }}</textarea>
+                    </div>
+                </div>                
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                      <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="file" onchange="validateImage(this, 'image-preview');" style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
+                      @if(old('foto_sebelum'))
+                        <img id="image-preview" src="{{ old('foto_sebelum') }}" class="mt-2" style="max-width: 100%;" />
+                      @else
+                        <img id="image-preview" class="mt-2" style="max-width: 100%;" />
+                      @endif
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -185,7 +207,7 @@
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="status" value="Pengajuan" id="status" />
+                        <input type="text" class="form-control" name="status" value="{{ ($peminjamanRuangan->status)}}" />
                     </div>
                 </div>         
                 <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">
@@ -224,37 +246,64 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-// Display validation errors in Swal
-@if ($errors->any())
-Swal.fire({
-    icon: 'error',
-    title: 'Whoops!',
-    html: '<ul>' +
-        @foreach ($errors->all() as $error)
-            '<li>{{ $error }}</li>' +
-        @endforeach
-        '</ul>'
-});
-@endif
+    function validateImage(input, previewId) {
+        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+        var file = input.files[0];
 
-// Display success message in Swal
-@if (session('success'))
-Swal.fire({
-    icon: 'success',
-    title: 'Success!',
-    text: '{{ session('success') }}'
-});
-@endif
+        if (file) {
+            if (allowedFormats.includes(file.type)) {
+                var preview = document.getElementById(previewId);
+                var reader = new FileReader();
 
-// Display error message in Swal
-@if (session('error'))
-Swal.fire({
-    icon: 'error',
-    title: 'Error!',
-    text: '{{ session('error') }}'
-});
-@endif
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
+                    icon: 'error'
+                });
+                input.value = ''; // Clear the input to prevent submission of invalid file
+                document.getElementById(previewId).src = ''; // Clear the preview image
+            }
+        }
+    }
+    // Display validation errors in Swal
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'error',
+        title: 'Whoops!',
+        html: '<ul>' +
+            @foreach ($errors->all() as $error)
+                '<li>{{ $error }}</li>' +
+            @endforeach
+            '</ul>'
+    });
+    @endif
+
+    // Display success message in Swal
+    @if (session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}'
+    });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: '{{ session('error') }}'
+    });
+    @endif
 </script>
+
+
 <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/popper.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/bootstrap.min.js') }}"></script>

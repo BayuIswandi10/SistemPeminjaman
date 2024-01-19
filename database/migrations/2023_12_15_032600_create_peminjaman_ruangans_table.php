@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('sesi_id')->constrained('sesis', 'sesi_id');          
             $table->integer('jumlah_pengguna');
             $table->string('keperluan');
-            $table->foreignId('pengguna_id')->constrained('penggunas', 'pengguna_id')->nullable();     
+            $table->foreignId('pengguna_id')->nullable()->constrained('penggunas', 'pengguna_id');     
             $table->string('foto_sebelum')->nullable();
             $table->time('waktu_kembali')->nullable();
             $table->string('foto_setelah')->nullable();

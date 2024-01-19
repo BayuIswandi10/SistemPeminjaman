@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PeminjamanRuangan extends Model
 {
+    protected $primaryKey = 'peminjaman_ruangan_id';
+    protected $table = 'peminjaman_ruangans';
     public $timestamps = false;
     use HasFactory;
     protected $fillable=[
@@ -25,15 +27,18 @@ class PeminjamanRuangan extends Model
         'status',
     ];
 
-    public function sesi(){
-        return $this->belongsTo(Sesi::class);
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class, 'sesi_id');
     }
 
-    public function ruangan(){
-        return $this->belongsTo(Ruangan::class);
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class, 'ruangan_id');
     }
 
-    public function pengguna(){
-        return $this->belongsTo(Pengguna::class);
+    public function pengguna()
+    {
+        return $this->belongsTo(Pengguna::class, 'pengguna_id');
     }
 }

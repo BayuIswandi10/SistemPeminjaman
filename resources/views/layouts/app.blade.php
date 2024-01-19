@@ -3,6 +3,7 @@
 
 
 
+
 <head>
     <!-- Data Tables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
@@ -39,6 +40,7 @@
 
     <!-- Charset and Title -->
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peminjaman Ruangan</title>
     

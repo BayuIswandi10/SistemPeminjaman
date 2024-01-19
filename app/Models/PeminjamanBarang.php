@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PeminjamanBarang extends Model
 {
+    protected $primaryKey = 'peminjaman_barang_id';
+    protected $table = 'peminjaman_barangs';
     public $timestamps = false;
     use HasFactory;
     protected $fillable=[
