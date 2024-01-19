@@ -30,8 +30,8 @@ class UpdatePeminjamanRuanganRequest extends FormRequest
             ],
             'ruangan_id' => ['required'],
             'no_pengajuan', // Perlu ditambahkan aturan validasi
-            'nim_peminjaman' => ['required'],
-            'nama_peminjam' => ['required'],
+            'nim_peminjaman',
+            'nama_peminjam' ,
             'tanggal_pinjam',
             'sesi_id' => ['required'],
             'jumlah_pengguna' => ['required'],

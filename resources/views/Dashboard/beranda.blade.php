@@ -56,7 +56,7 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="{{ route('barang.index') }}" class="small-box-footer">Informasi Lanjut <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('riwayatPeminjamanRuangan.mahasiswa') }}" class="small-box-footer">Informasi Lanjut <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -70,7 +70,7 @@
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="{{ route('ruangan.index') }}" class="small-box-footer">Informasi Lanjut <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('riwayatPeminjamanRuangan.mahasiswa') }}" class="small-box-footer">Informasi Lanjut <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->

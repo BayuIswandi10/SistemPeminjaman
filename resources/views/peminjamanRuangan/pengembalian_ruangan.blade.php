@@ -16,6 +16,19 @@
     <!-- Datatable -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> 
 
+        <!-- Add other meta tags and stylesheets as needed -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/bootstrap4/bootstrap.min.css') }}">
+    
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/main_styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/responsive.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/ruangan1.css') }}">
+    
+        <!-- RRQ -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick-theme.min.css">
+        <link href="{{ asset('assets/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css') }}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/styles/main_styles.css') }}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('assets/adminlte3.2/dist/img/favicon.png') }}">
     
     <style>
         body {font-family: Arial, Helvetica, sans-serif;}
@@ -96,7 +109,7 @@
 <body>
     <div class="super_container">
         <!-- Header -->
-        <header  class="header d-flex flex-row" style="top: 10px;height: 70px;">
+        <header class="header d-flex flex-row" style="top: 10px; height: 70px;">
             @include('navbarMenu')
         </header>
     </div>
@@ -149,7 +162,7 @@
                                     @if($row->foto_setelah == '')
                                         -
                                     @else
-                                        <img src="{{ asset('assets/foto/riwayat_ruangan/'.$row->foto_setelah) }}" alt="" style="width: 80%" onclick="zoom('img{{ $count }}')" id="img{{ $count }}">
+                                        <img src="{{ asset($row->foto_setelah) }}" alt="" style="width: 80%" onclick="zoom('img{{ $count }}')" id="img{{ $count }}">
                                     @endif
                                 </center></td>
                                 <td>
@@ -162,11 +175,21 @@
                                             <a href="{{ route('pesanan_ruangan.editRuanganSebelum', $row->peminjaman_ruangan_id) }}" id="ubahriwayatRuangan{{ $count }}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
+                                        @elseif($row->status == 'Pengajuan' || $row->status == 'Ditolak')
+                                            <a href="#" style="display:none;">
+                                                <i class="fa fa-tasks color-muted ml-2"></i>
+                                            </a>
+                                        @elseif($row->status == 'Dipinjam')
+                                            <a href="{{ route('pesanan_ruangan.editRuanganSesudah',$row->peminjaman_ruangan_id) }}" id="ubahriwayatRuangan{{ $count }}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
                                         @endif
-                                        <a href="#">
+                                    
+                                        <a href="{{ route('pesanan_ruangan.formDetail',$row->peminjaman_ruangan_id) }}">
                                             <i class="fa fa-tasks color-muted ml-2"></i>
                                         </a>
                                     </center>
+                                    
                                 </td>                                
                                 @endif
                             </tr>
@@ -231,6 +254,17 @@
         @endif
     @endif
 </body>
+
+<script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('assets/styles/bootstrap4/popper.js') }}"></script>
+<script src="{{ asset('assets/styles/bootstrap4/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/scrollTo/jquery.scrollTo.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/easing/easing.js') }}"></script>
+</body>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="{{ asset('assets/dist/js/scripts.js') }}"></script>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

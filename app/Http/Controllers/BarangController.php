@@ -126,7 +126,7 @@ class BarangController extends Controller
         $barang = Barang::find($id);
      
         if ($barang) {
-            $barang->status = 'Tidak Aktif';
+            $barang->status = 'Tidak Tersedia';
             $barang->save();
     
             return redirect()->route('barang.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');

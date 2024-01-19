@@ -225,7 +225,7 @@ class RuanganController extends Controller
         $ruangan = Ruangan::find($id);
 
         if ($ruangan) {
-            $ruangan->status = 'Tidak Aktif';
+            $ruangan->status = 'Tidak Tersedia';
             $ruangan->save();
     
             return redirect()->route('ruangan.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');

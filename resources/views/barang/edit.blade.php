@@ -89,6 +89,7 @@
                                         <div class="input-group-append">
                                             <select class="form-control" name="satuan_barang" aria-label="Default select example" required>
                                                 <option disabled>-- Pilih Role --</option>
+                                                <option value="Buah" {{ $barang->satuan_barang == 'Buah' ? 'selected' : '' }}>Buah</option>
                                                 <option value="Pcs" {{ $barang->satuan_barang == 'Pcs' ? 'selected' : '' }}>Pcs</option>
                                                 <option value="Lembar" {{ $barang->satuan_barang == 'Lembar' ? 'selected' : '' }}>Lembar</option>
                                                 <option value="Pack" {{ $barang->satuan_barang == 'Pack' ? 'selected' : '' }}>Pack</option>                                            </select>
@@ -115,9 +116,9 @@
                                     </div>
                                     <img id="image-preview" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($barang->gambar_barang) }}" />
                                 </div>
-                                <div class="form-group" hidden>
+                                <div class="form-group" hidden >
                                     <label for="status">Status <span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" value="{{ $barang->status }}" name="status" placeholder="Masukkan Pekerjaan Lain" />
+                                    <input type="text" class="form-control" name="status" value="Tersedia" id="status">
                                 </div>
                             </div>
                             </div>

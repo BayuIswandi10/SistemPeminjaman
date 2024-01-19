@@ -74,10 +74,10 @@ class DashboardController extends Controller
 
     public function beranda()
     {
-        $ruanganData = Ruangan::where('status', 'Aktif')->count();
-        $barangData = Barang::where('status', 'Aktif')->count(); 
-        $peminjamanruanganData = PeminjamanRuangan::where('status', 'Aktif')->count();
-        $peminjamanbarangData = PeminjamanBarang::where('status', 'Aktif')->count(); 
+        $ruanganData = Ruangan::where('status', 'Tersedia')->count();
+        $barangData = Barang::where('status', 'Tersedia')->count(); 
+        $peminjamanruanganData = PeminjamanRuangan::where('status', 'Pengajuan')->count(); 
+        $peminjamanbarangData = PeminjamanBarang::count();
     
         $chartRuangan = $this->ChartRuangan(); // Assuming this function returns the correct data
         $chartBarang = $this->ChartBarang(); // Assuming this function returns the correct data
@@ -88,19 +88,47 @@ class DashboardController extends Controller
         return view('Dashboard.beranda', compact('ruanganData', 'barangData', 'chartRuangan', 'chartBarang', 'pieChart', 'peminjamanruanganData','peminjamanbarangData' ));
     }
     
-
     public function ChartRuangan()
     {
-        // Implement your logic to retrieve Ruangan chart data
-        // Example:
+        // Define the months
+        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        // Retrieve Peminjaman Ruangan data
+        $peminjamanRuanganData = PeminjamanRuangan::select(DB::raw('MONTH(tanggal_pinjam) as month'), 'ruangan_id', DB::raw('COUNT(*) as jumlah'))
+            ->groupBy('month', 'ruangan_id')
+            ->get();
+
+        // Define the ruangans
+        $ruanganNames = Ruangan::pluck('nama_ruangan', 'ruangan_id')->toArray();
+
+        // Initialize an array to store the chart data
         $chartData = [
-            'labelbulan' => ['January', 'February', 'March'],
-            'namaruangan' => ['Room A', 'Room B', 'Room C'],
-            'datajumlah' => [10, 15, 20],
+            'labelbulan' => $months,
+            'namaruangan' => array_values($ruanganNames),
+            'datajumlah' => [],
         ];
+
+        // Create a copy of $months for use within the anonymous function
+        $monthsCopy = $months;
+
+        // Populate the data array based on the retrieved Peminjaman Ruangan data
+        foreach ($ruanganNames as $ruanganId => $ruanganName) {
+            $jumlahData = [];
+            foreach ($months as $month) {
+                $data = $peminjamanRuanganData->first(function ($item) use ($month, $ruanganId, $monthsCopy) {
+                    return $item->month == array_search($month, $monthsCopy) + 1 && $item->ruangan_id == $ruanganId;
+                });
+
+                $jumlahData[] = $data ? $data->jumlah : 0;
+            }
+
+            $chartData['datajumlah'][] = $jumlahData;
+        }
 
         return json_encode($chartData);
     }
+
+    
 
     public function ChartBarang()
     {

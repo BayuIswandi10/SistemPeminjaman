@@ -95,9 +95,9 @@
 
     <!-- Home -->
     <div class="row" style="margin-top: 100px; width: 100%; height:100%; background-color: #0059ab; margin-left: 0px; margin-right: 0px;">
-        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN SEBELUM</h1></center>
+        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN SESUDAH</h1></center>
         <center>
-            <form enctype="multipart/form-data" action="{{ route('pesanan_ruangan.updateRuanganSebelum', $peminjamanRuangan->peminjaman_ruangan_id) }}" method="post" style="margin-top: 50px;align-items: left;">
+            <form enctype="multipart/form-data" action="{{ route('pesanan_ruangan.updateRuanganSesudah', $peminjamanRuangan->peminjaman_ruangan_id) }}" method="post" style="margin-top: 50px;align-items: left;">
                 @method('PUT')
                 @csrf
                 <br>
@@ -180,15 +180,24 @@
                     <div class="col-md-8">
                         <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanRuangan->keperluan }}</textarea>
                     </div>
-                </div>                
+                </div>   
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                       <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                      <input type="file" onchange="validateImage(this, 'image-preview');" style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
-                      @if(old('foto_sebelum'))
-                        <img id="image-preview" src="{{ old('foto_sebelum') }}" class="mt-2" style="max-width: 100%;" />
+                      <label type="file"  style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
+                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanRuangan->foto_sebelum) }}" />
+                    </div>
+                </div>             
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                      <span style="color: white;font-size: 18px;">Foto Setelah</span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8">
+                      <input type="file" onchange="validateImage(this, 'image-preview');" style="color: black;" readonly="true" name="foto_setelah" class="form-control" required>
+                      @if(old('foto_setelah'))
+                        <img id="image-preview" src="{{ old('foto_setelah') }}" class="mt-2" style="max-width: 100%;" />
                       @else
                         <img id="image-preview" class="mt-2" style="max-width: 100%;" />
                       @endif
@@ -207,7 +216,7 @@
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="status" value="Dipinjam" />
+                        <input type="text" class="form-control" name="status" value="Selesai" />
                     </div>
                 </div>         
                 <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">

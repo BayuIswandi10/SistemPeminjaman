@@ -94,6 +94,8 @@
                                                     <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Tidak Aktif")
                                                     <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tidak Tersedia")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Aktif")
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Tersedia")

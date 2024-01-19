@@ -98,7 +98,7 @@
                                                     No Image
                                                 @endif                                                
                                             </td>
-                                            <td>                                               
+                                            <td>
                                                 @if($data->status == "Pengajuan")
                                                 <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Dipinjam")
@@ -107,9 +107,13 @@
                                                     <span class="badge badge-primary" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Tidak Aktif")
                                                     <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == "Tidak Tersedia")
+                                                    <span class="badge badge-danger" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == "Aktif")
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
-                                                @endif                                              
+                                                @elseif ($data->status == "Tersedia")
+                                                    <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
+                                                @endif  
                                             </td>
                                             @if(session()->has('logged_in') && session('logged_in')->role === 'Admin')                                       
                                             <td>

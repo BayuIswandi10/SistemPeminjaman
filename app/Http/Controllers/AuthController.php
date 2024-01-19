@@ -28,7 +28,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         Session::flash('username', $request->Username);
-
+    
         $request->validate([
             'Username' => 'required',
             'Password' => 'required'
@@ -36,31 +36,36 @@ class AuthController extends Controller
             'Username.required' => 'Username wajib diisi.',
             'Password.required' => 'Password wajib diisi.'
         ]);
-
+    
         echo 'alert(' . $request->Username . ');';
         echo 'alert(' . $request->Password . ');';
-        // $penggunas = pengguna::where('username', $request->Username)->where('password',$request->Password)->where('status', '1')->first();
-        // echo $penggunas->Nama;
+    
         $info = [
             'username' => $request->get('Username'),
             'password' => $request->get('Password'),
         ];
-
+    
         $pengguna = Pengguna::where('username', $info['username'])->first();
-
+    
         if ($pengguna) {
-            // Autentikasi berhasil
-            Auth::guard('pengguna')->login($pengguna);
-
-            //Menyimpan informasi login
-            $request->session()->put('logged_in', $pengguna);
-
-            return redirect(route('Dashboard.beranda'))->with('success', 'Login Berhasil!');
+            // Check if the user is active
+            if ($pengguna->status == 'Aktif') {
+                // Autentikasi berhasil
+                Auth::guard('pengguna')->login($pengguna);
+    
+                // Menyimpan informasi login
+                $request->session()->put('logged_in', $pengguna);
+    
+                return redirect(route('Dashboard.beranda'))->with('success', 'Login Berhasil!');
+            } else {
+                // User is not active
+                return redirect(route('logins.index'))->with('error', 'Akun tidak aktif. Harap hubungi administrator.');
+            }
         } else {
             // Autentikasi gagal
             return redirect(route('logins.index'))->with('error', 'Username atau Password Salah!');
         }
-    }
+    }    
 
     public function logout()
     {

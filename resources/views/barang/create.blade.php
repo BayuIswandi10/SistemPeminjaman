@@ -80,6 +80,7 @@
                                     <div class="input-group-append">
                                       <select name="satuan_barang" value="{{ old('satuan_barang') }}" class="form-control" required>
                                         <option selected value="" disabled>-- Pilih Satuan --</option>
+                                        <option value="Buah">Buah</option>
                                         <option value="Pcs">Pcs</option>
                                         <option value="Lembar">Lembar</option>
                                         <option value="Pack">Pack</option>
@@ -117,7 +118,7 @@
                             </div>
                             <div class="form-group" hidden >
                                 <label for="status">Status <span style="color:red;">*</span></label>
-                                <input type="text" class="form-control" name="status" value="Aktif" id="status">
+                                <input type="text" class="form-control" name="status" value="Tersedia" id="status">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

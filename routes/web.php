@@ -109,8 +109,12 @@ Route::get('peminjamanRuanganMhs/{id}', [DashboardMahasiswaController::class, 'd
 Route::get('pesanan_ruangan/{id}', [PeminjamanRuanganController::class, 'detail'])->name('pesanan_ruangan.mahasiswa');
 Route::post('simpan_ruangan', [PeminjamanRuanganController::class, 'store'])->name('simpan_ruangan.mahasiswa');
 Route::get('riwayat_peminjaman_ruangan', [PeminjamanRuanganController::class, 'index'])->name('riwayat_peminjaman_ruangan.mahasiswa');
-Route::get('pesanan_ruangan/{id}/editRuanganSebelum',[PeminjamanRuanganController::class,'editRuanganSebelum'])->name('pesanan_ruangan.editRuanganSebelum');
-Route::put('pesanan_ruangan/{id}',[PeminjamanRuanganController::class,'updateRuanganSebelum'])->name('pesanan_ruangan.updateRuanganSebelum');
+Route::get('pesanan_ruangan/{id}/editRuanganSebelum', [PeminjamanRuanganController::class, 'editRuanganSebelum'])->name('pesanan_ruangan.editRuanganSebelum');
+Route::put('pesanan_ruangan/{id}/updateRuanganSebelum', [PeminjamanRuanganController::class, 'updateRuanganSebelum'])->name('pesanan_ruangan.updateRuanganSebelum');
+Route::get('pesanan_ruangan/{id}/editRuanganSesudah', [PeminjamanRuanganController::class, 'editRuanganSesudah'])->name('pesanan_ruangan.editRuanganSesudah');
+Route::put('pesanan_ruangan/{id}/updateRuanganSesudah', [PeminjamanRuanganController::class, 'updateRuanganSesudah'])->name('pesanan_ruangan.updateRuanganSesudah');
+Route::get('pesanan_ruangan_detail/{id}', [PeminjamanRuanganController::class, 'formDetail'])->name('pesanan_ruangan.formDetail');
+
 
 //Routes riwayat peminjaman ruangan user
 Route::get('RiwayatPeminjamanRuangan', [PeminjamanRuanganController::class, 'riwayatPeminjamanRuangan'])->name('riwayatPeminjamanRuangan.mahasiswa');

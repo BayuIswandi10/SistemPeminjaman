@@ -172,4 +172,61 @@ class PeminjamanRuanganController extends Controller
             return back()->with('error', 'Failed to update.');
         }
     }
+
+    public function editRuanganSesudah($id)
+    {       
+        $peminjamanRuangan = PeminjamanRuangan::findOrFail($id);
+
+        $sesi = Sesi::orderBy('nama_sesi', 'asc')
+        ->get()
+        ->pluck('nama_sesi', 'sesi_id');
+
+        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc')
+        ->get()
+        ->pluck('nama_ruangan', 'ruangan_id');
+    
+        return view('peminjamanRuangan.form_ruangan_sesudah', ['peminjamanRuangan' => $peminjamanRuangan, 'sesi' => $sesi, 'ruangan' => $ruangan ]);
+    }
+
+    public function updateRuanganSesudah(UpdatePeminjamanRuanganRequest $request, $id)
+    {       
+        $peminjamanRuangan = PeminjamanRuangan::findOrFail($id);
+        $params = $request->validated();
+    
+        // Simpan gambar baru
+        if ($request->hasFile('foto_setelah')) {
+            $newImage = $request->file('foto_setelah');
+            $imageName = time() . '.' . $newImage->extension();
+            $newImage->move(public_path('assets/foto/riwayat_ruangan'), $imageName);
+            $newImagePath = 'assets/foto/riwayat_ruangan/' . $imageName;
+    
+            // Hapus gambar lama jika ada
+            if ($peminjamanRuangan->foto_setelah && File::exists(public_path($peminjamanRuangan->foto_setelah))) {
+                File::delete(public_path($peminjamanRuangan->foto_setelah));
+            }
+    
+            $params['foto_setelah'] = $newImagePath;
+        }
+        if ($peminjamanRuangan->update($params)) {
+            return redirect(route('riwayat_peminjaman_ruangan.mahasiswa'))->with('success', 'Updated!');
+        } else {
+            // Jika terjadi kesalahan saat pembaruan fasilitas
+            return back()->with('error', 'Failed to update.');
+        }
+    }
+
+    public function formDetail($id)
+    {       
+        $peminjamanRuangan = PeminjamanRuangan::findOrFail($id);
+
+        $sesi = Sesi::orderBy('nama_sesi', 'asc')
+        ->get()
+        ->pluck('nama_sesi', 'sesi_id');
+
+        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc')
+        ->get()
+        ->pluck('nama_ruangan', 'ruangan_id');
+    
+        return view('peminjamanRuangan.form_ruangan_detail', ['peminjamanRuangan' => $peminjamanRuangan, 'sesi' => $sesi, 'ruangan' => $ruangan ]);
+    }
 }
