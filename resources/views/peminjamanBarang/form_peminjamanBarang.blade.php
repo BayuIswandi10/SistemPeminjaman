@@ -95,25 +95,17 @@
 
     <!-- Home -->
     <div class="row" style="margin-top: 100px; width: 100%; height:100%; background-color: #0059ab; margin-left: 0px; margin-right: 0px;">
-        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN DETAIL</h1></center>
+        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN BARANG </h1></center>
         <center>
-            <form enctype="multipart/form-data" style="margin-top: 50px;align-items: left;">
+            <form enctype="multipart/form-data" action="{{ route('simpan_barang.mahasiswa')}}" method="post" style="margin-top: 50px;align-items: left;">
+                @csrf
                 <br>
-                <div class="col-md-6 row">
-                    <div class="col-md-4 left">
-                        <span style="color: white;font-size: 18px;">Nomor Pengajuan</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="text" style="color: black;" name="no_pengajuan" class="form-control" required="true" value="{{ $peminjamanRuangan->no_pengajuan }}" readonly="true">
-                        <input hidden type="text" style="color: black;" name="id_Peminjaman" class="form-control" placeholder="id_Peminjaman" required="true" value="{{ $peminjamanRuangan->peminjaman_ruangan_id }}" readonly="true">
-                    </div>
-                </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white;font-size: 18px;">NIM</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $peminjamanRuangan->nim_peminjaman }}" readonly="true">
+                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $_COOKIE['nim'] }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -121,35 +113,36 @@
                         <span style="color: white;font-size: 18px;">Nama</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $peminjamanRuangan->nama_peminjam }}" readonly="true">
+                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $_COOKIE['nama'] }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Ruangan</span><span style="color:red;"> *</span>
+                        <span style="color: white; font-size: 18px;">Barang</span><span style="color:red;"> *</span>
+                        <button class="btn btn-primary btn-sm" onclick="tambahComboBox()">Tambah Barang</button>
                     </div>
-                    <div class="col-md-8">
-                        <input type="text" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $peminjamanRuangan->ruangan->nama_ruangan }}" required="true">
-                        <input type="hidden" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $peminjamanRuangan->ruangan_id }}" required="true">
+                    <div class="col-md-8 combo-box-container" id="container">
+                        
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white;font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
+                        <span style="color: white; font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input id="datepciker" type="date" value="{{ $peminjamanRuangan->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
+                        <input type="date" class="form-control" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
                     </div>
-                </div>                
+                </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Sesi Pinjam</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="sesi_id" class="form-control" required="true" readonly="true">
+                        <select name="sesi_id" class="form-control" >
+                            <option value="">-- pilih sesi --</option>
                             @foreach ($sesi as $sesiID => $name)
-                            <option value="{{ $sesiID }}" @if(old('sesi_id', $peminjamanRuangan->sesi_id) == $sesiID) selected @endif>
-                                {{ $name }}
+                                <option value="{{ $sesiID }}" @selected(old('sesi_id') == $sesiID)>
+                                    {{ $name }}
                                 </option>
                             @endforeach
                         </select>
@@ -160,57 +153,41 @@
                         <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ $peminjamanRuangan->waktu_kembali }}" required="true" readonly="true" />
+                        <input type="time" class="form-control" name="waktu_kembali" value="{{ old('waktu_kembali')}}" required />
                     </div>
                 </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Jumlah Pengguna</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="number" class="form-control" name="jumlah_pengguna" value="{{ ($peminjamanRuangan->jumlah_pengguna)}}" required="true" readonly="true" />
-                    </div>
-                </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanRuangan->keperluan }}</textarea>
+                        <textarea type="text" class="form-control" name="keperluan" value="{{ old('keperluan')}}" rows="4" cols="50" required="true" ></textarea>
                     </div>
-                </div>   
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                      <label type="file"  style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
-                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanRuangan->foto_sebelum) }}" />
-                    </div>
-                </div>             
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Foto Setelah</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                      <label type="file" style="color: black;" readonly="true" name="foto_setelah" class="form-control" required>
-                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanRuangan->foto_setelah) }}" />
                 </div>
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                      <span style="color: white;font-size: 18px;">Catatan</span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8 left">
+                      <span style="color: white;font-size: 18px;text-align: justify; display: block;">Peminjam harus memasukkan foto ruangan sebelum pemakaian dengan batas waktu 15 menit setelah waktu mulai peminjaman ruangan</span>       
+                    </div>
+                  </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;" hidden>
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="status" value="Selesai" />
+                        <input type="text" class="form-control" name="status" value="Dipinjam" id="status" />
                     </div>
                 </div>         
-                <div class="col-md-4 row" style="margin-top: 30px;margin-bottom: 30px;"> 
-                    
-                      <div class="col-md-6">
-                          <a onclick="window.history.go(-1);" name="kembali"  class="button-pesan" style="background-color: #fff;color: black">KEMBALI</a>
-                      </div>
-                
-                  </div>
+                <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">
+                    <div class="col-md-6 ">
+                        <input type="submit" name="submit" value="SUBMIT" class="button-pesan">
+                    </div>
+                    <div class="col-md-6">
+                        <a onclick="window.history.go(-1);" name="kembali" class="button-pesan" style="background-color: #fff;color: black">KEMBALI</a>
+                    </div>
+                </div>
             </form>
         </center>
         <br><br>
@@ -239,64 +216,89 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    function validateImage(input, previewId) {
-        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
-        var file = input.files[0];
+    let counter = 0;
 
-        if (file) {
-            if (allowedFormats.includes(file.type)) {
-                var preview = document.getElementById(previewId);
-                var reader = new FileReader();
+    function tambahComboBox() {
+        counter++;
 
-                reader.onloadend = function () {
-                    preview.src = reader.result;
-                }
+        const container = document.getElementById('container');
 
-                reader.readAsDataURL(file);
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
-                    icon: 'error'
-                });
-                input.value = ''; // Clear the input to prevent submission of invalid file
-                document.getElementById(previewId).src = ''; // Clear the preview image
-            }
+        const newComboBox = document.createElement('div');
+        newComboBox.classList.add('col-md-14', 'row', 'combo-box'); // Adjusted to col-md-12 for full width
+        newComboBox.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <select class="form-control" name="barang_ids[]" onchange="validateComboBox(this)" required>
+                        <option selected value="" disabled>-- Pilih barang --</option>
+                        @foreach ($barang as $barangId => $barangName)
+                            <option value="{{ $barangId }}" @selected(old('barang_ids[]') == $barangId)>
+                                {{ $barangName }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                </div>
+                <div class="col-md-4">
+                    <input type="number" name="jumlah[]" class="jumlah-input form-control" placeholder="Jumlah">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(newComboBox);
+    }
+
+    function hapusComboBox(button) {
+        const comboBox = button.parentNode.parentNode; // Adjusted the parent nodes
+        comboBox.remove();
+    }
+
+    function validateComboBox(selectElement) {
+        const allSelects = document.querySelectorAll('select[name^="barang_id"]');
+        const selectedValues = Array.from(allSelects).map(select => select.value);
+
+        const currentValue = selectElement.value;
+        const currentIndex = Array.from(allSelects).indexOf(selectElement);
+
+        if (selectedValues.filter(value => value === currentValue).length > 1) {
+            alert('Barang ini sudah Anda pilih');
+            selectElement.value = '';
         }
     }
+
     // Display validation errors in Swal
-    @if ($errors->any())
-    Swal.fire({
-        icon: 'error',
-        title: 'Whoops!',
-        html: '<ul>' +
-            @foreach ($errors->all() as $error)
-                '<li>{{ $error }}</li>' +
-            @endforeach
-            '</ul>'
-    });
-    @endif
+@if ($errors->any())
+Swal.fire({
+    icon: 'error',
+    title: 'Whoops!',
+    html: '<ul>' +
+        @foreach ($errors->all() as $error)
+            '<li>{{ $error }}</li>' +
+        @endforeach
+        '</ul>'
+});
+@endif
 
-    // Display success message in Swal
-    @if (session('success'))
-    Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: '{{ session('success') }}'
-    });
-    @endif
+// Display success message in Swal
+@if (session('success'))
+Swal.fire({
+    icon: 'success',
+    title: 'Success!',
+    text: '{{ session('success') }}'
+});
+@endif
 
-    // Display error message in Swal
-    @if (session('error'))
-    Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: '{{ session('error') }}'
-    });
-    @endif
+// Display error message in Swal
+@if (session('error'))
+Swal.fire({
+    icon: 'error',
+    title: 'Error!',
+    text: '{{ session('error') }}'
+});
+@endif
 </script>
-
-
 <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/popper.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/bootstrap.min.js') }}"></script>

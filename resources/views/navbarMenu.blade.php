@@ -59,7 +59,7 @@
                                 <hr>
                                 <li>
                                     <center>
-                                        <a type="button" class="col-lg-8" href="{{ url('/Dashboard/riwayatPeminjamanBarang') }}">Barang</a>
+                                        <a type="button" class="col-lg-8" href="{{ route('riwayat_peminjaman_barang.mahasiswa') }}">Barang</a>
                                     </center>
                                 </li>
                             </div>

@@ -38,18 +38,11 @@
     <center>
         <div class="" style="margin-top:120px;margin-bottom: 50px;">
             <h1 style="color:black;font-size: 28px;">DATA BARANG</h1>
-            {{-- @if(isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
+            @if(isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
             <div class="col-lg-11" style="margin-top:50px;text-align:right">
-                <a href="{{ url('Dashboard/ViewKeranjang') }}" title="keranjang" class="keranjangbtn"><i class="fa keranjangbtn" style="font-size:24px">&#xf07a;</i></a>
-                <span class='badge badge-warning' id='lblCartCount'> 
-                    @foreach ($jumlahKeranjang as $keranjang)
-                        {{ $keranjang->JumlahKeranjang }}
-                    @endforeach
-                </span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a type="button" class="btn btn-primary" href="{{ url('Dashboard/formPeminjamanBarang') }}">PINJAM</a>
+                <a type="button" class="btn btn-primary" href="{{ route('pesanan_barang.mahasiswa') }}">PINJAM</a>
             </div>
-            @endif --}}
+            @endif
             <div class="col-lg-11" style="margin-top:20px;margin-bottom: 100px;">
                 <div class="row">
                     @foreach ($barang as $row)
@@ -62,23 +55,6 @@
                                     <p class="card-text text-start"><strong>Kondisi:</strong> {{ $row->keterangan_barang }}</p>
                                     <p class="card-text text-start"><strong>Lokasi:</strong> {{ $row->lokasi_barang . ' Baris ' . $row->baris_lokasi }}</p>
                                     <p class="card-text text-start"><strong>Status:</strong> <span class="badge bg-success">Tersedia</span></p>
-                                    @if(isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
-                                        <div class="d-flex justify-content-between align-items-center mt-3">
-                                            @if ($row->jumlah > 1)
-                                                {{-- <a href="#" class="btn btn-primary" onclick="pinjamBarang({{ $count }})"> --}}
-                                                    <i class="fa fa-plus-circle mr-2"></i> Pinjam
-                                                {{-- </a> --}}
-                                            @else
-                                                {{-- <a href="{{ url('Dashboard/simpanKeranjangSatuan/' . $row->id_barang) }}" class="btn btn-primary">
-                                                    <i class="fa fa-plus-circle mr-2"></i> Pinjam
-                                                </a> --}}
-                                            @endif
-                                            <form id="keranjang" action="{{ url('Dashboard/simpanKeranjang/' . $row->id_barang) }}" method="POST">
-                                                {{-- <input id="jumlah{{ $count }}" style="display: none" type="number" max="{{ $row->jumlah }}" min="0" name="jumlah_barang" class="form-control"> --}}
-                                                {{-- <input type="submit" style="display: none" id="submitButton{{ $count }}" class="btn btn-success" onclick="submitBarang()" value="Submit"> --}}
-                                            </form>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>

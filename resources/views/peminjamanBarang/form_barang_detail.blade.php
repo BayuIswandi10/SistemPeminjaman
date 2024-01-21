@@ -95,17 +95,18 @@
 
     <!-- Home -->
     <div class="row" style="margin-top: 100px; width: 100%; height:100%; background-color: #0059ab; margin-left: 0px; margin-right: 0px;">
-        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN RUANGAN DETAIL</h1></center>
+        <center><h1 style="margin-top: 50px; color: white">FORM PEMINJAMAN BARANG SESUDAH </h1></center>
         <center>
-            <form enctype="multipart/form-data" style="margin-top: 50px;align-items: left;">
+            <form enctype="multipart/form-data"  style="margin-top: 50px;align-items: left;">
+                @csrf
                 <br>
                 <div class="col-md-6 row">
                     <div class="col-md-4 left">
                         <span style="color: white;font-size: 18px;">Nomor Pengajuan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" name="no_pengajuan" class="form-control" required="true" value="{{ $peminjamanRuangan->no_pengajuan }}" readonly="true">
-                        <input hidden type="text" style="color: black;" name="id_Peminjaman" class="form-control" placeholder="id_Peminjaman" required="true" value="{{ $peminjamanRuangan->peminjaman_ruangan_id }}" readonly="true">
+                        <input type="text" style="color: black;" name="no_pengajuan" class="form-control" required="true" value="{{ $peminjamanBarang->no_pengajuan }}" readonly="true">
+                        <input hidden type="text" style="color: black;" name="id_Peminjaman" class="form-control" placeholder="id_Peminjaman" required="true" value="{{ $peminjamanBarang->peminjaman_ruangan_id }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -113,7 +114,7 @@
                         <span style="color: white;font-size: 18px;">NIM</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $peminjamanRuangan->nim_peminjaman }}" readonly="true">
+                        <input type="text" style="color: black;" id="nim_peminjaman" name="nim_peminjaman" class="form-control" placeholder="NIM" required="true" value="{{ $peminjamanBarang->nim_peminjaman }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -121,24 +122,46 @@
                         <span style="color: white;font-size: 18px;">Nama</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $peminjamanRuangan->nama_peminjam }}" readonly="true">
+                        <input type="text" style="color: black;" id="nama_peminjam" name="nama_peminjam" class="form-control" placeholder="nama" required="true" value="{{ $peminjamanBarang->nama_peminjam }}" readonly="true">
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Ruangan</span><span style="color:red;"> *</span>
+                        <span style="color: white; font-size: 18px;">Barang</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $peminjamanRuangan->ruangan->nama_ruangan }}" required="true">
-                        <input type="hidden" readonly name="ruangan_id" class="form-control" style="color: black;" value="{{ $peminjamanRuangan->ruangan_id }}" required="true">
-                    </div>
+                        <table class="table">
+                            <thead style="background-color:#cccccc;">
+                                <tr>
+                                    <th><center>No</center></th>
+                                    <th><center>Nama Barang</center></th>
+                                    <th><center>Jumlah</center></th>
+                                </tr>
+                            </thead>
+                            <tbody style="background-color: white;">
+                                @php
+                                    $count = 0;
+                                @endphp
+                                @foreach($PeminjamanBarangDetail as $row)
+                                    @php
+                                        $count++;
+                                    @endphp
+                                    <tr>
+                                        <td><center>{{ $count }}</center></td>
+                                        <td>{{ $row->nama_barang }}</td>
+                                        <td><center>{{ $row->jumlah }}</center></td>
+                                    </tr>  
+                                @endforeach   
+                            </tbody>
+                        </table>
+                    </div>                    
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white;font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input id="datepciker" type="date" value="{{ $peminjamanRuangan->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
+                        <input id="datepciker" type="date" value="{{ $peminjamanBarang->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
                     </div>
                 </div>                
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -148,7 +171,7 @@
                     <div class="col-md-8">
                         <select name="sesi_id" class="form-control" required="true" readonly="true">
                             @foreach ($sesi as $sesiID => $name)
-                            <option value="{{ $sesiID }}" @if(old('sesi_id', $peminjamanRuangan->sesi_id) == $sesiID) selected @endif>
+                            <option value="{{ $sesiID }}" @if(old('sesi_id', $peminjamanBarang->sesi_id) == $sesiID) selected @endif>
                                 {{ $name }}
                                 </option>
                             @endforeach
@@ -160,41 +183,43 @@
                         <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ $peminjamanRuangan->waktu_kembali }}" required="true" readonly="true" />
+                        <input type="time" class="form-control" name="waktu_kembali" value="{{ $peminjamanBarang->waktu_kembali }}" required="true" readonly="true" />
                     </div>
                 </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Jumlah Pengguna</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="number" class="form-control" name="jumlah_pengguna" value="{{ ($peminjamanRuangan->jumlah_pengguna)}}" required="true" readonly="true" />
-                    </div>
-                </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanRuangan->keperluan }}</textarea>
+                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanBarang->keperluan }}</textarea>
                     </div>
-                </div>   
+                </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                       <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
                       <label type="file"  style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
-                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanRuangan->foto_sebelum) }}" />
+                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanBarang->foto_sebelum) }}" />
                     </div>
-                </div>             
+                </div> 
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                      <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
+                    </div>
+                    <div class="col-md-8">
+                      <label type="file"  style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
+                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanBarang->foto_sebelum) }}" />
+                    </div>
+                </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                       <span style="color: white;font-size: 18px;">Foto Setelah</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                      <label type="file" style="color: black;" readonly="true" name="foto_setelah" class="form-control" required>
-                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanRuangan->foto_setelah) }}" />
+                      <label type="file"  style="color: black;" readonly="true" name="foto_setelah" class="form-control" required>
+                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanBarang->foto_setelah) }}" />
+                    </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;" hidden>
                     <div class="col-md-4 left">
@@ -203,14 +228,15 @@
                     <div class="col-md-8">
                         <input type="text" class="form-control" name="status" value="Selesai" />
                     </div>
-                </div>         
-                <div class="col-md-4 row" style="margin-top: 30px;margin-bottom: 30px;"> 
-                    
-                      <div class="col-md-6">
-                          <a onclick="window.history.go(-1);" name="kembali"  class="button-pesan" style="background-color: #fff;color: black">KEMBALI</a>
-                      </div>
-                
-                  </div>
+                </div>       
+                <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">
+                    <div class="col-md-6 ">
+                        <input type="submit" name="submit" value="SUBMIT" class="button-pesan">
+                    </div>
+                    <div class="col-md-6">
+                        <a onclick="window.history.go(-1);" name="kembali" class="button-pesan" style="background-color: #fff;color: black">KEMBALI</a>
+                    </div>
+                </div>
             </form>
         </center>
         <br><br>
@@ -239,6 +265,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+
     function validateImage(input, previewId) {
         var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
         var file = input.files[0];
@@ -264,6 +291,8 @@
             }
         }
     }
+
+
     // Display validation errors in Swal
     @if ($errors->any())
     Swal.fire({
@@ -295,8 +324,6 @@
     });
     @endif
 </script>
-
-
 <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/popper.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/bootstrap.min.js') }}"></script>

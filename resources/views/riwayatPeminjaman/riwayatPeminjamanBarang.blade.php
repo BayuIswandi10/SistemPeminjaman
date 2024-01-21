@@ -9,13 +9,13 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Peminjaman Ruangan</h1>
+            <h1 class="m-0">Peminjaman Barang</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Menu</a></li>
                 <li class="breadcrumb-item">Riwayat Peminjaman</li>
-                <li class="breadcrumb-item">Peminjaman Ruangan</li>
+                <li class="breadcrumb-item">Peminjaman Barang</li>
             </ol>
             </div>
         </div>
@@ -39,7 +39,6 @@
                                         <th>Nomor Pengajuan</th>
                                         <th>NIM</th>
                                         <th>Nama Peminjam</th>
-                                        <th>Nama Ruangan</th>
                                         <th>Tanggal</th>
                                         <th>Sesi </th>
                                         <th>Status</th>
@@ -50,7 +49,7 @@
                                 </thead>
                                 <tbody>
                                     @php $i = 0; @endphp
-                                    @foreach ($peminjamanRuangan as $data)
+                                    @foreach ($peminjamanBarang as $data)
                                         <tr>
                                             <td>
                                                 @php $i++; @endphp
@@ -61,7 +60,6 @@
                                             <td>{{ $data->no_pengajuan }}</td>
                                             <td>{{ $data->nim_peminjaman }}</td>
                                             <td>{{ $data->nama_peminjam }}</td>
-                                            <td>{{ $data->ruangan->nama_ruangan }}</td>
                                             <td>{{ \Carbon\Carbon::parse($data->tanggal_pinjam)->format('d-m-Y') }}</td>
                                             <td>{{ $data->sesi->nama_sesi }}</td>
                                             <td>
@@ -80,25 +78,9 @@
                                             @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="{{ route('riwayatPeminjamanRuangan.detail', ['id' => $data->peminjaman_ruangan_id]) }}" class="btn btn-primary color-muted editbtn">
+                                                        <a href="{{ route('riwayatPeminjamanBarang.detail', ['id' => $data->peminjaman_barang_id]) }}" class="btn btn-primary color-muted editbtn">
                                                             <i class="fa fa-list color-mutedfa fa-list color-muted"></i>
                                                         </a>
-                                                        @if (session()->has('logged_in') && session('logged_in')->role === 'Super Admin' && $data->status == 'Pengajuan')
-                                                            <form id="deleteForm_{{ $data->peminjaman_ruangan_id }}" action="{{ route('accRuangan.acc', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="button" class="btn btn-success" onclick="confirmAcc('{{ $data->peminjaman_ruangan_id }}')">
-                                                                    <i class="fas fa-times-circle"></i>
-                                                                </button>
-                                                            </form>
-                                                            <form id="deleteForm_{{ $data->peminjaman_ruangan_id }}" action="{{ route('tolakRuangan.destroy', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $data->peminjaman_ruangan_id }}')">
-                                                                    <i class="fa fa-check-circle"></i>
-                                                                </button>
-                                                            </form>
-                                                        @endif
                                                         
                                                     </div>
                                                 </td>
@@ -139,7 +121,7 @@
                 exportOptions: {
                     columns: [0, 2, 3, 4, 5, 6, 7, 8]
                 },
-                title: 'Riwayat Peminjaman Ruangan'
+                title: 'Riwayat Peminjaman Barang'
             }]
         });
     });

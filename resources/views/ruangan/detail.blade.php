@@ -101,71 +101,59 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- DETAIL RUANGAN DATA END -->
-            <!-- GALERI START -->
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">Galeri Ruangan</h3>
-                    @if(session('role') == 'Super Admin')
-                        <button class="btn btn-primary btn-md float-right" data-toggle="modal" data-target="#tambahGambar"><a href="#" class="text-white"><i class="fa fa-plus mr-1"></i> Tambah Galeri</a></button>
-                    @endif
-                </div>
-                <div class="card-body">
-                    <table id="detail" class="display nowrap table-striped table" style="width:100%">
-                        <thead>
+                <table id="detail" class="display nowrap table-striped table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th hidden>ID Ruangan</th>
+                            <th hidden>ID Galeri</th>
+                            <th hidden>Nama Foto</th>
+                            <th>Foto Ruangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $i = 0; @endphp
                             <tr>
-                                <th>No</th>
-                                <th hidden>ID Ruangan</th>
-                                <th hidden>ID Galeri</th>
-                                <th hidden>Nama Foto</th>
-                                <th>Foto Ruangan</th>
+                                <td>
+                                    @php $i++; echo $i; @endphp
+                                </td>
+                                <td hidden>{{ $ruangan->id_ruangan }}</td>
+                                <td hidden>{{ $ruangan->id_galeri }}</td>
+                                <td hidden>{{ $ruangan->foto1 }}</td>
+                                <td hidden>{{ $ruangan->foto2 }}</td>
+                                <td hidden>{{ $ruangan->foto3 }}</td>
+                                <td hidden>{{ $ruangan->foto4 }}</td>
+                                <td>
+                                    @if ($ruangan->foto1)
+                                        <img src="{{ asset($ruangan->foto1) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
+                                    @else
+                                        No Image
+                                    @endif                                                
+                                </td>
+                                <td>
+                                    @if ($ruangan->foto2)
+                                        <img src="{{ asset($ruangan->foto2) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
+                                    @else
+                                        No Image
+                                    @endif                                                
+                                </td>
+                                <td>
+                                    @if ($ruangan->foto3)
+                                        <img src="{{ asset($ruangan->foto3) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
+                                    @else
+                                        No Image
+                                    @endif                                                
+                                </td>
+                                <td>
+                                    @if ($ruangan->foto4)
+                                        <img src="{{ asset($ruangan->foto4) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
+                                    @else
+                                        No Image
+                                    @endif                                                
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @php $i = 0; @endphp
-                                <tr>
-                                    <td>
-                                        @php $i++; echo $i; @endphp
-                                    </td>
-                                    <td hidden>{{ $ruangan->id_ruangan }}</td>
-                                    <td hidden>{{ $ruangan->id_galeri }}</td>
-                                    <td hidden>{{ $ruangan->foto1 }}</td>
-                                    <td hidden>{{ $ruangan->foto2 }}</td>
-                                    <td hidden>{{ $ruangan->foto3 }}</td>
-                                    <td hidden>{{ $ruangan->foto4 }}</td>
-                                    <td>
-                                        @if ($ruangan->foto1)
-                                            <img src="{{ asset($ruangan->foto1) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
-                                        @else
-                                            No Image
-                                        @endif                                                
-                                    </td>
-                                    <td>
-                                        @if ($ruangan->foto2)
-                                            <img src="{{ asset($ruangan->foto2) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
-                                        @else
-                                            No Image
-                                        @endif                                                
-                                    </td>
-                                    <td>
-                                        @if ($ruangan->foto3)
-                                            <img src="{{ asset($ruangan->foto3) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
-                                        @else
-                                            No Image
-                                        @endif                                                
-                                    </td>
-                                    <td>
-                                        @if ($ruangan->foto4)
-                                            <img src="{{ asset($ruangan->foto4) }}" alt="{{ $ruangan->nama_ruangan }}" style="max-height: 60;max-width: 30%;">
-                                        @else
-                                            No Image
-                                        @endif                                                
-                                    </td>
-                                </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

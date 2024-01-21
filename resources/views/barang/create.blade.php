@@ -62,13 +62,13 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="tipe_barang" id="{{ old('tipe_barang') }}" value="Konsumable" required>
                                     <label class="form-check-label" for="tipe_barang">
-                                        Konsumabel
+                                        Konsumable
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="tipe_barang" id="{{ old('tipe_barang') }}" value="Unkonsumabel" required>
+                                    <input class="form-check-input" type="radio" name="tipe_barang" id="{{ old('tipe_barang') }}" value="Unkonsumable" required>
                                     <label class="form-check-label" for="tipe_barang">
-                                        Unkonsumabel
+                                        Unkonsumable
                                     </label>
                                 </div>
                             </div>                            

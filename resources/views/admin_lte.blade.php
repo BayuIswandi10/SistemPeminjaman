@@ -162,8 +162,8 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item ">
-                            <a href="#" class="nav-link ">
+                        <li class="nav-item {{ request()->routeIs('riwayatPeminjamanBarang.mahasiswa','riwayatPeminjamanBarang.detail', 'riwayatPeminjamanRuangan.mahasiswa', 'riwayatPeminjamanRuangan.detail' ) ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ request()->routeIs('riwayatPeminjamanBarang.mahasiswa', 'riwayatPeminjamanBarang.detail', 'riwayatPeminjamanRuangan.mahasiswa', 'riwayatPeminjamanRuangan.detail') ? 'active' : '' }} ">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Riwayat Peminjaman
@@ -172,7 +172,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ route('riwayatPeminjamanRuangan.mahasiswa') }}" class="nav-link">
+                                    <a href="{{ route('riwayatPeminjamanBarang.mahasiswa') }}" class="nav-link {{ request()->routeIs('riwayatPeminjamanBarang.mahasiswa', 'riwayatPeminjamanBarang.detail') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-toolbox ml-3"></i>
                                         <p>
                                             Peminjaman Barang
@@ -181,7 +181,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('riwayatPeminjamanRuangan.mahasiswa') }}" class="nav-link">
+                                    <a href="{{ route('riwayatPeminjamanRuangan.mahasiswa') }}" class="nav-link {{ request()->routeIs('riwayatPeminjamanRuangan.mahasiswa', 'riwayatPeminjamanRuangan.detail') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-person-booth ml-3"></i>
                                         <p>
                                             Peminjaman Ruangan

@@ -33,4 +33,12 @@ class Barang extends Model
     public function peminjaman_barang(){
         return $this->belongsToMany(PeminjamanBarang::class);
     }
+
+    // File: Barang.php
+    public function kurangiStok($jumlah)
+    {
+        $this->stok -= $jumlah;
+        $this->save();
+    }
+
 }

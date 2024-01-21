@@ -69,15 +69,15 @@
                                 <div class="form-group">
                                     <label>Tipe Barang <span style="color:red;">*</span></label><br>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tipe_barang" value="Konsumabel" id="konsumabel" required {{ $barang->tipe_barang === 'Konsumabel' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="konsumabel">
-                                            Konsumabel
+                                        <input class="form-check-input" type="radio" name="tipe_barang" value="Konsumable" id="Konsumable" required {{ $barang->tipe_barang === 'Konsumable' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="Konsumable">
+                                            Konsumable
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tipe_barang" value="Unkonsumabel" id="unkonsumabel" required {{ $barang->tipe_barang === 'Unkonsumabel' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="unkonsumabel">
-                                            Unkonsumabel
+                                        <input class="form-check-input" type="radio" name="tipe_barang" value="Unkonsumable" id="Unkonsumable" required {{ $barang->tipe_barang === 'Unkonsumable' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="Unkonsumable">
+                                            Unkonsumable
                                         </label>
                                     </div>
                                 </div>                                                          

@@ -7,11 +7,11 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardMahasiswaController;
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\PeminjamanBarangController;
 use App\Http\Controllers\PeminjamanRuanganController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SesiController;
 use App\Models\PeminjamanBarang;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,10 +115,23 @@ Route::get('pesanan_ruangan/{id}/editRuanganSesudah', [PeminjamanRuanganControll
 Route::put('pesanan_ruangan/{id}/updateRuanganSesudah', [PeminjamanRuanganController::class, 'updateRuanganSesudah'])->name('pesanan_ruangan.updateRuanganSesudah');
 Route::get('pesanan_ruangan_detail/{id}', [PeminjamanRuanganController::class, 'formDetail'])->name('pesanan_ruangan.formDetail');
 
-
 //Routes riwayat peminjaman ruangan user
 Route::get('RiwayatPeminjamanRuangan', [PeminjamanRuanganController::class, 'riwayatPeminjamanRuangan'])->name('riwayatPeminjamanRuangan.mahasiswa');
 Route::delete('RiwayatPeminjamanRuangan/{id}/tolak', [PeminjamanRuanganController::class, 'destroy'])->name('tolakRuangan.destroy');
 Route::delete('RiwayatPeminjamanRuangan/{id}/acc', [PeminjamanRuanganController::class, 'acc'])->name('accRuangan.acc');
+Route::get('riwayatPeminjamanRuangan_detail/{id}', [PeminjamanRuanganController::class, 'detailRiwayat'])->name('riwayatPeminjamanRuangan.detail');
+
+//Routes peminjaman barang mahasiswa
+Route::get('pesanan_barang', [PeminjamanBarangController::class, 'create'])->name('pesanan_barang.mahasiswa');
+Route::post('simpan_barang',[PeminjamanBarangController::class,'store'])->name('simpan_barang.mahasiswa');
+Route::get('riwayat_peminjaman_barang', [PeminjamanBarangController::class, 'index'])->name('riwayat_peminjaman_barang.mahasiswa');
+Route::get('pesanan_barang/{id}/editBarangSebelum', [PeminjamanBarangController::class, 'editBarangSebelum'])->name('pesanan_barang.editBarangSebelum');
+Route::put('pesanan_barang/{id}/updateBarangSebelum', [PeminjamanBarangController::class, 'updateBarangSebelum'])->name('pesanan_barang.updateBarangSebelum');
+Route::get('pesanan_barang/{id}/editBarangSesudah', [PeminjamanBarangController::class, 'editBarangSesudah'])->name('pesanan_barang.editBarangSesudah');
+Route::put('pesanan_barang/{id}/updateBarangSesudah', [PeminjamanBarangController::class, 'updateBarangSesudah'])->name('pesanan_barang.updateBarangSesudah');
+Route::get('pesanan_barang_detail/{id}', [PeminjamanBarangController::class, 'formDetail'])->name('pesanan_barang.formDetail');
 
 
+//Routes riwayat peminjaman ruangan barang
+Route::get('RiwayatPeminjamanBarang', [PeminjamanBarangController::class, 'riwayatPeminjamanBarang'])->name('riwayatPeminjamanBarang.mahasiswa');
+Route::get('riwayatPeminjamanBarang_detail/{id}', [PeminjamanBarangController::class, 'detailRiwayat'])->name('riwayatPeminjamanBarang.detail');

@@ -24,11 +24,27 @@ class PeminjamanBarang extends Model
         'status',
     ];
 
-    public function sesi(){
-        return $this->belongsTo(Sesi::class);
+    public function sesi()
+    {
+        return $this->belongsTo(Sesi::class, 'sesi_id', 'sesi_id');
     }
 
-    public function barang(){
-        return $this->belongsToMany(PeminjamanBarang::class);
+
+    public function barang()
+    {
+        return $this->belongsToMany(Barang::class, 'barang_peminjaman_barang', 'peminjaman_barang_id', 'barang_id')
+            ->withPivot('jumlah'); // Include the 'jumlah' column in the pivot table
     }
+
+    public function updateStatusBasedOnBarangType()
+    {
+        // Check if any of the barangs have type 'Konsumable'
+        $hasKonsumable = $this->barang()->where('tipe_barang', 'Konsumable')->exists();
+    
+        // Update the status based on the presence of 'Konsumable'
+        $this->status = $hasKonsumable ? 'Selesai' : 'Disetujui';
+    
+        $this->save();
+    }
+
 }

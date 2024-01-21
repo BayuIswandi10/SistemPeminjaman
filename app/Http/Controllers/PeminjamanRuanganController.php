@@ -77,7 +77,7 @@ class PeminjamanRuanganController extends Controller
         $tanggalSekarang = now()->format('dmY');
 
         // Menggabungkan prefix, nomor urut, dan tanggal sekarang
-        $nomorPengajuan = $prefix . str_pad($countPengajuan, 2, '0', STR_PAD_LEFT) . '/' . $tanggalSekarang;
+        $nomorPengajuan = $prefix . str_pad($countPengajuan, 4, '0', STR_PAD_LEFT) . '/' . $tanggalSekarang;
 
         return $nomorPengajuan;
     }
@@ -228,5 +228,20 @@ class PeminjamanRuanganController extends Controller
         ->pluck('nama_ruangan', 'ruangan_id');
     
         return view('peminjamanRuangan.form_ruangan_detail', ['peminjamanRuangan' => $peminjamanRuangan, 'sesi' => $sesi, 'ruangan' => $ruangan ]);
+    }
+
+    public function detailRiwayat($id)
+    {       
+        $peminjamanRuangan = PeminjamanRuangan::findOrFail($id);
+
+        $sesi = Sesi::orderBy('nama_sesi', 'asc')
+        ->get()
+        ->pluck('nama_sesi', 'sesi_id');
+
+        $ruangan = Ruangan::orderBy('nama_ruangan', 'asc')
+        ->get()
+        ->pluck('nama_ruangan', 'ruangan_id');
+    
+        return view('riwayatPeminjaman.riwayatPeminjamanRuangan_detail', ['peminjamanRuangan' => $peminjamanRuangan, 'sesi' => $sesi, 'ruangan' => $ruangan ]);
     }
 }
