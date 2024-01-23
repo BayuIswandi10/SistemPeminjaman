@@ -88,7 +88,7 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                </div>
+                                </div>                                
                                 <div class="form-group">
                                     <label for="koor_upt">Koor UPT <span style="color:red;">*</span></label><br>
                                     <select name="koor_upt" class="form-control">

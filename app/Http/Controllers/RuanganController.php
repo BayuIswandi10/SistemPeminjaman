@@ -162,15 +162,13 @@ class RuanganController extends Controller
         ->whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1'])
         ->orderBy('nama', 'asc')
         ->get()
-        ->pluck('nama', 'pengguna_id');        
-        // Ambil data fasilitas yang terkait dengan ruangan
-        $fasilitasRuangan = [];
-        foreach ($ruangan->fasilitas as $fasilitasItem) {
-            $fasilitasRuangan[$fasilitasItem->fasilitas_id] = [
-                'jumlah' => $fasilitasItem->pivot->jumlah,
-                'nama_fasilitas' => $fasilitasItem->nama_fasilitas
-            ];
-        }
+        ->pluck('nama', 'pengguna_id'); 
+
+        $fasilitasRuangan = $ruangan->fasilitas()
+        ->select('fasilitas.fasilitas_id', 'fasilitas.nama_fasilitas', 'fasilitas_ruangan.jumlah')
+        ->get()
+        ->keyBy('fasilitas_id')
+        ->toArray();    
     
         return view('ruangan.edit', [
             'ruangan' => $ruangan,
