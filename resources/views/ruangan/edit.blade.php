@@ -137,6 +137,38 @@
                                     <label for="created_date">Created Date <span style="color:red;">*</span></label>
                                     <input type="date" class="form-control" name="created_date" value="{{ old('created_date') ? old('created_date') : now()->format('Y-m-d') }}" required />
                                 </div>
+                                <div class="form-group">
+                                    <label for="foto1" id="foto1">foto1 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <div class="custom-file">
+                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
+                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                    </div>
+                                    <img id="image-preview-1" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto1) }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="foto1" id="foto1">foto2 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <div class="custom-file">
+                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
+                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                    </div>
+                                    <img id="image-preview-2" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto2) }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="foto1" id="foto1">foto3 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <div class="custom-file">
+                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
+                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                    </div>
+                                    <img id="image-preview-3" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto3) }}" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="foto1" id="foto1">foto4 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <div class="custom-file">
+                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
+                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                    </div>
+                                    <img id="image-preview-4" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto4) }}" />
+                                </div>
                                 <div class="form-group" hidden >
                                     <label for="status">Status <span style="color:red;">*</span></label>
                                     <input type="text" class="form-control" name="status" value="Tersedia" id="status">
@@ -200,6 +232,32 @@
         if (selectedValues.filter(value => value === currentValue).length > 1) {
             alert('Fasilitas ini sudah anda pilih');
             selectElement.value = '';
+        }
+    }
+
+    function validateImage(input, previewId) {
+        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
+        var file = input.files[0];
+
+        if (file) {
+            if (allowedFormats.includes(file.type)) {
+                var preview = document.getElementById(previewId);
+                var reader = new FileReader();
+
+                reader.onloadend = function () {
+                    preview.src = reader.result;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
+                    icon: 'error'
+                });
+                input.value = ''; // Clear the input to prevent submission of invalid file
+                document.getElementById(previewId).src = ''; // Clear the preview image
+            }
         }
     }
 </script>

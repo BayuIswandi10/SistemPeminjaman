@@ -35,7 +35,7 @@ class UpdatePeminjamanBarangRequest extends FormRequest
             'nama_peminjam' => ['required'],
             'tanggal_pinjam',
             'sesi_id' => ['required'],
-            'waktu_kembali' => ['required'],
+            'waktu_kembali',
             'keperluan' => ['required'],
             'status' => ['required'],
             'foto_sebelum' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],

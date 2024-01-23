@@ -84,18 +84,18 @@
                                                             <i class="fa fa-list color-mutedfa fa-list color-muted"></i>
                                                         </a>
                                                         @if (session()->has('logged_in') && session('logged_in')->role === 'Super Admin' && $data->status == 'Pengajuan')
-                                                            <form id="deleteForm_{{ $data->peminjaman_ruangan_id }}" action="{{ route('accRuangan.acc', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
+                                                            <form id="deleteFormAcc_{{ $data->peminjaman_ruangan_id }}" action="{{ route('accRuangan.acc', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="button" class="btn btn-success" onclick="confirmAcc('{{ $data->peminjaman_ruangan_id }}')">
-                                                                    <i class="fas fa-times-circle"></i>
+                                                                    <i class="fas fa-check-circle"></i>
                                                                 </button>
                                                             </form>
-                                                            <form id="deleteForm_{{ $data->peminjaman_ruangan_id }}" action="{{ route('tolakRuangan.destroy', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
+                                                            <form id="deleteFormReject_{{ $data->peminjaman_ruangan_id }}" action="{{ route('tolakRuangan.destroy', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $data->peminjaman_ruangan_id }}')">
-                                                                    <i class="fa fa-check-circle"></i>
+                                                                    <i class="fa fa-times-circle"></i>
                                                                 </button>
                                                             </form>
                                                         @endif
@@ -154,7 +154,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Delete form submission
-                document.getElementById('deleteForm_' + sesiId).submit();
+                document.getElementById('deleteFormReject_' + sesiId).submit();
             }
         });
     }
@@ -168,7 +168,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Delete form submission
-                document.getElementById('deleteForm_' + sesiId).submit();
+                document.getElementById('deleteFormAcc_' + sesiId).submit();
             }
         });
     }

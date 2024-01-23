@@ -232,7 +232,7 @@
         </div>
         <?php if (isset($_COOKIE['nim'])&&$_COOKIE['nim']!='') { ?>
             <center><div class="col-md-3" style="margin-bottom: 1%">
-                <a href="{{ route('pesanan_ruangan.mahasiswa', ['id' => $ruangan->ruangan_id]) }}" class="button-pesan" >PESAN RUANGAN</a>
+                <a href="{{ route('pesanan_ruangan.mahasiswa', ['id' => $ruangan->ruangan_id]) }}" class="button-pesan" >PINJAM RUANGAN</a>
             </div></center>
         <?php }?>
     </div>

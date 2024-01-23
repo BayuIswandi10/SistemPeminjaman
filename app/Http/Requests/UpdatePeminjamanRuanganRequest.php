@@ -35,7 +35,7 @@ class UpdatePeminjamanRuanganRequest extends FormRequest
             'tanggal_pinjam',
             'sesi_id' => ['required'],
             'jumlah_pengguna' => ['required'],
-            'waktu_kembali' => ['required'],
+            'waktu_kembali',
             'keperluan' => ['required'],
             'pengguna_id', 
             'status' => ['required'],

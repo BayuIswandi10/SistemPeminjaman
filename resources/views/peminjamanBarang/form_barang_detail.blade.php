@@ -205,15 +205,6 @@
                 </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                      <label type="file"  style="color: black;" readonly="true" name="foto_sebelum" class="form-control" required>
-                      <img  class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($peminjamanBarang->foto_sebelum) }}" />
-                    </div>
-                </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
                       <span style="color: white;font-size: 18px;">Foto Setelah</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
@@ -230,9 +221,6 @@
                     </div>
                 </div>       
                 <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">
-                    <div class="col-md-6 ">
-                        <input type="submit" name="submit" value="SUBMIT" class="button-pesan">
-                    </div>
                     <div class="col-md-6">
                         <a onclick="window.history.go(-1);" name="kembali" class="button-pesan" style="background-color: #fff;color: black">KEMBALI</a>
                     </div>

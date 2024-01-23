@@ -1,40 +1,3 @@
-{{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript">
-    function logOut() {
-        Swal.fire({
-          title: 'Apakah Anda yakin ingin keluar ?',
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonText: 'IYA',
-          cancelButtonText: 'TIDAK',
-          customClass: {
-            actions: 'my-actions',
-            cancelButton: 'order-1',
-            confirmButton: 'order-2'
-          }
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "{{ route('logins.logout') }}";
-          } 
-        })
-    }
-    function getCookie(cname) {
-        let name = cname + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-</script> --}}
-
 <div class="header_content d-flex flex-row align-items-center" style="width: 100%;">
     <img src="{{ asset('assets/foto/logo.png') }}" alt="" style="width: 20%; padding-left: 2%;">
     <!-- Main Navigation -->
@@ -45,27 +8,6 @@
                 <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('member.index') }}">Member</a></li>
                 <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('peminjamanRuangan.index') }}">Peminjaman Ruangan</a></li>
                 <li class="main_nav_item" style="margin-right: 20px;"><a href="{{ route('peminjamanBarang.index') }}">Peminjaman Barang</a></li>
-                
-                {{-- @if (isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
-                    <div class="main_nav_item" style="margin-right: 20px;">
-                        <a href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Riwayat Peminjaman <i class="fa fa-caret-down"></i></a>
-                        <div class="dropdown-menu" style="width: 200px">
-                            <div>
-                                <li>
-                                    <center>
-                                        <a type="button" class="col-lg-8" href="{{ url('/Dashboard/riwayatPeminjaman') }}">Ruangan</a>
-                                    </center>
-                                </li>
-                                <hr>
-                                <li>
-                                    <center>
-                                        <a type="button" class="col-lg-8" href="{{ url('/Dashboard/riwayatPeminjamanBarang') }}">Barang</a>
-                                    </center>
-                                </li>
-                            </div>
-                        </div>
-                    </div>
-                @endif --}}
             </ul>
         </div>
     </nav>

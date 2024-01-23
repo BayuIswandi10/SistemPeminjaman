@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePeminjamanRuanganRequest extends FormRequest
 {
@@ -25,13 +26,39 @@ class StorePeminjamanRuanganRequest extends FormRequest
     {
         return [
             'ruangan_id' => ['required'],
-            'no_pengajuan', // Perlu ditambahkan aturan validasi
+            'no_pengajuan',
             'nim_peminjaman' => ['required'],
             'nama_peminjam' => ['required'],
-            'tanggal_pinjam' => ['required'],
-            'sesi_id' => ['required'],
-            'jumlah_pengguna' => ['required'],
-            'waktu_kembali' => ['required'],
+            'tanggal_pinjam' => [
+                'required',
+                'date',
+                Rule::unique('peminjaman_ruangans')->where(function ($query) {
+                    return $query
+                        ->where('tanggal_pinjam', $this->tanggal_pinjam)
+                        ->where('sesi_id', $this->sesi_id)
+                        ->where('ruangan_id', $this->ruangan_id);
+                })
+            ],            
+            'sesi_id' => [
+                'required',
+                Rule::unique('peminjaman_ruangans')->where(function ($query) {
+                    return $query
+                        ->where('tanggal_pinjam', $this->tanggal_pinjam)
+                        ->where('sesi_id', $this->sesi_id)
+                        ->where('ruangan_id', $this->ruangan_id);
+                })
+            ],
+            'jumlah_pengguna' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $ruangan = \App\Models\Ruangan::find($this->ruangan_id);
+
+                    if ($ruangan && $value > $ruangan->kapasitas_ruangan) {
+                        $fail('Kapasitas ruangan tidak mencukupi');
+                    }
+                },
+            ], 
+            'waktu_kembali',
             'keperluan' => ['required'],
             'pengguna_id', 
             'status' => ['required'],

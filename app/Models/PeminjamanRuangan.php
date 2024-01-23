@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,5 +41,14 @@ class PeminjamanRuangan extends Model
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'pengguna_id');
+    }
+
+    public function initializeWaktuKembali()
+    {
+        // Ambil nilai sesi_akhir dari relasi sesi
+        $sesiAkhir = $this->sesi->sesi_akhir;
+
+        // Inisialisasi waktu_kembali berdasarkan sesi_akhir
+        $this->waktu_kembali = Carbon::parse($sesiAkhir)->addMinutes(30)->format('H:i');
     }
 }

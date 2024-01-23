@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
-use App\Models\Barang;
-use App\Models\Fasilitas;
 use App\Models\Pengguna;
-use App\Models\Sesi;
-use App\Models\Ruangan;
-use App\Models\PeminjamanBarang;
-use App\Models\PeminjamanRuangan;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\StorePenggunaRequest;
 use App\Http\Requests\UpdatePenggunaRequest;
 
-use Illuminate\Support\Facades\Storage;
 
 class PenggunaController extends Controller
 {

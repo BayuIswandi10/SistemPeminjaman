@@ -57,7 +57,9 @@ class PeminjamanRuanganController extends Controller
         // Set nilai nomor pengajuan pada data request
         $params['no_pengajuan'] = $this->generateNomorPengajuan();
 
-        if ($pengguna = PeminjamanRuangan::create($params)) {
+        if ($peminjamanRuangan = PeminjamanRuangan::create($params)) {
+            $peminjamanRuangan->initializeWaktuKembali();
+            $peminjamanRuangan->save();
             return redirect(route('peminjamanRuangan.mahasiswa'))->with('success', 'Data berhasil ditambahkan!');
         } else {
             return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');

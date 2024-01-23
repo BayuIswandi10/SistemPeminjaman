@@ -150,14 +150,6 @@
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ old('waktu_kembali')}}" required />
-                    </div>
-                </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Jumlah Pengguna</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
@@ -172,14 +164,6 @@
                         <textarea type="text" class="form-control" name="keperluan" value="{{ old('keperluan')}}" rows="4" cols="50" required="true" ></textarea>
                     </div>
                 </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Catatan</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8 left">
-                      <span style="color: white;font-size: 18px;text-align: justify; display: block;">Peminjam harus memasukkan foto ruangan sebelum pemakaian dengan batas waktu 15 menit setelah waktu mulai peminjaman ruangan</span>       
-                    </div>
-                  </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;" hidden>
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>

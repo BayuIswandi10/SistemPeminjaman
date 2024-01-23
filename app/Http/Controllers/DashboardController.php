@@ -7,7 +7,6 @@ use App\Models\PeminjamanBarang;
 use App\Models\PeminjamanRuangan;
 use App\Models\Pengguna;
 use App\Models\Ruangan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller

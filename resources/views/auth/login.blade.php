@@ -54,12 +54,12 @@
                     @csrf
                     <div class="form-group">
                         <label>Username <span style="color:red;">*</span></label>
-                        <input type="text" class="form-control" value="{{ old('Username') }}" id="Username" name="Username">
+                        <input type="text" class="form-control" value="{{ old('Username') }}" id="Username" name="Username" required>
                     </div>
 
                     <div class="form-group">
                         <label>Kata Sandi <span style="color:red;">*</span></label>
-                        <input type="password" class="form-control" id="Password" name="Password">
+                        <input type="password" class="form-control" id="Password" name="Password" required>
                     </div>
                     
                     <div class="form-group">

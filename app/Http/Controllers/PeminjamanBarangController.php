@@ -43,6 +43,10 @@ class PeminjamanBarangController extends Controller
     
         // Create peminjaman_barang
         $peminjamanBarang = PeminjamanBarang::create($params);
+
+        // Inisialisasi waktu_kembali
+        $peminjamanBarang->initializeWaktuKembali();
+        $peminjamanBarang->save();
     
         // Sync the selected barangs with the pivot table and include jumlah
         $barangsData = [];

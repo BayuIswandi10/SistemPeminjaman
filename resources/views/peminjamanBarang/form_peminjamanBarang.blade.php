@@ -150,14 +150,6 @@
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ old('waktu_kembali')}}" required />
-                    </div>
-                </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
@@ -263,8 +255,12 @@
         const currentIndex = Array.from(allSelects).indexOf(selectElement);
 
         if (selectedValues.filter(value => value === currentValue).length > 1) {
-            alert('Barang ini sudah Anda pilih');
-            selectElement.value = '';
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Barang ini sudah Anda pilih',
+            });
+           selectElement.value = '';
         }
     }
 

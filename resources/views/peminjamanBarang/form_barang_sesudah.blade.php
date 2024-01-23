@@ -206,7 +206,7 @@
                 </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Foto Sebelum</span><span style="color:red;"> *</span>
+                      <span style="color: white;font-size: 18px;">Foto Sesudah</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
                       <input type="file" onchange="validateImage(this, 'image-preview');" style="color: black;" readonly="true" name="foto_setelah" class="form-control" required>

@@ -117,7 +117,7 @@
     @if (isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
     <center>
         <div class="" style="margin-top:120px;margin-bottom: 50px;">
-            <h1 style="color:black;font-size: 28px;">RIWAYAT PEMINJAMAN RUANGAN</h1>
+            <h1 style="color:black;font-size: 28px;">RIWAYAT PEMINJAMAN BARANG</h1>
             <div class="col-lg-11" style="margin-top:20px;margin-bottom: 100px;">
                 <table class="col-lg-12 table-strip table" width="100%" id="example">
                     <thead>
