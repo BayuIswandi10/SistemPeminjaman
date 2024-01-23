@@ -30,7 +30,17 @@ class UpdateSesiRequest extends FormRequest
             ],
             'nama_sesi'=>['required','max:100'],
             'sesi_awal'=>['required'],
-            'sesi_akhir'=>['required'],
-        ];
+            'sesi_akhir' => [
+                'required',
+                    Rule::unique('sesis')->where(function ($query) {
+                        // Check for overlapping sessions
+                        $query->where('status', 'Aktif')
+                            ->where(function ($q) {
+                                $q->whereBetween('sesi_awal', [$this->input('sesi_awal'), $this->input('sesi_akhir')])
+                                    ->orWhereBetween('sesi_akhir', [$this->input('sesi_awal'), $this->input('sesi_akhir')]);
+                            });
+                    }),
+                ],        
+            ];
     }
 }

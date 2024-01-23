@@ -39,25 +39,6 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <div class="alert-title"><h4>Whoops!</h4></div>
-                                        There are some problems with your input.
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                </div>
-                                @endif
-
-                                @if (session('success'))
-                                    <div class="alert alert-success">{{ session('success') }}</div>
-                                @endif
-
-                                @if (session('error'))
-                                    <div class="alert alert-danger">{{ session('error') }}</div>
-                                @endif
                                 <div class="form-group">
                                     <label for="nama_sesi">Nama <span style="color:red;">*</span></label>
                                     <input type="text" class="form-control" name="nama_sesi" value="{{ $sesi->nama_sesi }}" placeholder="Masukan Nama sesi Anda" required>
@@ -89,5 +70,38 @@
         </div> 
     </section>
 </div>   
+
+<script>
+    // Display validation errors in Swal
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'error',
+        title: 'Whoops!',
+        html: '<ul>' +
+            @foreach ($errors->all() as $error)
+                '<li>{{ $error }}</li>' +
+            @endforeach
+            '</ul>'
+    });
+@endif
+
+// Display success message in Swal
+@if (session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}'
+    });
+@endif
+
+// Display error message in Swal
+@if (session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: '{{ session('error') }}'
+    });
+@endif
+</script>
 
 @endsection

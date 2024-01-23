@@ -35,16 +35,6 @@
                                 <h4 class="modal-title">Tambah Data Sesi</h4>
                             </div>
                             <div class="modal-body">
-                                    <!-- Tampilkan pesan error jika ada -->
-                                    @if ($errors->any())
-                                        <div class="alert alert-danger">
-                                            <ul>
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    @endif
                             <div class="form-group" hidden>
                                 <label for="sesi_id">ID <span style="color:red;">*</span></label>
                                 <input type="text" class="form-control" name="sesi_id" value="{{ old('sesi_id') }}" placeholder="Masukan ID Anda">
@@ -78,6 +68,39 @@
             </div> 
         </div> 
     </section>
-</div>   
+</div>  
+
+<script>
+        // Display validation errors in Swal
+        @if ($errors->any())
+        Swal.fire({
+            icon: 'error',
+            title: 'Whoops!',
+            html: '<ul>' +
+                @foreach ($errors->all() as $error)
+                    '<li>{{ $error }}</li>' +
+                @endforeach
+                '</ul>'
+        });
+    @endif
+
+    // Display success message in Swal
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}'
+        });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}'
+        });
+    @endif
+</script>
 
 @endsection

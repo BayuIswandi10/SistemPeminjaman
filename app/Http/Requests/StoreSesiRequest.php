@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSesiRequest extends FormRequest
 {
@@ -26,7 +27,17 @@ class StoreSesiRequest extends FormRequest
         return [
             'nama_sesi'=>['required','max:100'],
             'sesi_awal'=>['required'],
-            'sesi_akhir'=>['required'],
+            'sesi_akhir' => [
+            'required',
+                Rule::unique('sesis')->where(function ($query) {
+                    // Check for overlapping sessions
+                    $query->where('status', 'Aktif')
+                        ->where(function ($q) {
+                            $q->whereBetween('sesi_awal', [$this->input('sesi_awal'), $this->input('sesi_akhir')])
+                                ->orWhereBetween('sesi_akhir', [$this->input('sesi_awal'), $this->input('sesi_akhir')]);
+                        });
+                }),
+            ],        
         ];
     }
 }

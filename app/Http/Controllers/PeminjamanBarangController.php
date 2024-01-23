@@ -34,13 +34,12 @@ class PeminjamanBarangController extends Controller
     
         $params['nama_peminjam'] = $_COOKIE['nama'];
         $params['nim_peminjaman'] = $_COOKIE['nim'];
-    
+
         // Set nilai nomor pengajuan pada data request
         $params['no_pengajuan'] = $this->generateNomorPengajuan();
+        
+        $this->validateStockForAllBarangTypes($params['barang_ids'], $params['jumlah']);
 
-        // Validate stock for Konsumable items
-        $this->validateStockForKonsumable($params['barang_ids'], $params['jumlah']);
-    
         // Create peminjaman_barang
         $peminjamanBarang = PeminjamanBarang::create($params);
 
@@ -88,14 +87,14 @@ class PeminjamanBarangController extends Controller
         return $nomorPengajuan;
     }
 
-    private function validateStockForKonsumable(array $barangIds, array $quantities)
+    private function validateStockForAllBarangTypes(array $barangIds, array $quantities)
     {
         foreach ($barangIds as $index => $barangId) {
             $barang = Barang::find($barangId);
-
-            if ($barang && $barang->tipe_barang == 'Konsumable') {
+    
+            if ($barang) {
                 $requestedQuantity = $quantities[$index];
-
+    
                 if ($requestedQuantity > $barang->stok) {
                     throw ValidationException::withMessages([
                         'barang_ids.' . $index => 'Stok barang kurang.',
@@ -103,7 +102,7 @@ class PeminjamanBarangController extends Controller
                 }
             }
         }
-    }
+    }    
 
     public function index()
     {
