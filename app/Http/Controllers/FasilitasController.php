@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateFasilitasRequest;
 use App\Models\Fasilitas;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
 class FasilitasController extends Controller
 {

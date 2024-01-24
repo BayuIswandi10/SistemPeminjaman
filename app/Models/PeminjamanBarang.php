@@ -34,7 +34,7 @@ class PeminjamanBarang extends Model
     public function barang()
     {
         return $this->belongsToMany(Barang::class, 'barang_peminjaman_barang', 'peminjaman_barang_id', 'barang_id')
-            ->withPivot('jumlah'); // Include the 'jumlah' column in the pivot table
+            ->withPivot('jumlah'); 
     }
 
     public function initializeWaktuKembali()

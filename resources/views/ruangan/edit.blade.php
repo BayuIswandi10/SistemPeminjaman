@@ -138,34 +138,34 @@
                                     <input type="date" class="form-control" name="created_date" value="{{ old('created_date') ? old('created_date') : now()->format('Y-m-d') }}" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="foto1" id="foto1">foto1 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <label for="foto1">foto1 <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
+                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this, 'image-preview-1');" />
                                         <label class="custom-file-label" for="foto1">Pilih file</label>
                                     </div>
                                     <img id="image-preview-1" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto1) }}" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="foto1" id="foto1">foto2 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <label for="foto2">foto2 <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
-                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                        <input type="file" id="foto2" name="foto2" class="custom-file-input" aria-describedby="foto2" onchange="validateImage(this, 'image-preview-2');" />
+                                        <label class="custom-file-label" for="foto2">Pilih file</label>
                                     </div>
                                     <img id="image-preview-2" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto2) }}" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="foto1" id="foto1">foto3 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <label for="foto3">foto3 <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
-                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                        <input type="file" id="foto3" name="foto3" class="custom-file-input" aria-describedby="foto3" onchange="validateImage(this, 'image-preview-3');" />
+                                        <label class="custom-file-label" for="foto3">Pilih file</label>
                                     </div>
                                     <img id="image-preview-3" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto3) }}" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="foto1" id="foto1">foto4 <span class="form-group-text" style="color:red;">*</span></label><br>
+                                    <label for="foto4">foto4 <span class="form-group-text" style="color:red;">*</span></label><br>
                                     <div class="custom-file">
-                                        <input type="file" id="foto1" name="foto1" class="custom-file-input" aria-describedby="foto1" onchange="validateImage(this);" />
-                                        <label class="custom-file-label" for="foto1">Pilih file</label>
+                                        <input type="file" id="foto4" name="foto4" class="custom-file-input" aria-describedby="foto4" onchange="validateImage(this, 'image-preview-4');" />
+                                        <label class="custom-file-label" for="foto4">Pilih file</label>
                                     </div>
                                     <img id="image-preview-4" class="img-thumbnail mt-2" style="max-width: 100%;" src="{{ asset($ruangan->foto4) }}" />
                                 </div>

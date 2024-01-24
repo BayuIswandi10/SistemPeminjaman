@@ -7,9 +7,10 @@ use App\Http\Requests\UpdateRuanganRequest;
 use App\Models\Fasilitas;
 use App\Models\Pengguna;
 use App\Models\Ruangan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+
 
 class RuanganController extends Controller
 {
@@ -190,7 +191,20 @@ class RuanganController extends Controller
     {
         $ruangan = Ruangan::findOrFail($id);
         $params = $request->validated();
-    
+
+        // Simpan gambar baru untuk foto1
+        $this->handleImageUpload($request, 'foto1', $ruangan, 'foto1');
+
+        // Simpan gambar baru untuk foto2
+        $this->handleImageUpload($request, 'foto2', $ruangan, 'foto2');
+
+        // Simpan gambar baru untuk foto3
+        $this->handleImageUpload($request, 'foto3', $ruangan, 'foto3');
+
+        // Simpan gambar baru untuk foto4
+        $this->handleImageUpload($request, 'foto4', $ruangan, 'foto4');
+
+
         // Update data ruangan
         $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($ruangan->update($params)) {
@@ -211,6 +225,23 @@ class RuanganController extends Controller
             return back()->with('error', 'Gagal mengubah data ruangan.');
         }
     }
+    
+    protected function handleImageUpload($request, $inputName, $model, $columnName)
+{
+    if ($request->hasFile($inputName)) {
+        $newImage = $request->file($inputName);
+        $imageName = time() . '_' . $inputName . '.' . $newImage->extension();
+        $newImage->move(public_path('assets/foto/ruangan'), $imageName);
+        $newImagePath = 'assets/foto/ruangan/' . $imageName;
+
+        // Hapus gambar lama jika ada
+        if ($model->$columnName && File::exists(public_path($model->$columnName))) {
+            File::delete(public_path($model->$columnName));
+        }
+
+        $model->$columnName = $newImagePath;
+    }
+}
 
     /**
      * Remove the specified resource from storage.

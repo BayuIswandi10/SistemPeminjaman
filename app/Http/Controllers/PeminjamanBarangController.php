@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePeminjamanBarangRequest;
-use App\Http\Requests\UpdateBarangRequest;
 use App\Http\Requests\UpdatePeminjamanBarangRequest;
 use App\Models\Barang;
 use App\Models\PeminjamanBarang;
 use App\Models\Sesi;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -47,14 +45,13 @@ class PeminjamanBarangController extends Controller
         $peminjamanBarang->initializeWaktuKembali();
         $peminjamanBarang->save();
     
-        // Sync the selected barangs with the pivot table and include jumlah
         $barangsData = [];
         foreach ($params['barang_ids'] as $index => $barangId) {
             $barangsData[$barangId] = [
                 'jumlah' => $params['jumlah'][$index]
             ];
     
-            // Kurangi stok barang jika tipe barang unkomsumable
+
             $barang = Barang::find($barangId);
             if ($barang && $barang->tipe_barang == 'Konsumable') {
                 $barang->kurangiStok($params['jumlah'][$index]);

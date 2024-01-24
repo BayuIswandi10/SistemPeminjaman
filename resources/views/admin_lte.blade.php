@@ -16,9 +16,9 @@
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link resetpw" title="ubah" href="javascript:void(0);">Ubah Kata Sandi ?</a>
-            </li>
+            </li> --}}
             <!-- Notifications Dropdown Menu -->
             <!-- <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
