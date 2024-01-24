@@ -60,11 +60,11 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="nama_barang">Nama <span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="nama_barang" value="{{($barang->nama_barang) }}" placeholder="Masukan Nama Anda" required>
+                                    <input type="text" class="form-control" name="nama_barang" value="{{($barang->nama_barang) }}" placeholder="Masukan Nama Barang" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="nomor_aktiva">Nomor Aktiva <span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="nomor_aktiva" value="{{ ($barang->nomor_aktiva) }}" placeholder="Masukan Nomor Aktiva Anda" required>
+                                    <input type="text" class="form-control" name="nomor_aktiva" value="{{ ($barang->nomor_aktiva) }}" placeholder="Masukan Nomor Aktiva Anda" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label>Tipe Barang <span style="color:red;">*</span></label><br>

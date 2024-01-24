@@ -50,6 +50,8 @@ class StorePeminjamanRuanganRequest extends FormRequest
             ],
             'jumlah_pengguna' => [
                 'required',
+                'integer',
+                'min:1',
                 function ($attribute, $value, $fail) {
                     $ruangan = \App\Models\Ruangan::find($this->ruangan_id);
 
@@ -64,6 +66,29 @@ class StorePeminjamanRuanganRequest extends FormRequest
             'status' => ['required'],
             'foto_sebelum' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'foto_setelah' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'ruangan_id.required' => 'Ruangan wajib dipilih.',
+            'tanggal_pinjam.required' => 'Tanggal pinjam wajib diisi.',
+            'tanggal_pinjam.date' => 'Tanggal pinjam harus berupa tanggal yang valid.',
+            'tanggal_pinjam.unique' => 'Ruangan sudah dipinjam pada tanggal dan sesi yang sama.',
+            'sesi_id.required' => 'Sesi wajib dipilih.',
+            'sesi_id.unique' => 'Ruangan sudah dipinjam pada tanggal dan sesi yang sama.',
+            'jumlah_pengguna.required' => 'Jumlah pengguna wajib diisi.',
+            'jumlah_pengguna.integer' => 'Jumlah pengguna harus berupa bilangan bulat.',
+            'jumlah_pengguna.min' => 'Jumlah pengguna minimal :min.',
+            'keperluan.required' => 'Keperluan wajib diisi.',
+            'status.required' => 'Status wajib dipilih.',
+            'foto_sebelum.image' => 'Foto sebelum harus berupa file gambar.',
+            'foto_sebelum.mimes' => 'Format foto sebelum harus jpeg, png, atau jpg.',
+            'foto_sebelum.max' => 'Ukuran foto sebelum tidak boleh melebihi :max kilobita.',
+            'foto_setelah.image' => 'Foto setelah harus berupa file gambar.',
+            'foto_setelah.mimes' => 'Format foto setelah harus jpeg, png, atau jpg.',
+            'foto_setelah.max' => 'Ukuran foto setelah tidak boleh melebihi :max kilobita.',
         ];
     }
     

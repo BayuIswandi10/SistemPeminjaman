@@ -40,4 +40,15 @@ class StoreSesiRequest extends FormRequest
             ],        
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'nama_sesi.required' => 'Nama sesi wajib diisi.',
+            'nama_sesi.max' => 'Nama sesi tidak boleh melebihi :max karakter.',
+            'sesi_awal.required' => 'Waktu awal sesi wajib diisi.',
+            'sesi_akhir.required' => 'Waktu akhir sesi wajib diisi.',
+            'sesi_akhir.unique' => 'Sesi Sudah Tersedia.',
+        ];
+    }
 }

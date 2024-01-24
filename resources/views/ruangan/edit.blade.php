@@ -60,7 +60,7 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="nama_ruangan">Nama Ruangan<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" name="nama_ruangan" value="{{ ($ruangan->nama_ruangan) }}" placeholder="Masukan Nama Ruangan Anda" required>
+                                    <input type="text" class="form-control" name="nama_ruangan" value="{{ ($ruangan->nama_ruangan) }}" placeholder="Masukan Nama Ruangan Anda" required >
                                 </div>
                                 <div class="form-group">
                                     <label for="lokasi_ruangan">Lokasi Ruangan <span style="color:red;">*</span></label>

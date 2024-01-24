@@ -28,13 +28,16 @@ class DashboardController extends Controller
 
     public function member()
     {
-        $pengguna = Pengguna::whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1', 'Admin Lab 2'])->get();
+        $pengguna = Pengguna::whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1', 'Admin Lab 2'])
+        ->where('status', 'Aktif')
+        ->get();
+        
         return view('member.index', ['pengguna' => $pengguna]);
     }
 
     public function ruangan()
     {       
-        $ruangan = Ruangan::all();
+        $ruangan = Ruangan::where('status', 'Tersedia')->get();
         return view('peminjamanRuangan.index',['ruangan'=>$ruangan]);
         
     }
@@ -67,9 +70,10 @@ class DashboardController extends Controller
 
     public function barang()
     {
-        $barang = Barang::all();
-        return view('peminjamanBarang.index',['barang'=>$barang]);
+        $barang = Barang::where('status', 'Tersedia')->get();
+        return view('peminjamanBarang.index', ['barang' => $barang]);
     }
+    
 
     public function beranda()
     {

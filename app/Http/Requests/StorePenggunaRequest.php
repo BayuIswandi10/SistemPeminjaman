@@ -36,4 +36,15 @@ class StorePenggunaRequest extends FormRequest
             'password'=>['required'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'required' => 'Kolom :attribute harus diisi.',
+            'max' => 'Kolom :attribute tidak boleh lebih dari :max karakter.',
+            'image' => 'Kolom :attribute harus berupa gambar.',
+            'mimes' => 'Kolom :attribute harus berupa file dengan tipe: :values.',
+            'max' => 'Kolom :attribute tidak boleh lebih dari :max kilobita.',
+        ];
+    }
 }

@@ -16,19 +16,22 @@ class DashboardMahasiswaController extends Controller
 
     public function member()
     {
-        $pengguna = Pengguna::whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1', 'Admin Lab 2'])->get();
+        $pengguna = Pengguna::whereIn('role', ['Koor UPT', 'PIC Lab', 'Admin Lab 1', 'Admin Lab 2'])
+        ->where('status', 'Aktif')
+        ->get();        
+        
         return view('mahasiswa.member', ['pengguna' => $pengguna]);
     }
 
     public function barang()
     {
-        $barang = Barang::all();
+        $barang = Barang::where('status', 'Tersedia')->get();
         return view('mahasiswa.peminjamanBarang',['barang'=>$barang]);
     }
 
     public function ruangan()
     {       
-        $ruangan = Ruangan::all();
+        $ruangan = Ruangan::where('status', 'Tersedia')->get();
         return view('mahasiswa.peminjamanRuangan',['ruangan'=>$ruangan]);
         
     }

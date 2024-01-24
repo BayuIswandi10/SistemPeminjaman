@@ -47,11 +47,11 @@
 
                             <div class="form-group" hidden>
                                 <label for="barang_id">ID <span style="color:red;">*</span></label>
-                                <input type="text" class="form-control" name="barang_id" value="{{ old('barang_id') }}" placeholder="Masukan ID Anda">
+                                <input type="text" class="form-control" name="barang_id" value="{{ old('barang_id') }}" placeholder="Masukan ID Barang">
                             </div>
                             <div class="form-group">
                                 <label for="nama_barang">Nama <span style="color:red;">*</span></label>
-                                <input type="text" class="form-control" name="nama_barang" value="{{ old('nama_barang') }}" placeholder="Masukan Nama Anda" required>
+                                <input type="text" class="form-control" name="nama_barang" value="{{ old('nama_barang') }}" placeholder="Masukan Nama Barang" required>
                             </div>
                             <div class="form-group">
                                 <label for="nomor_aktiva">Nomor Aktiva <span style="color:red;">*</span></label>
@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label for="stok">Jumlah <span  style="color:red;">*</span></label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" name="stok" value="{{ old('stok') }}" placeholder="Masukkan Jumlah Barang" minlength="11" maxlength="13" required/>
+                                    <input type="number" class="form-control" name="stok" value="{{ old('stok') }}" placeholder="Masukkan Jumlah Barang"  required/>
                                     <br>
                                     <div class="input-group-append">
                                       <select name="satuan_barang" value="{{ old('satuan_barang') }}" class="form-control" required>

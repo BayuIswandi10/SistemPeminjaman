@@ -61,9 +61,9 @@
                                 <input type="text" class="form-control" name="alamat" value="{{ old('alamat') }}" placeholder="Masukan Alamat Anda" required>
                             </div>
                             <div class="form-group">
-                                <label for="nohp">Nomor Telepon <span  style="color:red;">*</span></label>
-                                <input type="number" class="form-control" name="nohp" value="{{ old('nohp') }}" placeholder="Masukkan Nomor Telepon Admin" minlength="11" maxlength="13" required/>
-                            </div>
+                                <label for="nohp">Nomor Telepon <span style="color:red;">*</span></label>
+                                <input type="tel" class="form-control" name="nohp" value="{{ old('nohp') }}" placeholder="Masukkan Nomor Telepon Admin" minlength="11" maxlength="13" required/>
+                            </div>                           
                             <div class="form-group">
                                 <label for="role">Role <span style="color:red;">*</span></label><br>
                                 <select class="form-control" value="{{ old('role') }}" name="role" aria-label="Default select example" required>

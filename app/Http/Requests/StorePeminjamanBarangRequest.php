@@ -44,6 +44,7 @@ class StorePeminjamanBarangRequest extends FormRequest
             'nama_peminjam' => ['required'],
             'tanggal_pinjam' => [
                 'required',
+                'date',
                 Rule::unique('peminjaman_barangs')->where(function ($query) {
                     return $query->where('tanggal_pinjam', $this->input('tanggal_pinjam'))
                         ->where('sesi_id', $this->input('sesi_id'));

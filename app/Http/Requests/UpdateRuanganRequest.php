@@ -41,4 +41,26 @@ class UpdateRuanganRequest extends FormRequest
             'status' => ['required'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'nama_ruangan.required' => 'Nama ruangan wajib diisi.',
+            'nama_ruangan.max' => 'Nama ruangan tidak boleh melebihi :max karakter.',
+            'lokasi_ruangan.required' => 'Lokasi ruangan wajib diisi.',
+            'kapasitas_ruangan.required' => 'Kapasitas ruangan wajib diisi.',
+            'fasilitas_ids.*.required' => 'Fasilitas wajib dipilih.',
+            'fasilitas_ids.*.exists' => 'Fasilitas yang dipilih tidak valid.',
+            'jumlah.*.required' => 'Jumlah fasilitas wajib diisi.',
+            'jumlah.*.integer' => 'Jumlah fasilitas harus berupa angka.',
+            'jumlah.*.min' => 'Jumlah fasilitas minimal :min.',
+            'keterangan_ruangan.required' => 'Keterangan ruangan wajib diisi.',
+            'koor_upt.required' => 'Koordinator UPT wajib diisi.',
+            'pic_lab.required' => 'PIC Lab wajib diisi.',
+            'admin_lab1.required' => 'Admin Lab 1 wajib diisi.',
+            'admin_lab2.required' => 'Admin Lab 2 wajib diisi.',
+            'status.required' => 'Status wajib diisi.',
+            // You can add more custom messages for other fields if needed
+        ];
+    }
 }

@@ -40,7 +40,19 @@ class UpdateSesiRequest extends FormRequest
                                     ->orWhereBetween('sesi_akhir', [$this->input('sesi_awal'), $this->input('sesi_akhir')]);
                             });
                     }),
-                ],        
-            ];
+            ],        
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nama_sesi.required' => 'Nama sesi wajib diisi.',
+            'nama_sesi.max' => 'Nama sesi tidak boleh melebihi :max karakter.',
+            'sesi_awal.required' => 'Waktu awal sesi wajib diisi.',
+            'sesi_akhir.required' => 'Waktu akhir sesi wajib diisi.',
+            'sesi_akhir.unique' => 'Sesi Sudah Tersedia.',
+            // You can add more custom messages for other fields if needed
+        ];
     }
 }

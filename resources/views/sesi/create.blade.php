@@ -71,8 +71,8 @@
 </div>  
 
 <script>
-        // Display validation errors in Swal
-        @if ($errors->any())
+    // Display validation errors in Swal
+    @if ($errors->any())
         Swal.fire({
             icon: 'error',
             title: 'Whoops!',
