@@ -40,9 +40,17 @@
             <h1 style="color:black;font-size: 28px;">DATA BARANG</h1>
             @if(isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
             <div class="col-lg-11" style="margin-top:50px;text-align:right">
+                <a href="{{ route('viewKeranjang.mahasiswa') }}" title="viewkeranjang" class="keranjangbtn">
+                    <i class="fa keranjangbtn" style="font-size:24px">&#xf07a;</i>
+                </a>
+                <span class='badge badge-warning' id='lblCartCount'>
+                    {{ $keranjangData }}
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a type="button" class="btn btn-primary" href="{{ route('pesanan_barang.mahasiswa') }}">PINJAM</a>
             </div>
             @endif
+
             <div class="col-lg-11" style="margin-top:20px;margin-bottom: 100px;">
                 <div class="row">
                     @foreach ($barang as $row)
@@ -56,6 +64,14 @@
                                     <p class="card-text text-start"><strong>Lokasi:</strong> {{ $row->lokasi_barang . ' Baris ' . $row->baris_lokasi }}</p>
                                     <p class="card-text text-start"><strong>Status:</strong> <span class="badge bg-success">Tersedia</span></p>
                                 </div>
+                                <div class="card-footer">
+                                    @if(isset($_COOKIE['nim']) && $_COOKIE['nim'] != '')
+                                        <form method="POST" action="{{ route('addKeranjang.mahasiswa', ['barang_id' => $row->barang_id]) }}">
+                                            @csrf
+                                            <button type="submit" class="fa fa-plus-circle">TAMBAHKAN KE KERANJANG</button>
+                                        </form>
+                                    @endif
+                                </div>                                
                             </div>
                         </div>
                     @endforeach
@@ -80,16 +96,29 @@
             </div>
         </div>
     </footer>
-    @if(isset($duplicate))
-        <script>
-            swal.fire('Gagal !','Barang tersebut telah ada dikeranjang !','error');
-        </script>
-    @endif
     <!-- jQuery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <!-- Datatables -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
     <script>
+        // Display success message in Swal
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}'
+            });
+        @endif
+
+        // Display error message in Swal
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session('error') }}'
+            });
+        @endif
+
         $(document).ready(function () {
             $('#example').DataTable();
         });

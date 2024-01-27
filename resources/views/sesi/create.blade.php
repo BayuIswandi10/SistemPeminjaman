@@ -83,7 +83,7 @@
                 '</ul>'
         });
     @endif
-
+    
     // Display success message in Swal
     @if (session('success'))
         Swal.fire({

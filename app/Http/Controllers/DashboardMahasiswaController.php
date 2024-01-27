@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\keranjang;
 use App\Models\Pengguna;
 use App\Models\Ruangan;
 use Illuminate\Support\Facades\DB;
@@ -25,8 +26,9 @@ class DashboardMahasiswaController extends Controller
 
     public function barang()
     {
+        $keranjangData = keranjang::count();
         $barang = Barang::where('status', 'Tersedia')->get();
-        return view('mahasiswa.peminjamanBarang',['barang'=>$barang]);
+        return view('mahasiswa.peminjamanBarang',['barang'=>$barang, 'keranjangData'=>$keranjangData]);
     }
 
     public function ruangan()

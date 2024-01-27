@@ -34,7 +34,8 @@ class StorePeminjamanBarangRequest extends FormRequest
                             $subquery->from('peminjaman_barangs')
                                 ->select('peminjaman_barang_id')
                                 ->where('tanggal_pinjam', $this->input('tanggal_pinjam'))
-                                ->where('sesi_id', $this->input('sesi_id'));
+                                ->where('sesi_id', $this->input('sesi_id'))
+                                ->whereIn('status', ['Disetujui', 'Dipinjam']); // Tambahkan status yang diperbolehkan
                         });
                     })
             ],
@@ -47,7 +48,8 @@ class StorePeminjamanBarangRequest extends FormRequest
                 'date',
                 Rule::unique('peminjaman_barangs')->where(function ($query) {
                     return $query->where('tanggal_pinjam', $this->input('tanggal_pinjam'))
-                        ->where('sesi_id', $this->input('sesi_id'));
+                        ->where('sesi_id', $this->input('sesi_id'))
+                        ->whereIn('status', ['Disetujui', 'Dipinjam']);
                 }),
             ],
             'sesi_id' => ['required'],
@@ -58,6 +60,8 @@ class StorePeminjamanBarangRequest extends FormRequest
             'foto_setelah' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
         ];
     }
+    
+    
 
     /**
      * Get the validation messages that apply to the request.
@@ -67,7 +71,28 @@ class StorePeminjamanBarangRequest extends FormRequest
     public function messages()
     {
         return [
-            'barang_ids.*.unique' => 'Barang yang dipilih sudah dipinjam untuk tanggal dan sesi yang sama.',
+            'barang_ids.*.required' => 'Barang wajib dipilih.',
+            'barang_ids.*.exists' => 'Barang yang dipilih tidak valid.',
+            'jumlah.*.required' => 'Jumlah barang wajib diisi.',
+            'jumlah.*.integer' => 'Jumlah barang harus berupa bilangan bulat.',
+            'jumlah.*.min' => 'Jumlah barang minimal :min.',
+            'no_pengajuan.required' => 'Nomor pengajuan wajib diisi.',
+            'nim_peminjaman.required' => 'NIM peminjam wajib diisi.',
+            'nama_peminjam.required' => 'Nama peminjam wajib diisi.',
+            'tanggal_pinjam.required' => 'Tanggal pinjam wajib diisi.',
+            'tanggal_pinjam.date' => 'Tanggal pinjam harus berupa tanggal yang valid.',
+            'tanggal_pinjam.unique' => 'Barang sudah dipinjam pada tanggal dan sesi yang sama.',
+            'sesi_id.required' => 'Sesi wajib dipilih.',
+            'waktu_kembali.required' => 'Waktu kembali wajib diisi.',
+            'keperluan.required' => 'Keperluan wajib diisi.',
+            'status.required' => 'Status wajib dipilih.',
+            'foto_sebelum.image' => 'Foto sebelum harus berupa file gambar.',
+            'foto_sebelum.mimes' => 'Format foto sebelum harus jpeg, png, atau jpg.',
+            'foto_sebelum.max' => 'Ukuran foto sebelum tidak boleh melebihi :max kilobita.',
+            'foto_setelah.image' => 'Foto setelah harus berupa file gambar.',
+            'foto_setelah.mimes' => 'Format foto setelah harus jpeg, png, atau jpg.',
+            'foto_setelah.max' => 'Ukuran foto setelah tidak boleh melebihi :max kilobita.',
         ];
     }
+    
 }

@@ -5,25 +5,108 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePeminjamanBarangRequest;
 use App\Http\Requests\UpdatePeminjamanBarangRequest;
 use App\Models\Barang;
+use App\Models\keranjang;
 use App\Models\PeminjamanBarang;
 use App\Models\Sesi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 
 class PeminjamanBarangController extends Controller
 {
+        public function addKeranjang($barang_id)
+        {
+            $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
+
+            if (!$nim) {
+                return redirect()->route('logins.loginMahasiswa')->with('error', 'Anda belum login atau sesi login telah berakhir.');
+            }
+
+            $existingCartItem = keranjang::where('barang_id', $barang_id)->where('nim', $nim)->first();
+
+            if ($existingCartItem) {
+                return redirect()->route('peminjamanBarang.mahasiswa')->with('error', 'Item already in the cart.');
+            }
+
+            Keranjang::create([
+                'barang_id' => $barang_id,
+                'nim' => $nim,
+                'jumlah' => 1, // You might want to adjust this based on your logic
+            ]);
+
+            return redirect()->route('peminjamanBarang.mahasiswa')->with('success', 'Item added to the cart.');
+        }
+
+        public function viewKeranjang()
+        {
+            $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
+            $keranjang = Keranjang::where('nim', $nim)->get();
+        
+            // Hitung jumlah keranjang untuk NIM tertentu
+            $keranjangData = count($keranjang);
+        
+            return view('peminjamanBarang.keranjang', ['keranjang' => $keranjang, 'keranjangData' => $keranjangData]);
+        }
+    
+        
+    public function plus(Request $request)
+    {
+        $jumlah = $request->input('jumlah');
+        $id = $request->input('id');
+        $keranjang = Keranjang::find($id);
+        
+        // Cek stok barang jika diperlukan
+        $barang = Barang::find($keranjang->id_barang);
+        if ($barang->stok < $jumlah) {
+            return response()->json(['success' => false, 'message' => 'Stok tidak mencukupi']);
+        }
+    
+        // Update jumlah pada keranjang
+        $keranjang->jumlah = $jumlah;
+        $keranjang->save();
+    
+        return response()->json(['success' => true, 'message' => 'Jumlah berhasil diperbarui']);
+    }
+    
+    public function minus(Request $request)
+    {
+        $jumlah = $request->input('jumlah');
+        $id = $request->input('id');
+        $keranjang = Keranjang::find($id);
+    
+        // Update jumlah pada keranjang
+        $keranjang->jumlah = $jumlah;
+        $keranjang->save();
+    
+        return response()->json(['success' => true, 'message' => 'Jumlah berhasil diperbarui']);
+    }
+    
+    public function del(Request $request)
+    {
+        $id = $request->input('id');
+        Keranjang::destroy($id);
+    
+        return response()->json(['success' => true, 'message' => 'Keranjang berhasil dihapus']);
+    }
+    
+
     public function create()
     {
         $barang = Barang::where('status', 'Tersedia')
         ->orderBy('nama_barang', 'asc')
         ->get()
         ->pluck('nama_barang', 'barang_id');
+
+        $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
+        
+        // Ambil keranjang berdasarkan NIM
+        $keranjang = Keranjang::where('nim', $nim)->get();
         
         $sesi = Sesi::where('status', 'Aktif')->orderBy('nama_sesi', 'asc')->get()->pluck('nama_sesi', 'sesi_id');
 
 
-        return view('peminjamanBarang.form_peminjamanBarang',['barang'=>$barang, 'sesi'=>$sesi]);
+        return view('peminjamanBarang.form_peminjamanBarang',['barang'=>$barang, 'sesi'=>$sesi,'keranjang'=>$keranjang]);
     }
 
     public function store(StorePeminjamanBarangRequest $request)
@@ -32,34 +115,33 @@ class PeminjamanBarangController extends Controller
     
         $params['nama_peminjam'] = $_COOKIE['nama'];
         $params['nim_peminjaman'] = $_COOKIE['nim'];
-
+    
         // Set nilai nomor pengajuan pada data request
         $params['no_pengajuan'] = $this->generateNomorPengajuan();
-        
-        $this->validateStockForAllBarangTypes($params['barang_ids'], $params['jumlah']);
-
+    
         // Create peminjaman_barang
         $peminjamanBarang = PeminjamanBarang::create($params);
-
+    
         // Inisialisasi waktu_kembali
         $peminjamanBarang->initializeWaktuKembali();
         $peminjamanBarang->save();
     
-        $barangsData = [];
-        foreach ($params['barang_ids'] as $index => $barangId) {
-            $barangsData[$barangId] = [
-                'jumlah' => $params['jumlah'][$index]
-            ];
+        // Move data from keranjang to peminjaman_barang directly
+        $keranjangItems = Keranjang::all();
     
-
-            $barang = Barang::find($barangId);
-            if ($barang && $barang->tipe_barang == 'Konsumable') {
-                $barang->kurangiStok($params['jumlah'][$index]);
+        foreach ($keranjangItems as $item) {
+            // Attach barangs to peminjaman_barang with quantities
+            $peminjamanBarang->barang()->attach([$item->barang_id => ['jumlah' => $item->jumlah]]);
+    
+            // Kurangi stok barang
+            $barang = Barang::find($item->barang_id);
+            if ($barang) {
+                $barang->kurangiStok($item->jumlah);
             }
-        }
     
-        // Attach barangs to peminjaman_barang with quantities
-        $peminjamanBarang->barang()->attach($barangsData);
+            // Remove the item from keranjang
+            $item->delete();
+        }
     
         // Update status based on barang type
         $peminjamanBarang->updateStatusBasedOnBarangType();
@@ -83,7 +165,7 @@ class PeminjamanBarangController extends Controller
 
         return $nomorPengajuan;
     }
-
+    
     private function validateStockForAllBarangTypes(array $barangIds, array $quantities)
     {
         foreach ($barangIds as $index => $barangId) {
@@ -187,8 +269,9 @@ class PeminjamanBarangController extends Controller
         return view('peminjamanBarang.form_barang_sesudah', ['peminjamanBarang' => $peminjamanBarang, 'sesi' => $sesi, 'PeminjamanBarangDetail' => $PeminjamanBarangDetail ]);
     }
 
+
     public function updateBarangSesudah(UpdatePeminjamanBarangRequest $request, $id)
-    {       
+    {
         $peminjamanBarang = PeminjamanBarang::findOrFail($id);
         $params = $request->validated();
     
@@ -206,13 +289,30 @@ class PeminjamanBarangController extends Controller
     
             $params['foto_setelah'] = $newImagePath;
         }
+    
+        // Jika ada perubahan pada foto_setelah, kembalikan stok barang
+        if ($request->hasFile('foto_setelah') && $peminjamanBarang->foto_setelah) {
+            foreach ($peminjamanBarang->barang as $barang) {
+                $barang->tambahStok($barang->pivot->jumlah);
+            }
+        }
+        
         if ($peminjamanBarang->update($params)) {
+            // Tambah stok barang setelah pembaruan
+            foreach ($peminjamanBarang->barang as $barang) {
+                // Tambah stok hanya jika barang bertipe 'Unkonsumable'
+                if ($barang->tipe_barang === 'Unkonsumable') {
+                    $barang->tambahStok($barang->pivot->jumlah);
+                }
+            }
+        
             return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Updated!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update.');
         }
     }
+
 
     public function formDetail($id)
     {       

@@ -36,18 +36,23 @@ class StorePeminjamanRuanganRequest extends FormRequest
                     return $query
                         ->where('tanggal_pinjam', $this->tanggal_pinjam)
                         ->where('sesi_id', $this->sesi_id)
-                        ->where('ruangan_id', $this->ruangan_id);
+                        ->where(function ($query) {
+                            $query->where('status', 'Disetujui')->orWhere('status', 'Dipinjam');
+                        });
                 })
-            ],            
+            ],
             'sesi_id' => [
                 'required',
                 Rule::unique('peminjaman_ruangans')->where(function ($query) {
                     return $query
                         ->where('tanggal_pinjam', $this->tanggal_pinjam)
                         ->where('sesi_id', $this->sesi_id)
-                        ->where('ruangan_id', $this->ruangan_id);
+                        ->where(function ($query) {
+                            $query->where('status', 'Disetujui')->orWhere('status', 'Dipinjam');
+                        });
                 })
             ],
+            
             'jumlah_pengguna' => [
                 'required',
                 'integer',
@@ -75,9 +80,9 @@ class StorePeminjamanRuanganRequest extends FormRequest
             'ruangan_id.required' => 'Ruangan wajib dipilih.',
             'tanggal_pinjam.required' => 'Tanggal pinjam wajib diisi.',
             'tanggal_pinjam.date' => 'Tanggal pinjam harus berupa tanggal yang valid.',
-            'tanggal_pinjam.unique' => 'Ruangan sudah dipinjam pada tanggal dan sesi yang sama.',
+            'tanggal_pinjam.unique' => 'Ruangan sudah dipinjam pada tanggal dan sesi yang sama dengan status Disetujui.',
             'sesi_id.required' => 'Sesi wajib dipilih.',
-            'sesi_id.unique' => 'Ruangan sudah dipinjam pada tanggal dan sesi yang sama.',
+            'sesi_id.unique' => 'Ruangan sudah dipinjam pada tanggal dan sesi yang sama dengan status Disetujui.',
             'jumlah_pengguna.required' => 'Jumlah pengguna wajib diisi.',
             'jumlah_pengguna.integer' => 'Jumlah pengguna harus berupa bilangan bulat.',
             'jumlah_pengguna.min' => 'Jumlah pengguna minimal :min.',
@@ -91,5 +96,4 @@ class StorePeminjamanRuanganRequest extends FormRequest
             'foto_setelah.max' => 'Ukuran foto setelah tidak boleh melebihi :max kilobita.',
         ];
     }
-    
 }

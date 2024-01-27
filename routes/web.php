@@ -119,6 +119,7 @@ Route::get('pesanan_ruangan_detail/{id}', [PeminjamanRuanganController::class, '
 Route::get('RiwayatPeminjamanRuangan', [PeminjamanRuanganController::class, 'riwayatPeminjamanRuangan'])->name('riwayatPeminjamanRuangan.mahasiswa');
 Route::delete('RiwayatPeminjamanRuangan/{id}/tolak', [PeminjamanRuanganController::class, 'destroy'])->name('tolakRuangan.destroy');
 Route::delete('RiwayatPeminjamanRuangan/{id}/acc', [PeminjamanRuanganController::class, 'acc'])->name('accRuangan.acc');
+Route::delete('RiwayatPeminjamanRuangan/{id}/Finalacc', [PeminjamanRuanganController::class, 'accFinal'])->name('accFinalRuangan.accFinal');
 Route::get('riwayatPeminjamanRuangan_detail/{id}', [PeminjamanRuanganController::class, 'detailRiwayat'])->name('riwayatPeminjamanRuangan.detail');
 
 //Routes peminjaman barang mahasiswa
@@ -130,8 +131,12 @@ Route::put('pesanan_barang/{id}/updateBarangSebelum', [PeminjamanBarangControlle
 Route::get('pesanan_barang/{id}/editBarangSesudah', [PeminjamanBarangController::class, 'editBarangSesudah'])->name('pesanan_barang.editBarangSesudah');
 Route::put('pesanan_barang/{id}/updateBarangSesudah', [PeminjamanBarangController::class, 'updateBarangSesudah'])->name('pesanan_barang.updateBarangSesudah');
 Route::get('pesanan_barang_detail/{id}', [PeminjamanBarangController::class, 'formDetail'])->name('pesanan_barang.formDetail');
+Route::post('tambahKeranjang/{barang_id}', [PeminjamanBarangController::class, 'addKeranjang'])->name('addKeranjang.mahasiswa');
+Route::get('keranjang', [PeminjamanBarangController::class, 'viewKeranjang'])->name('viewKeranjang.mahasiswa');
+Route::post('/plus', [PeminjamanBarangController::class, 'plus'])->name('plus');
+Route::post('/minus', [PeminjamanBarangController::class, 'minus'])->name('minus');
+Route::post('/del', [PeminjamanBarangController::class, 'del'])->name('del');
 
-
-//Routes riwayat peminjaman ruangan barang
+//Routes riwayat peminjaman barang user
 Route::get('RiwayatPeminjamanBarang', [PeminjamanBarangController::class, 'riwayatPeminjamanBarang'])->name('riwayatPeminjamanBarang.mahasiswa');
 Route::get('riwayatPeminjamanBarang_detail/{id}', [PeminjamanBarangController::class, 'detailRiwayat'])->name('riwayatPeminjamanBarang.detail');

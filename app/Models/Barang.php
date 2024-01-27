@@ -30,6 +30,10 @@ class Barang extends Model
         return $this->belongsTo(Pengguna::class);
     }
 
+    public function keranjang(){
+        return $this->hasMany(Keranjang::class, 'barang_id', 'barang_id');
+    }
+
     public function peminjaman_barang(){
         return $this->belongsToMany(PeminjamanBarang::class);
     }
@@ -39,5 +43,12 @@ class Barang extends Model
         $this->stok -= $jumlah;
         $this->save();
     }
+
+    public function tambahStok($jumlah)
+    {
+        $this->stok += $jumlah;
+        $this->save();
+    }
+    
 
 }

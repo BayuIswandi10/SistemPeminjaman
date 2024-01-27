@@ -15,7 +15,7 @@ class FasilitasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
         $fasilitas = Fasilitas::all();
         return view('fasilitas.index',['fasilitas'=>$fasilitas]);

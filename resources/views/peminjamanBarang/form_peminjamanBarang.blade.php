@@ -118,13 +118,36 @@
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
-                        <span style="color: white; font-size: 18px;">Barang</span><span style="color:red;"> *</span>
-                        <button class="btn btn-primary btn-sm" onclick="tambahComboBox()">Tambah Barang</button>
+                        <span style="color: white; font-size: 18px;">Barang</span><span style="color: red;"> *</span>
                     </div>
-                    <div class="col-md-8 combo-box-container" id="container">
-                        
+                    <div class="col-md-8">
+                        <table class="table">
+                            <thead style="background-color: #cccccc;">
+                                <tr>
+                                    <th><center>No</center></th>
+                                    <th><center>Nama Barang</center></th>
+                                    <th><center>Jumlah</center></th>
+                                </tr>
+                            </thead>
+                            <tbody style="background-color: white;">
+                                @php
+                                $count = 0;
+                                @endphp
+                                @foreach($keranjang as $row)
+                                @php
+                                $count++;
+                                @endphp
+                                <tr>
+                                    <td><center>{{ $count }}</center></td>
+                                    <td>{{ $row->barang->nama_barang }}</td>
+                                    <td><center>{{ $row->jumlah }}</center></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                
                 <div class="col-md-6 row" style="margin-top: 20px;">
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
@@ -155,15 +178,7 @@
                     <div class="col-md-8">
                         <textarea type="text" class="form-control" name="keperluan" value="{{ old('keperluan')}}" rows="4" cols="50" required="true" ></textarea>
                     </div>
-                </div>
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Catatan</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8 left">
-                      <span style="color: white;font-size: 18px;text-align: justify; display: block;">Peminjam harus memasukkan foto ruangan sebelum pemakaian dengan batas waktu 15 menit setelah waktu mulai peminjaman ruangan</span>       
-                    </div>
-                  </div> 
+                </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;" hidden>
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
@@ -208,61 +223,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    let counter = 0;
 
-    function tambahComboBox() {
-        counter++;
-
-        const container = document.getElementById('container');
-
-        const newComboBox = document.createElement('div');
-        newComboBox.classList.add('col-md-14', 'row', 'combo-box'); // Adjusted to col-md-12 for full width
-        newComboBox.innerHTML = `
-            <div class="row">
-                <div class="col-md-6">
-                    <select class="form-control" name="barang_ids[]" onchange="validateComboBox(this)" required>
-                        <option selected value="" disabled>-- Pilih barang --</option>
-                        @foreach ($barang as $barangId => $barangName)
-                            <option value="{{ $barangId }}" @selected(old('barang_ids[]') == $barangId)>
-                                {{ $barangName }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                </div>
-                <div class="col-md-4">
-                    <input type="number" name="jumlah[]" class="jumlah-input form-control" placeholder="Jumlah">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
-                </div>
-            </div>
-        `;
-
-        container.appendChild(newComboBox);
-    }
-
-    function hapusComboBox(button) {
-        const comboBox = button.parentNode.parentNode; // Adjusted the parent nodes
-        comboBox.remove();
-    }
-
-    function validateComboBox(selectElement) {
-        const allSelects = document.querySelectorAll('select[name^="barang_id"]');
-        const selectedValues = Array.from(allSelects).map(select => select.value);
-
-        const currentValue = selectElement.value;
-        const currentIndex = Array.from(allSelects).indexOf(selectElement);
-
-        if (selectedValues.filter(value => value === currentValue).length > 1) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Oops...',
-                text: 'Barang ini sudah Anda pilih',
-            });
-           selectElement.value = '';
-        }
-    }
 
     // Display validation errors in Swal
 @if ($errors->any())

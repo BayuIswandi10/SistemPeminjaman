@@ -114,24 +114,50 @@ class PeminjamanRuanganController extends Controller
             $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
             $PeminjamanRuangan->save();
     
-            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' Menolak peminjaman ruangan.');
         }
     
         return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
     }
+
     public function acc($id)
     {
-        $PeminjamanRuangan = PeminjamanRuangan::find($id);
-        if ($PeminjamanRuangan) {
-            $PeminjamanRuangan->status = 'Disetujui';
-            $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
-            $PeminjamanRuangan->save();
+        $peminjamanRuangan = PeminjamanRuangan::find($id);
     
-            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+        if ($peminjamanRuangan) {
+            // Periksa status sebelum mengubah menjadi "Disetujui"
+            if ($peminjamanRuangan->status == 'Disetujui' || $peminjamanRuangan->status == 'Dipinjam') {
+                return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')
+                    ->with('error', 'Anda sudah menyetujui atau ruangan sudah dipinjam.');
+            }
+    
+            // Periksa apakah ada peminjaman dengan tanggal, sesi, dan ruangan yang sama dan status Disetujui/Dipinjam
+            $existingApproval = PeminjamanRuangan::where('tanggal_pinjam', $peminjamanRuangan->tanggal_pinjam)
+                ->where('sesi_id', $peminjamanRuangan->sesi_id)
+                ->where('ruangan_id', $peminjamanRuangan->ruangan_id)
+                ->whereIn('status', ['Disetujui', 'Dipinjam'])
+                ->where('peminjaman_ruangan_id', '!=', $id)
+                ->first();
+    
+            if ($existingApproval) {
+                return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')
+                    ->with('error', 'Tidak dapat menyetujui. Peminjaman dengan tanggal, sesi, dan ruangan yang sama sudah disetujui atau ruangan sudah dipinjam sebelumnya.');
+            }
+    
+            // Lanjutkan dengan proses persetujuan
+            $peminjamanRuangan->status = 'Disetujui';
+            $peminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $peminjamanRuangan->save();
+    
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')
+                ->with('success', 'Data ID ' . $id . ' berhasil menyetujui peminjaman ruangan.');
         }
     
         return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
     }
+    
+
+       
 
     public function editRuanganSebelum($id)
     {       
@@ -245,5 +271,19 @@ class PeminjamanRuanganController extends Controller
         ->pluck('nama_ruangan', 'ruangan_id');
     
         return view('riwayatPeminjaman.riwayatPeminjamanRuangan_detail', ['peminjamanRuangan' => $peminjamanRuangan, 'sesi' => $sesi, 'ruangan' => $ruangan ]);
+    }
+
+    public function accFinal($id)
+    {
+        $PeminjamanRuangan = PeminjamanRuangan::find($id);
+        if ($PeminjamanRuangan) {
+            $PeminjamanRuangan->status = 'Selesai';
+            $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $PeminjamanRuangan->save();
+    
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' Penyeselesain disetujui.');
+        }
+    
+        return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
     }
 }

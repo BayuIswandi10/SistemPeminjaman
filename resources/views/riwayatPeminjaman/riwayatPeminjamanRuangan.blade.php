@@ -67,6 +67,8 @@
                                             <td>
                                                 @if ($data->status == 'Pengajuan')
                                                     <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == 'Pengajuan Penyelesaian')
+                                                    <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == 'Dipinjam')
                                                     <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == 'Selesai')
@@ -80,7 +82,7 @@
                                             @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
                                                 <td>
                                                     <div class="btn-group">
-                                                        <a href="{{ route('riwayatPeminjamanRuangan.detail', ['id' => $data->peminjaman_ruangan_id]) }}" class="btn btn-primary color-muted editbtn">
+                                                        <a href="{{ route('riwayatPeminjamanRuangan.detail', ['id' => $data->peminjaman_ruangan_id]) }}" class="btn btn-info color-muted editbtn">
                                                             <i class="fa fa-list color-mutedfa fa-list color-muted"></i>
                                                         </a>
                                                         @if (session()->has('logged_in') && session('logged_in')->role === 'Super Admin' && $data->status == 'Pengajuan')
@@ -96,6 +98,14 @@
                                                                 @method('DELETE')
                                                                 <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $data->peminjaman_ruangan_id }}')">
                                                                     <i class="fa fa-times-circle"></i>
+                                                                </button>
+                                                            </form>
+                                                        @elseif (session()->has('logged_in') && session('logged_in')->role === 'Super Admin' && $data->status == 'Pengajuan Penyelesaian')
+                                                            <form id="finalAcc_{{ $data->peminjaman_ruangan_id }}" action="{{ route('accFinalRuangan.accFinal', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button" class="btn btn-primary" onclick="finalAcc('{{ $data->peminjaman_ruangan_id }}')">
+                                                                    <i class="fas fa-check-circle"></i>
                                                                 </button>
                                                             </form>
                                                         @endif
@@ -172,6 +182,38 @@
             }
         });
     }
+    function finalAcc(sesiId) {
+        Swal.fire({
+            title: 'Apakah anda yakin menyetujui pengajuan ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya Setuju!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Delete form submission
+                document.getElementById('finalAcc_' + sesiId).submit();
+            }
+        });
+    }
+
+    // Display success message in Swal
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: '{{ session('success') }}'
+        });
+    @endif
+
+    // Display error message in Swal
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: '{{ session('error') }}'
+        });
+    @endif
 </script>
 
 
