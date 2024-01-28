@@ -190,23 +190,7 @@ class PeminjamanBarangController extends Controller
 
         return $nomorPengajuan;
     }
-    
-    private function validateStockForAllBarangTypes(array $barangIds, array $quantities)
-    {
-        foreach ($barangIds as $index => $barangId) {
-            $barang = Barang::find($barangId);
-    
-            if ($barang) {
-                $requestedQuantity = $quantities[$index];
-    
-                if ($requestedQuantity > $barang->stok) {
-                    throw ValidationException::withMessages([
-                        'barang_ids.' . $index => 'Stok barang kurang.',
-                    ]);
-                }
-            }
-        }
-    }    
+      
 
     public function index()
     {
@@ -274,7 +258,7 @@ class PeminjamanBarangController extends Controller
             $params['foto_sebelum'] = $newImagePath;
         }
         if ($peminjamanBarang->update($params)) {
-            return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Updated!');
+            return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Data berhasil di simpan!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update.');
@@ -331,7 +315,7 @@ class PeminjamanBarangController extends Controller
                 }
             }
         
-            return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Updated!');
+            return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Data berhasil di simpan!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update.');

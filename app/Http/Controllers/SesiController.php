@@ -87,7 +87,7 @@ class SesiController extends Controller
         // Lakukan pembaruan data mahasiswa
         $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($fasilitas->update($params)) {
-            return redirect(route('sesi.index'))->with('success', 'Updated!');
+            return redirect(route('sesi.index'))->with('success', 'Data berhasil diubah!');
         } else {    
             return back()->with('error', 'Failed to update sesi.');
         }
@@ -107,7 +107,7 @@ class SesiController extends Controller
             $sesi->status = 'Tidak Aktif';
             $sesi->save();
     
-            return redirect()->route('sesi.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+            return redirect()->route('sesi.index')->with('success', 'Data ID ' . $id . ' berhasil dihapus!');
         }
     
         return redirect()->route('sesi.index')->with('error', 'Data not found.');

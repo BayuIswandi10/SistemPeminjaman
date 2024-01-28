@@ -114,7 +114,7 @@ class PenggunaController extends Controller
     
         // Lakukan pembaruan data pengguna
         if ($pengguna->update($params)) {
-            return redirect(route('pengguna.index'))->with('success', 'Updated!');
+            return redirect(route('pengguna.index'))->with('success', 'Data berhasil diubah!');
         } else {
             // Jika terjadi kesalahan saat pembaruan pengguna
             return back()->with('error', 'Failed to update pengguna.');
@@ -136,7 +136,7 @@ class PenggunaController extends Controller
              $pengguna->status = 'Tidak Aktif';
              $pengguna->save();
      
-             return redirect()->route('pengguna.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+             return redirect()->route('pengguna.index')->with('success', 'Data ID ' . $id . ' berhasil dihapus!');
          }
      
          return redirect()->route('pengguna.index')->with('error', 'Data not found.');

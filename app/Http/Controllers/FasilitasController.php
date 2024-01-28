@@ -110,7 +110,7 @@ class FasilitasController extends Controller
         // Lakukan pembaruan data fasilitas
         $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($fasilitas->update($params)) {
-            return redirect(route('fasilitas.index'))->with('success', 'Updated!');
+            return redirect(route('fasilitas.index'))->with('success', 'Data berhasil diubah!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update fasilitas.');
@@ -131,7 +131,7 @@ class FasilitasController extends Controller
             $fasilitas->status = 'Tidak Aktif';
             $fasilitas->save();
     
-            return redirect()->route('fasilitas.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+            return redirect()->route('fasilitas.index')->with('success', 'Data ID ' . $id . ' berhasil dihapus!');
         }
     
         return redirect()->route('fasilitas.index')->with('error', 'Data not found.');

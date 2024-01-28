@@ -108,7 +108,7 @@ class BarangController extends Controller
         // Lakukan pembaruan data barang
         $params['created_by'] = Session::get('logged_in')->pengguna_id;
         if ($barang->update($params)) {
-            return redirect(route('barang.index'))->with('success', 'Updated!');
+            return redirect(route('barang.index'))->with('success', 'Data berhasil diubah!');
         } else {
             // Jika terjadi kesalahan saat pembaruan barang
             return back()->with('error', 'Failed to update barang.');
@@ -129,7 +129,7 @@ class BarangController extends Controller
             $barang->status = 'Tidak Tersedia';
             $barang->save();
     
-            return redirect()->route('barang.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+            return redirect()->route('barang.index')->with('success', 'Data ID ' . $id . ' berhasil dihapus!');
         }
     
         return redirect()->route('barang.index')->with('error', 'Data not found.');

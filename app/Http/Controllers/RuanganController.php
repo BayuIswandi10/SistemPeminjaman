@@ -220,7 +220,7 @@ class RuanganController extends Controller
             // Synchronize relasi antara ruangan dan fasilitas di tabel pivot
             $ruangan->fasilitas()->syncWithoutDetaching($fasilitasData);
     
-            return redirect(route('ruangan.index'))->with('success', 'Data ruangan berhasil diubah!');
+            return redirect(route('ruangan.index'))->with('success', 'Data berhasil diubah.');
         } else {
             return back()->with('error', 'Gagal mengubah data ruangan.');
         }
@@ -257,7 +257,7 @@ class RuanganController extends Controller
             $ruangan->status = 'Tidak Tersedia';
             $ruangan->save();
     
-            return redirect()->route('ruangan.index')->with('success', 'Data ID ' . $id . ' successfully set to inactive status.');
+            return redirect()->route('ruangan.index')->with('success', 'Data ID ' . $id . ' berhasil dihapus!');
         }
     
         return redirect()->route('ruangan.index')->with('error', 'Data not found.');

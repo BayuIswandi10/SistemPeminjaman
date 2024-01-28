@@ -111,7 +111,7 @@
                                         <a href="{{ route('pengguna.index') }}" class="nav-link {{ request()->routeIs('pengguna.index', 'pengguna.create', 'pengguna.edit') ? 'active' : '' }}">
                                             <i class="nav-icon fas fa-solid fa-user ml-3"></i>
                                             <p>
-                                                Admin
+                                                User
                                                 <span class="badge badge-info right"></span>
                                             </p>
                                         </a>

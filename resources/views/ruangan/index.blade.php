@@ -161,12 +161,12 @@
 
     function confirmDelete(ruanganId) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: 'You will not be able to recover this data!',
+            title: 'Apakah anda yakin?',
+            text: 'Untuk menghapus data ini!',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
         }).then((result) => {
             if (result.isConfirmed) {
                 // Delete form submission

@@ -66,7 +66,7 @@ class PeminjamanRuanganController extends Controller
             return redirect()->back()->with('error', 'Gagal menambahkan data. Silakan coba lagi.');
         }
 
-        return redirect()->route('peminjamanRuangan.mahasiswa')->with('success', 'Peminjaman ruangan berhasil ditambahkan!');
+        return redirect()->route('peminjamanRuangan.mahasiswa')->with('success', 'Data berhasil diajukan!');
     }
 
     private function generateNomorPengajuan()
@@ -208,7 +208,7 @@ class PeminjamanRuanganController extends Controller
             $params['foto_sebelum'] = $newImagePath;
         }
         if ($peminjamanRuangan->update($params)) {
-            return redirect(route('riwayat_peminjaman_ruangan.mahasiswa'))->with('success', 'Updated!');
+            return redirect(route('riwayat_peminjaman_ruangan.mahasiswa'))->with('success', 'Data berhasil di simpan!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update.');
@@ -250,7 +250,7 @@ class PeminjamanRuanganController extends Controller
             $params['foto_setelah'] = $newImagePath;
         }
         if ($peminjamanRuangan->update($params)) {
-            return redirect(route('riwayat_peminjaman_ruangan.mahasiswa'))->with('success', 'Updated!');
+            return redirect(route('riwayat_peminjaman_ruangan.mahasiswa'))->with('success', 'Data berhasil di simpan!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
             return back()->with('error', 'Failed to update.');
@@ -303,7 +303,7 @@ class PeminjamanRuanganController extends Controller
             $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
             $PeminjamanRuangan->save();
     
-            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' Penyeselesain disetujui.');
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' Penyelesaian disetujui.');
         }
     
         return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
