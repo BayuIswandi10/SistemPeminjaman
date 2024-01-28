@@ -33,7 +33,6 @@ class UpdatePeminjamanRuanganRequest extends FormRequest
             'nim_peminjaman',
             'nama_peminjam',
             'tanggal_pinjam' => [
-                'required',
                 'date',
                 Rule::unique('peminjaman_ruangans')
                     ->where(function ($query) {

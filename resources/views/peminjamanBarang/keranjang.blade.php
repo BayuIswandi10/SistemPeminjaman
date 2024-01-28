@@ -116,22 +116,24 @@
                             @endphp
                             @foreach($keranjang as $data)
                             <tr>
-                                <td><center><button class="btn btn-danger" onclick="del({{ $data->id }})"><i class="fa fa-trash" style="font-size: 15px;"></i></button></center></td>
+                                <td><center><button class="btn btn-danger" onclick="del({{ $data->id }})" type="button"><i class="fa fa-trash" style="font-size: 15px;"></i></button></center></td>
                                 <td><center>{{ $loop->iteration }}</center></td>
                                 <td>{{ $data->barang->nama_barang }}</td>
                                 <td><center><img id="img{{ $loop->iteration }}" onclick="zoom('img{{ $loop->iteration }}')" width="100px" src="{{ asset($data->barang->gambar_barang) }}"></center></td>
-                                <td><center>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-primary rounded-circle" onclick="minus({{ $data->id }});" type="button"><i class="fa fa-minus" style="font-size: 15px;"></i></button>
-                                    </div>
-                                    <span id="Jumlah{{ $data->id }}" class="ml-3 mr-3 mt-2">{{ $data->jumlah }}</span>
-                                    <span hidden id="idBarang{{ $data->id }}" class="ml-3 mr-3 mt-2">{{ $data->id_barang }}</span>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary rounded-circle" onclick="plus({{ $data->id }});" type="button"><i class="fa fa-plus" style="font-size: 15px;"></i></button>
-                                    </div>
-                                </div>
-                                </center></td>
+                                <td>
+                                    <center>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-primary rounded-circle" onclick="minus({{ $data->id }});" type="button"><i class="fa fa-minus" style="font-size: 15px;"></i></button>
+                                            </div>
+                                            <span id="Jumlah{{ $data->id }}" class="ml-3 mr-3 mt-2">{{ $data->jumlah }}</span>
+                                            <span hidden id="idBarang{{ $data->id }}" class="ml-3 mr-3 mt-2">{{ $data->id_barang }}</span>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary rounded-circle" onclick="plus({{ $data->id }});" type="button"><i class="fa fa-plus" style="font-size: 15px;"></i></button>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -171,34 +173,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-
-    function validateImage(input, previewId) {
-        var allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
-        var file = input.files[0];
-
-        if (file) {
-            if (allowedFormats.includes(file.type)) {
-                var preview = document.getElementById(previewId);
-                var reader = new FileReader();
-
-                reader.onloadend = function () {
-                    preview.src = reader.result;
-                }
-
-                reader.readAsDataURL(file);
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Format file tidak valid. Pilih file dengan format PNG, JPG, atau JPEG.',
-                    icon: 'error'
-                });
-                input.value = ''; // Clear the input to prevent submission of invalid file
-                document.getElementById(previewId).src = ''; // Clear the preview image
-            }
-        }
-    }
-
-
     // Display validation errors in Swal
     @if ($errors->any())
     Swal.fire({
@@ -232,63 +206,109 @@
 
 </script>
 
+<!-- Masukkan bagian ini pada bagian <script> di halaman HTML Anda -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    // Set CSRF token pada setiap request AJAX
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     function plus(id) {
+        var jumlahbrg = parseInt($('#Jumlah' + id).text());
+        var id_keranjang = id;
+        var jml = jumlahbrg + 1;
+        var jumlahPanel = document.getElementById('Jumlah'+id).innerText;
+        console.log(jumlahPanel)
+
         $.ajax({
-            type: "POST",
-            url: "{{ route('plus') }}",
-            data: {
-                id: id,
-                jumlah: parseInt($('#Jumlah' + id).text()) + 1
-            },
+            url: "/barang/addQuantity/" + id_keranjang + "/" + jml,
+            type: "PUT",
+            dataType: "JSON",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            success: function(response) {
-                console.log(response);
-                if (response.success) {
-                    $('#Jumlah' + id).text(response.message);
-                } else {
-                    alert(response.message); // Tampilkan pesan jika stok tidak mencukupi
+            success: function (data) {
+                console.log(data); // Periksa response dari server
+                    if (data.success) {
+                        $('#Jumlah' + id).text(jml);
+                    } else if (data.error) {
+                        swal({
+                            title: 'Error!',
+                            text: data.error,
+                            icon: 'error',
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText); 
+                    swal({
+                        title: 'Error!',
+                        text: 'Stok Kurang.',
+                        icon: 'error',
+                    });
                 }
-            }
+
         });
     }
 
     function minus(id) {
-        $.ajax({
-            type: "POST",
-            url: "{{ route('minus') }}",
-            data: {
-                id: id,
-                jumlah: parseInt($('#Jumlah' + id).text()) - 1
-            },
-            success: function(response) {
-                if (response.success) {
-                    $('#Jumlah' + id).text(response.message);
+        var jumlahbrg = parseInt($('#Jumlah' + id).text());
+        var id_keranjang = id;
+        var jml = jumlahbrg - 1;
+
+        if (jml < 1) {
+            del(id);
+        } else {
+                $.ajax({
+                url: "/barang/addQuantity/" + id_keranjang + "/" + jml,
+                type: "PUT",
+                dataType: "JSON",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
+                    console.log(data.success)
+                    if (data.success) {
+                        $('#Jumlah' + id).text(jml);
+                    } else if (data.error) {
+                        alert(data.error); // Tampilkan pesan kesalahan jika ada
+                    }
+                },
+                error: function (data) {
+                    console.log('Error:', data);
                 }
-            }
-        });
+            });
+        }
     }
 
+    
+
     function del(id) {
+        var id_keranjang = id;
+
         $.ajax({
+            url: "/barang/deleteItem",
             type: "POST",
-            url: "{{ route('del') }}",
             data: {
-                id: id
+                id: id_keranjang
             },
-            success: function(response) {
-                if (response.success) {
-                    window.location.reload();
-                }
+            dataType: "JSON",
+            success: function (data) {
+                window.location.reload();
+            },
+            error: function (data) {
+                console.log('Error:', data);
             }
         });
     }
 </script>
+    
+    
 
 <script src="{{ asset('assets/js/jquery-3.2.1.min.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="{{ asset('assets/styles/bootstrap4/popper.js') }}"></script>
 <script src="{{ asset('assets/styles/bootstrap4/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/scrollTo/jquery.scrollTo.min.js') }}"></script>

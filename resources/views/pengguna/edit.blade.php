@@ -77,8 +77,6 @@
                                         <option value="Super Admin" {{ $pengguna->role == 'Super Admin' ? 'selected' : '' }}>Super Admin</option>
                                         <option value="Koor UPT" {{ $pengguna->role == 'Koor UPT' ? 'selected' : '' }}>Koor UPT</option>
                                         <option value="PIC Lab" {{ $pengguna->role == 'PIC Lab' ? 'selected' : '' }}>PIC Lab</option>
-                                        <option value="Admin Lab 1" {{ $pengguna->role == 'Admin Lab 1' ? 'selected' : '' }}>Admin Lab 1</option>
-                                        <option value="Admin Lab 2" {{ $pengguna->role == 'Admin Lab 2' ? 'selected' : '' }}>Admin Lab 2</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

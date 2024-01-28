@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Ruangan;
 use App\Models\Sesi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -108,6 +109,14 @@ class PeminjamanRuanganController extends Controller
     public function destroy($id)
     {
         $PeminjamanRuangan = PeminjamanRuangan::find($id);
+
+        // Ambil id pengguna yang sedang login
+        $loggedInUserId = Session::get('logged_in')->nama;
+
+        // Periksa apakah pengguna memiliki hak untuk menyetujui peminjaman
+        if ($loggedInUserId != $PeminjamanRuangan->ruangan->pic_lab) {
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Anda tidak memiliki izin untuk menolak peminjaman ini.');
+        }
     
         if ($PeminjamanRuangan) {
             $PeminjamanRuangan->status = 'Ditolak';
@@ -124,36 +133,41 @@ class PeminjamanRuanganController extends Controller
     {
         $peminjamanRuangan = PeminjamanRuangan::find($id);
     
-        if ($peminjamanRuangan) {
-            // Periksa status sebelum mengubah menjadi "Disetujui"
-            if ($peminjamanRuangan->status == 'Disetujui' || $peminjamanRuangan->status == 'Dipinjam') {
-                return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')
-                    ->with('error', 'Anda sudah menyetujui atau ruangan sudah dipinjam.');
-            }
-    
-            // Periksa apakah ada peminjaman dengan tanggal, sesi, dan ruangan yang sama dan status Disetujui/Dipinjam
-            $existingApproval = PeminjamanRuangan::where('tanggal_pinjam', $peminjamanRuangan->tanggal_pinjam)
-                ->where('sesi_id', $peminjamanRuangan->sesi_id)
-                ->where('ruangan_id', $peminjamanRuangan->ruangan_id)
-                ->whereIn('status', ['Disetujui', 'Dipinjam'])
-                ->where('peminjaman_ruangan_id', '!=', $id)
-                ->first();
-    
-            if ($existingApproval) {
-                return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')
-                    ->with('error', 'Tidak dapat menyetujui. Peminjaman dengan tanggal, sesi, dan ruangan yang sama sudah disetujui atau ruangan sudah dipinjam sebelumnya.');
-            }
-    
-            // Lanjutkan dengan proses persetujuan
-            $peminjamanRuangan->status = 'Disetujui';
-            $peminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
-            $peminjamanRuangan->save();
-    
-            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')
-                ->with('success', 'Data ID ' . $id . ' berhasil menyetujui peminjaman ruangan.');
+        if (!$peminjamanRuangan) {
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
         }
     
-        return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Data not found.');
+        // Ambil id pengguna yang sedang login
+        $loggedInUserId = Session::get('logged_in')->nama;
+    
+        // Periksa apakah pengguna memiliki hak untuk menyetujui peminjaman
+        if ($loggedInUserId != $peminjamanRuangan->ruangan->pic_lab) {
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Anda tidak memiliki izin untuk menyetujui peminjaman ini.');
+        }
+    
+        // Periksa status sebelum mengubah menjadi "Disetujui"
+        if ($peminjamanRuangan->status == 'Disetujui' || $peminjamanRuangan->status == 'Dipinjam') {
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Anda sudah menyetujui atau ruangan sudah dipinjam.');
+        }
+    
+        // Periksa apakah ada peminjaman dengan tanggal, sesi, dan ruangan yang sama dan status Disetujui/Dipinjam
+        $existingApproval = PeminjamanRuangan::where('tanggal_pinjam', $peminjamanRuangan->tanggal_pinjam)
+            ->where('sesi_id', $peminjamanRuangan->sesi_id)
+            ->where('ruangan_id', $peminjamanRuangan->ruangan_id)
+            ->whereIn('status', ['Disetujui', 'Dipinjam'])
+            ->where('peminjaman_ruangan_id', '!=', $id)
+            ->first();
+    
+        if ($existingApproval) {
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Tidak dapat menyetujui. Peminjaman dengan tanggal, sesi, dan ruangan yang sama sudah disetujui atau ruangan sudah dipinjam sebelumnya.');
+        }
+    
+        // Lanjutkan dengan proses persetujuan
+        $peminjamanRuangan->status = 'Disetujui';
+        $peminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;
+        $peminjamanRuangan->save();
+    
+        return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('success', 'Data ID ' . $id . ' berhasil menyetujui peminjaman ruangan.');
     }
     
 
@@ -276,6 +290,14 @@ class PeminjamanRuanganController extends Controller
     public function accFinal($id)
     {
         $PeminjamanRuangan = PeminjamanRuangan::find($id);
+        // Ambil id pengguna yang sedang login
+        $loggedInUserId = Session::get('logged_in')->nama;
+
+        // Periksa apakah pengguna memiliki hak untuk menyetujui peminjaman
+        if ($loggedInUserId != $PeminjamanRuangan->ruangan->pic_lab) {
+            return redirect()->route('riwayatPeminjamanRuangan.mahasiswa')->with('error', 'Anda tidak memiliki izin untuk menerima pengajuan penyelesaian ini.');
+        }
+
         if ($PeminjamanRuangan) {
             $PeminjamanRuangan->status = 'Selesai';
             $PeminjamanRuangan->pengguna_id = Session::get('logged_in')->pengguna_id;

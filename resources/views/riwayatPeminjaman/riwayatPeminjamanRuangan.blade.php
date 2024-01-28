@@ -43,7 +43,7 @@
                                         <th>Tanggal</th>
                                         <th>Sesi </th>
                                         <th>Status</th>
-                                        @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
+                                        @if(session()->has('logged_in') && session('logged_in')->role === 'PIC Lab')                                       
                                             <th>Aksi</th>
                                         @endif
                                     </tr>
@@ -79,13 +79,13 @@
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
                                                 @endif
                                             </td>
-                                            @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
+                                            @if(session()->has('logged_in') && session('logged_in')->role === 'PIC Lab')                                       
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="{{ route('riwayatPeminjamanRuangan.detail', ['id' => $data->peminjaman_ruangan_id]) }}" class="btn btn-info color-muted editbtn">
                                                             <i class="fa fa-list color-mutedfa fa-list color-muted"></i>
                                                         </a>
-                                                        @if (session()->has('logged_in') && session('logged_in')->role === 'Super Admin' && $data->status == 'Pengajuan')
+                                                        @if (session()->has('logged_in') && session('logged_in')->role === 'PIC Lab' && $data->status == 'Pengajuan')
                                                             <form id="deleteFormAcc_{{ $data->peminjaman_ruangan_id }}" action="{{ route('accRuangan.acc', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -100,7 +100,7 @@
                                                                     <i class="fa fa-times-circle"></i>
                                                                 </button>
                                                             </form>
-                                                        @elseif (session()->has('logged_in') && session('logged_in')->role === 'Super Admin' && $data->status == 'Pengajuan Penyelesaian')
+                                                        @elseif (session()->has('logged_in') && session('logged_in')->role === 'PIC Lab' && $data->status == 'Pengajuan Penyelesaian')
                                                             <form id="finalAcc_{{ $data->peminjaman_ruangan_id }}" action="{{ route('accFinalRuangan.accFinal', ['id' => $data->peminjaman_ruangan_id]) }}" method="POST">
                                                                 @csrf
                                                                 @method('DELETE')

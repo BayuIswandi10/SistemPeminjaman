@@ -133,9 +133,9 @@ Route::put('pesanan_barang/{id}/updateBarangSesudah', [PeminjamanBarangControlle
 Route::get('pesanan_barang_detail/{id}', [PeminjamanBarangController::class, 'formDetail'])->name('pesanan_barang.formDetail');
 Route::post('tambahKeranjang/{barang_id}', [PeminjamanBarangController::class, 'addKeranjang'])->name('addKeranjang.mahasiswa');
 Route::get('keranjang', [PeminjamanBarangController::class, 'viewKeranjang'])->name('viewKeranjang.mahasiswa');
-Route::post('/plus', [PeminjamanBarangController::class, 'plus'])->name('plus');
-Route::post('/minus', [PeminjamanBarangController::class, 'minus'])->name('minus');
-Route::post('/del', [PeminjamanBarangController::class, 'del'])->name('del');
+Route::put('/barang/addQuantity/{id}/{jmlh}', [PeminjamanBarangController::class, 'addQuantity']);
+Route::put('/barang/subtractQuantity/{id}/{jmlh}', [PeminjamanBarangController::class, 'subtractQuantity']);
+Route::post('/barang/deleteItem', [PeminjamanBarangController::class, 'deleteItem']);
 
 //Routes riwayat peminjaman barang user
 Route::get('RiwayatPeminjamanBarang', [PeminjamanBarangController::class, 'riwayatPeminjamanBarang'])->name('riwayatPeminjamanBarang.mahasiswa');

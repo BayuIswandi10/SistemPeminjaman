@@ -69,11 +69,8 @@
                                 <select class="form-control" value="{{ old('role') }}" name="role" aria-label="Default select example" required>
                                 <option selected value="" disabled>-- Pilih Role --</option>
                                 <option value="Super Admin">Super Admin</option>
-                                <option value="Admin">Admin</option>
                                 <option value="Koor UPT">Koor UPT</option>
                                 <option value="PIC Lab">PIC Lab</option>
-                                <option value="Admin Lab 1">Admin Lab 1</option>
-                                <option value="Admin Lab 2">Admin Lab 2</option>
                                 </select>
                             </div>
                             <div class="form-group">

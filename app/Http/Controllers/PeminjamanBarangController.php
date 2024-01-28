@@ -10,84 +10,109 @@ use App\Models\PeminjamanBarang;
 use App\Models\Sesi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
 
 class PeminjamanBarangController extends Controller
 {
-        public function addKeranjang($barang_id)
-        {
-            $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
-
-            if (!$nim) {
-                return redirect()->route('logins.loginMahasiswa')->with('error', 'Anda belum login atau sesi login telah berakhir.');
-            }
-
-            $existingCartItem = keranjang::where('barang_id', $barang_id)->where('nim', $nim)->first();
-
-            if ($existingCartItem) {
-                return redirect()->route('peminjamanBarang.mahasiswa')->with('error', 'Item already in the cart.');
-            }
-
-            Keranjang::create([
-                'barang_id' => $barang_id,
-                'nim' => $nim,
-                'jumlah' => 1, // You might want to adjust this based on your logic
-            ]);
-
-            return redirect()->route('peminjamanBarang.mahasiswa')->with('success', 'Item added to the cart.');
-        }
-
-        public function viewKeranjang()
-        {
-            $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
-            $keranjang = Keranjang::where('nim', $nim)->get();
-        
-            // Hitung jumlah keranjang untuk NIM tertentu
-            $keranjangData = count($keranjang);
-        
-            return view('peminjamanBarang.keranjang', ['keranjang' => $keranjang, 'keranjangData' => $keranjangData]);
-        }
-    
-        
-    public function plus(Request $request)
+    public function addKeranjang($barang_id)
     {
-        $jumlah = $request->input('jumlah');
-        $id = $request->input('id');
-        $keranjang = Keranjang::find($id);
-        
-        // Cek stok barang jika diperlukan
-        $barang = Barang::find($keranjang->id_barang);
-        if ($barang->stok < $jumlah) {
-            return response()->json(['success' => false, 'message' => 'Stok tidak mencukupi']);
+        $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
+
+        if (!$nim) {
+            return redirect()->route('logins.loginMahasiswa')->with('error', 'Anda belum login atau sesi login telah berakhir.');
         }
+
+        $existingCartItem = keranjang::where('barang_id', $barang_id)->where('nim', $nim)->first();
+
+        if ($existingCartItem) {
+            return redirect()->route('peminjamanBarang.mahasiswa')->with('error', 'Item already in the cart.');
+        }
+
+        Keranjang::create([
+            'barang_id' => $barang_id,
+            'nim' => $nim,
+            'jumlah' => 1, // You might want to adjust this based on your logic
+        ]);
+
+        return redirect()->route('peminjamanBarang.mahasiswa')->with('success', 'Item added to the cart.');
+    }
+
+    public function viewKeranjang()
+    {
+        $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
+        $keranjang = Keranjang::where('nim', $nim)->get();
     
-        // Update jumlah pada keranjang
-        $keranjang->jumlah = $jumlah;
-        $keranjang->save();
+        // Hitung jumlah keranjang untuk NIM tertentu
+        $keranjangData = count($keranjang);
     
-        return response()->json(['success' => true, 'message' => 'Jumlah berhasil diperbarui']);
+        return view('peminjamanBarang.keranjang', ['keranjang' => $keranjang, 'keranjangData' => $keranjangData]);
+    }
+
+    
+    public function addQuantity($id, $jmlh)
+    {
+        try {
+            $keranjangItem = Keranjang::find($id);
+    
+            if (!$keranjangItem) {
+                return response()->json(['error' => 'Keranjang item tidak ditemukan'], 404);
+            }
+    
+            // Get the associated barang
+            $barang = $keranjangItem->barang;
+    
+            // Check if the requested quantity is greater than the available stock
+            if ($jmlh > $barang->stok) {
+                return response()->json(['error' => 'Jumlah melebihi stok barang yang tersedia'], 422);
+            }
+    
+            // Update data in the database
+            $keranjangItem->update(['jumlah' => $jmlh]);
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Log the exception
+            Log::error($e->getMessage());
+    
+            // Return an error response
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
     
-    public function minus(Request $request)
+    
+
+    public function subtractQuantity($id, $jmlh)
     {
-        $jumlah = $request->input('jumlah');
-        $id = $request->input('id');
-        $keranjang = Keranjang::find($id);
+        try {
+           
+            // Debugging statements
+            //dd($id, $jmlh);
     
-        // Update jumlah pada keranjang
-        $keranjang->jumlah = $jumlah;
-        $keranjang->save();
+            // Update data in the database
+            keranjang::where('id', $id)->update(['jumlah' => $jmlh]);
     
-        return response()->json(['success' => true, 'message' => 'Jumlah berhasil diperbarui']);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Log the exception
+            Log::error($e->getMessage());
+    
+            // Return an error response
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
-    
-    public function del(Request $request)
+
+    public function deleteItem(Request $request)
     {
         $id = $request->input('id');
-        Keranjang::destroy($id);
-    
-        return response()->json(['success' => true, 'message' => 'Keranjang berhasil dihapus']);
+
+        // Lakukan validasi jika diperlukan
+
+        // Hapus item dari database
+        keranjang::destroy($id);
+
+        return response()->json(['success' => true]);
     }
     
 
