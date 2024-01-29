@@ -84,6 +84,7 @@
                                                     @endforeach
                                                 </select>
                                                 <input type="number" name="jumlah[]" class="jumlah-input" value="{{ $fasilitasData['jumlah'] }}" placeholder="Jumlah">
+                                                <input type="text" name="kondisi[]" class="kondisi-input" value="{{ $fasilitasData['kondisi'] }}" placeholder="Kondisi">
                                                 <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
                                             </div>
                                         @endforeach
@@ -211,6 +212,7 @@
                 @endforeach
             </select>
             <input type="number" name="jumlah[]" class="jumlah-input" value="{{ $fasilitasData['jumlah'] }}" placeholder="Jumlah">
+            <input type="text" name="kondisi[]" class="kondisi-input" value="{{ $fasilitasData['kondisi'] }}" placeholder="Kondisi">
             <button onclick="hapusComboBox(this)">Hapus</button>
         `;
 

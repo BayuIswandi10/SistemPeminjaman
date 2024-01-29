@@ -209,12 +209,6 @@
 <!-- Masukkan bagian ini pada bagian <script> di halaman HTML Anda -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    // Set CSRF token pada setiap request AJAX
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
     function plus(id) {
         var jumlahbrg = parseInt($('#Jumlah' + id).text());
@@ -290,12 +284,12 @@
         var id_keranjang = id;
 
         $.ajax({
-            url: "/barang/deleteItem",
-            type: "POST",
-            data: {
-                id: id_keranjang
-            },
+            url: "/barang/deleteItem/" + id_keranjang,
+            type: "DELETE",
             dataType: "JSON",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function (data) {
                 window.location.reload();
             },

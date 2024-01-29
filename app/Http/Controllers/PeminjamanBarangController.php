@@ -11,8 +11,6 @@ use App\Models\Sesi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Validation\ValidationException;
 
 class PeminjamanBarangController extends Controller
 {
@@ -27,7 +25,7 @@ class PeminjamanBarangController extends Controller
         $existingCartItem = keranjang::where('barang_id', $barang_id)->where('nim', $nim)->first();
 
         if ($existingCartItem) {
-            return redirect()->route('peminjamanBarang.mahasiswa')->with('error', 'Item already in the cart.');
+            return redirect()->route('peminjamanBarang.mahasiswa')->with('error', 'Berhasil menambahkan item ke keranjang.');
         }
 
         Keranjang::create([
@@ -36,7 +34,7 @@ class PeminjamanBarangController extends Controller
             'jumlah' => 1, // You might want to adjust this based on your logic
         ]);
 
-        return redirect()->route('peminjamanBarang.mahasiswa')->with('success', 'Item added to the cart.');
+        return redirect()->route('peminjamanBarang.mahasiswa')->with('success', 'Berhasil menambahkan item ke keranjang.');
     }
 
     public function viewKeranjang()
@@ -86,9 +84,6 @@ class PeminjamanBarangController extends Controller
     public function subtractQuantity($id, $jmlh)
     {
         try {
-           
-            // Debugging statements
-            //dd($id, $jmlh);
     
             // Update data in the database
             keranjang::where('id', $id)->update(['jumlah' => $jmlh]);
@@ -103,17 +98,22 @@ class PeminjamanBarangController extends Controller
         }
     }
 
-    public function deleteItem(Request $request)
+    public function deleteItem($id)
     {
-        $id = $request->input('id');
-
-        // Lakukan validasi jika diperlukan
-
-        // Hapus item dari database
-        keranjang::destroy($id);
-
-        return response()->json(['success' => true]);
+        // Temukan objek keranjang dengan ID tertentu
+        $keranjang = Keranjang::find($id);
+    
+        // Periksa apakah objek ditemukan
+        if ($keranjang) {
+            // Hapus objek keranjang
+            $keranjang->delete();
+    
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Data keranjang tidak ditemukan']);
+        }
     }
+    
     
 
     public function create()
@@ -318,7 +318,7 @@ class PeminjamanBarangController extends Controller
             return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Data berhasil di simpan!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
-            return back()->with('error', 'Failed to update.');
+            return back()->with('error', 'Gagal untuk update.');
         }
     }
 

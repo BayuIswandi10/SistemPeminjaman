@@ -33,6 +33,7 @@ class UpdateRuanganRequest extends FormRequest
             'kapasitas_ruangan'=>['required'],
             'fasilitas_ids.*' => 'required|exists:fasilitas,fasilitas_id',
             'jumlah.*' => 'required|integer|min:1',
+            'kondisi.*' => '',            
             'keterangan_ruangan' => ['required'],
             'koor_upt'=>['required'],
             'pic_lab'=>['required'],

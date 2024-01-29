@@ -11,7 +11,6 @@ use App\Http\Controllers\PeminjamanBarangController;
 use App\Http\Controllers\PeminjamanRuanganController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\SesiController;
-use App\Models\PeminjamanBarang;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +40,6 @@ Route::get('logins',[AuthController::class,'index'])->name('logins.index');
 Route::get('loginsMahasiswa',[DashboardController::class,'showLoginForm'])->name('logins.loginMahasiswa');
 Route::post('logins/auth',[AuthController::class,'login'])->name('logins.auth');
 Route::get('logout',[AuthController::class,'logout'])->name('logins.logout');
-//Route::post('logins/loginAksiMahasiswa',[DashboardController::class,'login'])->name('logins.loginAksiMahasiswa');
 
 //Routes pengguna 
 Route::get('pengguna',[PenggunaController::class,'index'])->name('pengguna.index');
@@ -135,7 +133,7 @@ Route::post('tambahKeranjang/{barang_id}', [PeminjamanBarangController::class, '
 Route::get('keranjang', [PeminjamanBarangController::class, 'viewKeranjang'])->name('viewKeranjang.mahasiswa');
 Route::put('/barang/addQuantity/{id}/{jmlh}', [PeminjamanBarangController::class, 'addQuantity']);
 Route::put('/barang/subtractQuantity/{id}/{jmlh}', [PeminjamanBarangController::class, 'subtractQuantity']);
-Route::post('/barang/deleteItem', [PeminjamanBarangController::class, 'deleteItem']);
+Route::delete('/barang/deleteItem/{id}', [PeminjamanBarangController::class, 'deleteItem']);
 
 //Routes riwayat peminjaman barang user
 Route::get('RiwayatPeminjamanBarang', [PeminjamanBarangController::class, 'riwayatPeminjamanBarang'])->name('riwayatPeminjamanBarang.mahasiswa');

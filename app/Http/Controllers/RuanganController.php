@@ -113,7 +113,8 @@ class RuanganController extends Controller
             $fasilitasData = [];
             foreach ($params['fasilitas_ids'] as $index => $fasilitasId) {
                 $fasilitasData[$fasilitasId] = [
-                    'jumlah' => $params['jumlah'][$index]
+                    'jumlah' => $params['jumlah'][$index],
+                    'kondisi' => $params['kondisi'][$index],
                 ];
             }
     
@@ -166,7 +167,7 @@ class RuanganController extends Controller
         ->pluck('nama', 'pengguna_id'); 
 
         $fasilitasRuangan = $ruangan->fasilitas()
-        ->select('fasilitas.fasilitas_id', 'fasilitas.nama_fasilitas', 'fasilitas_ruangan.jumlah')
+        ->select('fasilitas.fasilitas_id', 'fasilitas.nama_fasilitas', 'fasilitas_ruangan.jumlah', 'fasilitas_ruangan.kondisi')
         ->get()
         ->keyBy('fasilitas_id')
         ->toArray();    
@@ -213,7 +214,8 @@ class RuanganController extends Controller
             $fasilitasData = [];
             foreach ($params['fasilitas_ids'] as $index => $fasilitasId) {
                 $fasilitasData[$fasilitasId] = [
-                    'jumlah' => $params['jumlah'][$index]
+                    'jumlah' => $params['jumlah'][$index],
+                    'kondisi' => $params['kondisi'][$index],
                 ];
             }
     

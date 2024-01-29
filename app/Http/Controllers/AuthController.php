@@ -43,8 +43,14 @@ class AuthController extends Controller
             'password' => $request->get('Password'),
         ];
     
-        $pengguna = Pengguna::where('username', $info['username'])->first();
+        $usernameFirstChar = substr($request->Username, 0, 1);
+        $passwordFirstChar = substr($request->Password, 0, 1);
     
+        // Cari pengguna dengan huruf pertama dari username dan password
+        $pengguna = pengguna::where('username', 'like', $usernameFirstChar . '%')
+                            ->where('password', 'like', $passwordFirstChar . '%')
+                            ->first();  
+                              
         if ($pengguna) {
             // Check if the user is active
             if ($pengguna->status == 'Aktif') {

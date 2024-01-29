@@ -30,6 +30,7 @@ class StoreRuanganRequest extends FormRequest
             'kapasitas_ruangan'=>['required'],
             'fasilitas_ids.*' => 'required|exists:fasilitas,fasilitas_id',
             'jumlah.*' => 'required|integer|min:1',
+            'kondisi.*' => 'required',
             'keterangan_ruangan' => ['required'],
             'foto1' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'foto2' => 'required|image|mimes:jpeg,png,jpg|max:2048',

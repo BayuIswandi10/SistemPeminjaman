@@ -74,6 +74,7 @@
                                             @endforeach
                                         </select>
                                         <input type="number" name="jumlah[]" class="jumlah-input" placeholder="Jumlah">
+                                        <input type="text" name="kondisi[]" class="kondisi-input" placeholder="Kondisi">
                                         <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
                                     </div>
                                 </div>
@@ -206,6 +207,7 @@
                 @endforeach
             </select>
             <input type="number" name="jumlah[]" class="jumlah-input" placeholder="Jumlah">
+            <input type="text" name="kondisi[]" class="kondisi-input" placeholder="Kondisi">
             <button class="btn btn-danger btn-sm" onclick="hapusComboBox(this)">Hapus</button>
         `;
 

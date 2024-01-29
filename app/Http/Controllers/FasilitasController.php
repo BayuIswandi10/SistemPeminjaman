@@ -134,6 +134,6 @@ class FasilitasController extends Controller
             return redirect()->route('fasilitas.index')->with('success', 'Data ID ' . $id . ' berhasil dihapus!');
         }
     
-        return redirect()->route('fasilitas.index')->with('error', 'Data not found.');
+        return redirect()->route('fasilitas.index')->with('error', 'Data tidak ditemukan.');
     }
 }
