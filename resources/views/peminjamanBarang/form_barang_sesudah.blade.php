@@ -216,15 +216,7 @@
                         <img id="image-preview" class="mt-2" style="max-width: 100%;" />
                       @endif
                     </div>
-                </div> 
-                <div class="col-md-6 row" style="margin-top: 20px;">
-                    <div class="col-md-4 left">
-                      <span style="color: white;font-size: 18px;">Catatan</span><span style="color:red;"> *</span>
-                    </div>
-                    <div class="col-md-8 left">
-                      <span style="color: white;font-size: 18px;text-align: justify; display: block;">Peminjam harus memasukkan foto ruangan sebelum pemakaian dengan batas waktu 15 menit setelah waktu mulai peminjaman ruangan</span>       
-                    </div>
-                </div> 
+                </div>
                 <div class="col-md-6 row" style="margin-top: 20px;" hidden>
                     <div class="col-md-4 left">
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>

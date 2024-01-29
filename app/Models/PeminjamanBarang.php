@@ -48,13 +48,22 @@ class PeminjamanBarang extends Model
 
     public function updateStatusBasedOnBarangType()
     {
-        // Check if any of the barangs have type 'Konsumable'
         $hasKonsumable = $this->barang()->where('tipe_barang', 'Konsumable')->exists();
+        
+        $hasUnkonsumable = $this->barang()->where('tipe_barang', 'Unkonsumable')->exists();
     
-        // Update the status based on the presence of 'Konsumable'
-        $this->status = $hasKonsumable ? 'Selesai' : 'Disetujui';
+        if ($hasKonsumable && $hasUnkonsumable) {
+            $this->status = 'Disetujui';
+        } elseif ($hasKonsumable) {
+            $this->status = 'Selesai';
+        } elseif ($hasUnkonsumable) {
+            $this->status = 'Disetujui';
+        } else {
+            $this->status = 'Ditolak'; // You may adjust this based on your specific case
+        }
     
         $this->save();
     }
+    
 
 }
