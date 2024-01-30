@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label for="nama">Nama <span style="color:red;">*</span></label>
                                 <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" placeholder="Masukan Nama Anda" required>
-                            </div>
+                            </div> 
                             <div class="form-group">
                                 <label for="alamat">Alamat <span style="color:red;">*</span></label>
                                 <input type="text" class="form-control" name="alamat" value="{{ old('alamat') }}" placeholder="Masukan Alamat Anda" required>

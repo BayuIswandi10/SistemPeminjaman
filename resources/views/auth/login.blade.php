@@ -49,7 +49,7 @@
                     <b class="h2">Peminjaman Ruangan dan Barang</b>
                 </div>
                 <hr>
-                <h4 class="login-box-msg">Masuk Admin</h4>
+                <h4 class="login-box-msg">Masuk User</h4>
                 <form action="{{ route('logins.auth') }}" method="POST">
                     @csrf
                     <div class="form-group">

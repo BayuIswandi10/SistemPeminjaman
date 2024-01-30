@@ -48,7 +48,7 @@
                                     <input type="time" class="form-control" name="sesi_awal" value="{{ $sesi->sesi_awal }}" required />
                                 </div>
                                 <div class="form-group" >
-                                    <label for="sesi_akhir">Sesi Awal <span style="color:red;">*</span></label>
+                                    <label for="sesi_akhir">Sesi Akhir <span style="color:red;">*</span></label>
                                     <input type="time" class="form-control" name="sesi_akhir" value="{{ $sesi->sesi_akhir }}" required />
                                 </div>
                                 <div class="form-group" hidden>

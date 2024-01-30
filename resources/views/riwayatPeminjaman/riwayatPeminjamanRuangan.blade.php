@@ -50,7 +50,9 @@
                                 </thead>
                                 <tbody>
                                     @php $i = 0; @endphp
-                                    @foreach ($peminjamanRuangan as $data)
+                                    @foreach ($peminjamanRuangan->sortByDesc(function($data) {
+                                        return in_array($data->status, ['Pengajuan', 'Pengajuan Penyelesaian']) ? 1 : 0;
+                                    }) as $data)                                        
                                         <tr>
                                             <td>
                                                 @php $i++; @endphp

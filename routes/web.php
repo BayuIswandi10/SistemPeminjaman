@@ -23,10 +23,6 @@ use App\Http\Controllers\SesiController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('Dashboard.dashboard');
-// });
-
 Route::view('/', 'Dashboard.dashboard')->name('dashboard');
 
 //Dashboard sebelum login

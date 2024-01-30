@@ -102,15 +102,26 @@ class PeminjamanRuanganController extends Controller
 
     public function riwayatPeminjamanRuangan()
     {
-        $peminjamanRuangan = PeminjamanRuangan::with(['ruangan', 'sesi'])->get();
+        $pengguna = Session::get('logged_in');
+        $peminjamanRuangan = PeminjamanRuangan::with(['ruangan', 'sesi']);
+    
+        // Tambahkan kondisi untuk menampilkan semua data jika pengguna memiliki role Koor UPT atau Super Admin
+        if ($pengguna->role === 'Koor UPT' || $pengguna->role === 'Super Admin') {
+            $peminjamanRuangan = $peminjamanRuangan->get();
+        } else {
+            $peminjamanRuangan = $peminjamanRuangan->whereHas('ruangan', function ($query) use ($pengguna) {
+                $query->where('pic_lab', $pengguna->nama); // Filter berdasarkan nama PIC Lab
+            })->get();
+        }
+    
         return view('riwayatPeminjaman.riwayatPeminjamanRuangan', compact('peminjamanRuangan'));
     }
-
+    
     public function destroy($id)
     {
         $PeminjamanRuangan = PeminjamanRuangan::find($id);
 
-        // Ambil id pengguna yang sedang login
+        // Ambil nama pengguna yang sedang login
         $loggedInUserId = Session::get('logged_in')->nama;
 
         // Periksa apakah pengguna memiliki hak untuk menyetujui peminjaman

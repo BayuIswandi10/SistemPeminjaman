@@ -77,8 +77,8 @@
                                 </thead>
                                 <tbody>
                                     <?php $i = 0; ?>
-                                    @foreach ($pengguna as $data)
-                                        <tr >
+                                    @foreach ($pengguna->sortBy('status') as $data)
+                                       <tr >
                                             <td >{{ ++$i }}</td>
                                             <td>{{ $data->nama }}</td>
                                             <td>{{ $data->alamat }}</td>

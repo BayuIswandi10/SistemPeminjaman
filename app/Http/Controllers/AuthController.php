@@ -35,41 +35,38 @@ class AuthController extends Controller
             'Password.required' => 'Password wajib diisi.'
         ]);
     
-        echo 'alert(' . $request->Username . ');';
-        echo 'alert(' . $request->Password . ');';
+        $username = $request->get('Username');
+        $password = $request->get('Password');
     
-        $info = [
-            'username' => $request->get('Username'),
-            'password' => $request->get('Password'),
-        ];
+        // Cari pengguna berdasarkan username
+        $pengguna = Pengguna::where('username', $username)->first();
     
-        $usernameFirstChar = substr($request->Username, 0, 1);
-        $passwordFirstChar = substr($request->Password, 0, 1);
-    
-        // Cari pengguna dengan huruf pertama dari username dan password
-        $pengguna = pengguna::where('username', 'like', $usernameFirstChar . '%')
-                            ->where('password', 'like', $passwordFirstChar . '%')
-                            ->first();  
-                              
         if ($pengguna) {
-            // Check if the user is active
-            if ($pengguna->status == 'Aktif') {
-                // Autentikasi berhasil
-                Auth::guard('pengguna')->login($pengguna);
+            // Check if the password matches
+            if ($pengguna->password == $password) {
+                // Check if the user is active
+                if ($pengguna->status == 'Aktif') {
+                    // Autentikasi berhasil
+                    Auth::guard('pengguna')->login($pengguna);
     
-                // Menyimpan informasi login
-                $request->session()->put('logged_in', $pengguna);
+                    // Menyimpan informasi login
+                    $request->session()->put('logged_in', $pengguna);
     
-                return redirect(route('Dashboard.beranda'))->with('success', 'Login Berhasil!');
+                    return redirect(route('Dashboard.beranda'))->with('success', 'Login Berhasil!');
+                } else {
+                    // User is not active
+                    return redirect(route('logins.index'))->with('error', 'Akun tidak aktif. Harap hubungi administrator.');
+                }
             } else {
-                // User is not active
-                return redirect(route('logins.index'))->with('error', 'Akun tidak aktif. Harap hubungi administrator.');
+                // Password tidak sesuai
+                return redirect(route('logins.index'))->with('error', 'Password salah!');
             }
         } else {
             // Autentikasi gagal
-            return redirect(route('logins.index'))->with('error', 'Username atau Password Salah!');
+            return redirect(route('logins.index'))->with('error', 'Username tidak ditemukan!');
         }
-    }    
+    }
+       
 
     public function logout()
     {
