@@ -8,6 +8,7 @@ use App\Models\PeminjamanRuangan;
 use App\Models\Pengguna;
 use App\Models\Ruangan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -75,21 +76,30 @@ class DashboardController extends Controller
     }
     
 
-    public function beranda()
+    public function beranda(Request $request)
     {
+        $condition = $request->input('condition', 'Pengajuan'); // Default condition is 'Pengajuan'
+        
         $ruanganData = Ruangan::where('status', 'Tersedia')->count();
         $barangData = Barang::where('status', 'Tersedia')->count(); 
-        $peminjamanruanganData = PeminjamanRuangan::where('status', 'Pengajuan')->count(); 
-        $peminjamanbarangData = PeminjamanBarang::count();
     
+        if ($condition === 'Pengajuan' || $condition === 'Selesai' || $condition === 'Dipinjam' || $condition === 'Disetujui' || $condition === 'Ditolak') {
+            $peminjamanruanganData = PeminjamanRuangan::where('status', $condition)->count();
+            $peminjamanbarangData = PeminjamanBarang::where('status', $condition)->count();
+        } else {
+            $peminjamanruanganData = PeminjamanRuangan::count();
+            $peminjamanbarangData = PeminjamanBarang::count();
+        }
+        
         $chartRuangan = $this->ChartRuangan(); // Assuming this function returns the correct data
         $chartBarang = $this->ChartBarang(); // Assuming this function returns the correct data
         $pieChart = $this->PieChart(); // Assuming this function returns the correct data
     
         // Retrieve other necessary data...
     
-        return view('Dashboard.beranda', compact('ruanganData', 'barangData', 'chartRuangan', 'chartBarang', 'pieChart', 'peminjamanruanganData','peminjamanbarangData' ));
+        return view('Dashboard.beranda', compact('ruanganData', 'barangData', 'chartRuangan', 'chartBarang', 'pieChart', 'peminjamanruanganData', 'peminjamanbarangData', 'condition'));
     }
+    
     
     public function ChartRuangan()
     {

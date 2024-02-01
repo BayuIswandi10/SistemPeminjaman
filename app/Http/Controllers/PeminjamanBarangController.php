@@ -11,6 +11,7 @@ use App\Models\Sesi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class PeminjamanBarangController extends Controller
 {
@@ -347,5 +348,51 @@ class PeminjamanBarangController extends Controller
         $PeminjamanBarangDetail = $this->getPeminjamanBarangDetail($id);
     
         return view('riwayatPeminjaman.riwayatPeminjamanBarang_detail', ['peminjamanBarang' => $peminjamanBarang, 'sesi' => $sesi, 'PeminjamanBarangDetail' => $PeminjamanBarangDetail ]);
+    }
+
+
+    public function destroy($id)
+    {
+        $peminjamanBarang = PeminjamanBarang::find($id);
+    
+        if ($peminjamanBarang) {
+            $peminjamanBarang->status = 'Ditolak';
+            $peminjamanBarang->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $peminjamanBarang->save();
+    
+            return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('success', 'Data ID ' . $id . ' Menolak peminjaman ruangan.');
+        }
+    
+        return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('error', 'Data not found.');
+    }
+
+    public function acc($id)
+    {
+        $peminjamanBarang = PeminjamanBarang::find($id);
+    
+        if ($peminjamanBarang) {
+            $peminjamanBarang->status = 'Disetujui';
+            $peminjamanBarang->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $peminjamanBarang->save();
+    
+            return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('success', 'Data ID ' . $id . ' Menolak peminjaman ruangan.');
+        }
+    
+        return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('error', 'Data not found.');
+    }
+
+    public function accFinal($id)
+    {
+        $peminjamanBarang = PeminjamanBarang::find($id);
+    
+        if ($peminjamanBarang) {
+            $peminjamanBarang->status = 'Selesai';
+            $peminjamanBarang->pengguna_id = Session::get('logged_in')->pengguna_id;
+            $peminjamanBarang->save();
+    
+            return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('success', 'Data ID ' . $id . ' Menolak peminjaman ruangan.');
+        }
+    
+        return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('error', 'Data not found.');
     }
 }

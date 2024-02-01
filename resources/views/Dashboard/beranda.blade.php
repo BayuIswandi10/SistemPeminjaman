@@ -22,41 +22,29 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <form method="get" action="{{ route('Dashboard.beranda') }}">
+                <label for="condition">Select Condition:</label>
+                <select name="condition" id="condition">
+                    <option value="Disetujui" {{ $condition === 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
+                    <option value="Ditolak" {{ $condition === 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    <option value="Pengajuan" {{ $condition === 'Pengajuan' ? 'selected' : '' }}>Pengajuan</option>
+                    <option value="Selesai" {{ $condition === 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                    <option value="Dipinjam" {{ $condition === 'Dipinjam' ? 'selected' : '' }}>Dipinjam</option>
+                </select>
+                <button type="submit">Apply</button>
+            </form>
             <div class="row">
-                @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: '{{ session('success') }}',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                </script>
-                @endif
-
-                @if (session('error'))
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: '{{ session('error') }}',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    </script>
-                @endif
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3>{{ $peminjamanbarangData }}</h3> 
-                            <p>Pengajuan Peminjaman Barang</p>
+                            <p>Peminjaman Barang ({{ $condition }})</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="{{ route('riwayatPeminjamanRuangan.mahasiswa') }}" class="small-box-footer">Informasi Lanjut <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('riwayatPeminjamanBarang.mahasiswa') }}" class="small-box-footer">Informasi Lanjut <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -65,7 +53,7 @@
                     <div class="small-box bg-success">
                         <div class="inner">
                             <h3>{{ $peminjamanruanganData }}<sup style="font-size: 20px"></sup></h3>   
-                            <p>Pengajuan Peminjaman Ruangan</p>
+                            <p>Peminjaman Ruangan ({{ $condition }})</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>

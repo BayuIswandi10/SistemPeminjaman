@@ -222,7 +222,7 @@
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="status" value="Selesai" />
+                        <input type="text" class="form-control" name="status" value="Pengajuan Penyelesaian" />
                     </div>
                 </div>       
                 <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">

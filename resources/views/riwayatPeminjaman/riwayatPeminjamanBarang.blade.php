@@ -42,7 +42,7 @@
                                         <th>Tanggal</th>
                                         <th>Sesi </th>
                                         <th>Status</th>
-                                        @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
+                                        @if(session()->has('logged_in') && session('logged_in')->role === 'PIC Lab')                                       
                                             <th>Aksi</th>
                                         @endif
                                     </tr>
@@ -65,6 +65,8 @@
                                             <td>
                                                 @if ($data->status == 'Pengajuan')
                                                     <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
+                                                @elseif ($data->status == 'Pengajuan Penyelesaian')
+                                                    <span class="badge badge-warning" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == 'Dipinjam')
                                                     <span class="badge badge-info" style="font-size:15px;">{{ $data->status }}</span>
                                                 @elseif ($data->status == 'Selesai')
@@ -75,13 +77,36 @@
                                                     <span class="badge badge-success" style="font-size:15px;">{{ $data->status }}</span>
                                                 @endif
                                             </td>
-                                            @if(session()->has('logged_in') && session('logged_in')->role === 'Super Admin')                                       
+                                            @if(session()->has('logged_in') && session('logged_in')->role === 'PIC Lab')                                       
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="{{ route('riwayatPeminjamanBarang.detail', ['id' => $data->peminjaman_barang_id]) }}" class="btn btn-primary color-muted editbtn">
                                                             <i class="fa fa-list color-mutedfa fa-list color-muted"></i>
                                                         </a>
-                                                        
+                                                        @if (session()->has('logged_in') && session('logged_in')->role === 'PIC Lab' && $data->status == 'Pengajuan')
+                                                        <form id="deleteFormAcc_{{ $data->peminjaman_barang_id }}" action="{{ route('accBarang.acc', ['id' => $data->peminjaman_barang_id]) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-success" onclick="confirmAcc('{{ $data->peminjaman_barang_id }}')">
+                                                                <i class="fas fa-check-circle"></i>
+                                                            </button>
+                                                        </form>
+                                                        <form id="deleteFormReject_{{ $data->peminjaman_barang_id }}" action="{{ route('tolakBarang.destroy', ['id' => $data->peminjaman_barang_id]) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $data->peminjaman_barang_id }}')">
+                                                                <i class="fa fa-times-circle"></i>
+                                                            </button>
+                                                        </form>
+                                                        @elseif (session()->has('logged_in') && session('logged_in')->role === 'PIC Lab' && $data->status == 'Pengajuan Penyelesaian')
+                                                            <form id="finalAcc_{{ $data->peminjaman_barang_id }}" action="{{ route('accFinalBarang.accFinal', ['id' => $data->peminjaman_barang_id]) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="button" class="btn btn-primary" onclick="finalAcc('{{ $data->peminjaman_barang_id }}')">
+                                                                    <i class="fas fa-check-circle"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             @endif
@@ -136,7 +161,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Delete form submission
-                document.getElementById('deleteForm_' + sesiId).submit();
+                document.getElementById('deleteFormReject_' + sesiId).submit();
             }
         });
     }
@@ -150,7 +175,21 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Delete form submission
-                document.getElementById('deleteForm_' + sesiId).submit();
+                document.getElementById('deleteFormAcc_' + sesiId).submit();
+            }
+        });
+    }
+    function finalAcc(sesiId) {
+        Swal.fire({
+            title: 'Apakah anda yakin menyetujui pengajuan ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya Setuju!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Delete form submission
+                document.getElementById('finalAcc_' + sesiId).submit();
             }
         });
     }

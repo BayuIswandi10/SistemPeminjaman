@@ -134,3 +134,6 @@ Route::delete('/barang/deleteItem/{id}', [PeminjamanBarangController::class, 'de
 //Routes riwayat peminjaman barang user
 Route::get('RiwayatPeminjamanBarang', [PeminjamanBarangController::class, 'riwayatPeminjamanBarang'])->name('riwayatPeminjamanBarang.mahasiswa');
 Route::get('riwayatPeminjamanBarang_detail/{id}', [PeminjamanBarangController::class, 'detailRiwayat'])->name('riwayatPeminjamanBarang.detail');
+Route::delete('RiwayatPeminjamanBarang/{id}/tolak', [PeminjamanBarangController::class, 'destroy'])->name('tolakBarang.destroy');
+Route::delete('RiwayatPeminjamanBarang/{id}/acc', [PeminjamanBarangController::class, 'acc'])->name('accBarang.acc');
+Route::delete('RiwayatPeminjamanBarang/{id}/Finalacc', [PeminjamanBarangController::class, 'accFinal'])->name('accFinalBarang.accFinal');
