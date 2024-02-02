@@ -153,7 +153,7 @@
                         <span style="color: white; font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="date" class="form-control" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
+                        <input type="date" style="color: black;" class="form-control" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -161,7 +161,7 @@
                         <span style="color: white; font-size: 18px;">Sesi Pinjam</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="sesi_id" class="form-control" >
+                        <select style="color: black;" name="sesi_id" class="form-control" >
                             <option value="">-- pilih sesi --</option>
                             @foreach ($sesi as $sesiID => $name)
                                 <option value="{{ $sesiID }}" @selected(old('sesi_id') == $sesiID)>
@@ -176,7 +176,7 @@
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea type="text" class="form-control" name="keperluan" value="{{ old('keperluan')}}" rows="4" cols="50" required="true" ></textarea>
+                        <textarea type="text" style="color: black;" class="form-control" name="keperluan" value="{{ old('keperluan')}}" rows="4" cols="50" required="true" ></textarea>
                     </div>
                 </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;" hidden>
@@ -184,7 +184,7 @@
                         <span style="color: white; font-size: 18px;">Status </span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="status" value="Dipinjam" id="status" />
+                        <input type="text" class="form-control" name="status" value="Pengajuan" id="status" />
                     </div>
                 </div>         
                 <div class="col-md-6 row" style="margin-top: 30px;margin-bottom: 30px;">

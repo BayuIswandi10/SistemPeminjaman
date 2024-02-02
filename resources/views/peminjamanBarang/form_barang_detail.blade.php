@@ -161,7 +161,7 @@
                         <span style="color: white;font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input id="datepciker" type="date" value="{{ $peminjamanBarang->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
+                        <input id="datepciker" type="date" style="color:black;" value="{{ $peminjamanBarang->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
                     </div>
                 </div>                
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -169,7 +169,7 @@
                         <span style="color: white; font-size: 18px;">Sesi Pinjam</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="sesi_id" class="form-control" required="true" readonly="true">
+                        <select name="sesi_id" class="form-control" style="color:black;" required="true" readonly="true">
                             @foreach ($sesi as $sesiID => $name)
                             <option value="{{ $sesiID }}" @if(old('sesi_id', $peminjamanBarang->sesi_id) == $sesiID) selected @endif>
                                 {{ $name }}
@@ -183,7 +183,7 @@
                         <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ $peminjamanBarang->waktu_kembali }}" required="true" readonly="true" />
+                        <input type="time" class="form-control" style="color:black;" name="waktu_kembali" value="{{ $peminjamanBarang->waktu_kembali }}" required="true" readonly="true" />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -191,7 +191,7 @@
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanBarang->keperluan }}</textarea>
+                        <textarea type="text" class="form-control" name="keperluan" rows="4" style="color:black;" cols="50" required="true" readonly="true" >{{ $peminjamanBarang->keperluan }}</textarea>
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">

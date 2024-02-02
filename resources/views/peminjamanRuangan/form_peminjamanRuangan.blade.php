@@ -130,7 +130,7 @@
                         <span style="color: white; font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="date" class="form-control" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
+                        <input type="date" class="form-control" name="tanggal_pinjam" style="color:black;" value="{{ old('tanggal_pinjam') ? old('tanggal_pinjam') : now()->format('Y-m-d') }}" required />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">

@@ -140,7 +140,7 @@
                         <span style="color: white;font-size: 18px;">Tanggal</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input id="datepciker" type="date" value="{{ $peminjamanRuangan->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
+                        <input id="datepciker" type="date" style="color:black;" value="{{ $peminjamanRuangan->tanggal_pinjam }}" min="{{ date('Y-m-d') }}" style="color: black;" name="tanggal" class="form-control" required="true" readonly="true">
                     </div>
                 </div>                
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -148,7 +148,7 @@
                         <span style="color: white; font-size: 18px;">Sesi Pinjam</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="sesi_id" class="form-control" required="true" readonly="true">
+                        <select name="sesi_id" class="form-control" style="color:black;" required="true" readonly="true">
                             @foreach ($sesi as $sesiID => $name)
                             <option value="{{ $sesiID }}" @if(old('sesi_id', $peminjamanRuangan->sesi_id) == $sesiID) selected @endif>
                                 {{ $name }}
@@ -162,7 +162,7 @@
                         <span style="color: white; font-size: 18px;">Waktu Pengembalian</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="time" class="form-control" name="waktu_kembali" value="{{ $peminjamanRuangan->waktu_kembali }}" required="true" readonly="true" />
+                        <input type="time" class="form-control" style="color:black;" name="waktu_kembali" value="{{ $peminjamanRuangan->waktu_kembali }}" required="true" readonly="true" />
                     </div>
                 </div>
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -170,7 +170,7 @@
                         <span style="color: white; font-size: 18px;">Jumlah Pengguna</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <input type="number" class="form-control" name="jumlah_pengguna" value="{{ ($peminjamanRuangan->jumlah_pengguna)}}" required="true" readonly="true" />
+                        <input type="number" class="form-control" style="color:black;" name="jumlah_pengguna" value="{{ ($peminjamanRuangan->jumlah_pengguna)}}" required="true" readonly="true" />
                     </div>
                 </div> 
                 <div class="col-md-6 row" style="margin-top: 20px;">
@@ -178,7 +178,7 @@
                         <span style="color: white; font-size: 18px;">Keperluan</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" readonly="true" >{{ $peminjamanRuangan->keperluan }}</textarea>
+                        <textarea type="text" class="form-control" name="keperluan" rows="4" cols="50" required="true" style="color:black;" readonly="true" >{{ $peminjamanRuangan->keperluan }}</textarea>
                     </div>
                 </div>                
                 <div class="col-md-6 row" style="margin-top: 20px;">

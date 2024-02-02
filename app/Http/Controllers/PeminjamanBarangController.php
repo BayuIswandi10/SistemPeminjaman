@@ -159,18 +159,18 @@ class PeminjamanBarangController extends Controller
             // Attach barangs to peminjaman_barang with quantities
             $peminjamanBarang->barang()->attach([$item->barang_id => ['jumlah' => $item->jumlah]]);
     
-            // Kurangi stok barang
-            $barang = Barang::find($item->barang_id);
-            if ($barang) {
-                $barang->kurangiStok($item->jumlah);
-            }
+            // // Kurangi stok barang
+            // $barang = Barang::find($item->barang_id);
+            // if ($barang) {
+            //     $barang->kurangiStok($item->jumlah);
+            // }
     
             // Remove the item from keranjang
             $item->delete();
         }
     
-        // Update status based on barang type
-        $peminjamanBarang->updateStatusBasedOnBarangType();
+        // // Update status based on barang type
+        // $peminjamanBarang->updateStatusBasedOnBarangType();
     
         return redirect(route('peminjamanBarang.mahasiswa'))->with('success', 'Data berhasil ditambahkan!');
     }
@@ -240,7 +240,7 @@ class PeminjamanBarangController extends Controller
     }
 
     public function updateBarangSebelum(UpdatePeminjamanBarangRequest $request, $id)
-    {       
+    {
         $peminjamanBarang = PeminjamanBarang::findOrFail($id);
         $params = $request->validated();
     
@@ -257,14 +257,20 @@ class PeminjamanBarangController extends Controller
             }
     
             $params['foto_sebelum'] = $newImagePath;
+    
+            // Decrease stock of each item in the borrowing
+            foreach ($peminjamanBarang->barang as $barang) {
+                $barang->kurangiStok($barang->pivot->jumlah);
+            }
         }
+    
         if ($peminjamanBarang->update($params)) {
-            return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Data berhasil di simpan!');
+            return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Data berhasil disimpan!');
         } else {
             // Jika terjadi kesalahan saat pembaruan fasilitas
-            return back()->with('error', 'Failed to update.');
+            return back()->with('error', 'Gagal untuk update.');
         }
-    }
+    }    
 
     public function editBarangSesudah($id)
     {       
@@ -300,21 +306,21 @@ class PeminjamanBarangController extends Controller
             $params['foto_setelah'] = $newImagePath;
         }
     
-        // Jika ada perubahan pada foto_setelah, kembalikan stok barang
-        if ($request->hasFile('foto_setelah') && $peminjamanBarang->foto_setelah) {
-            foreach ($peminjamanBarang->barang as $barang) {
-                $barang->tambahStok($barang->pivot->jumlah);
-            }
-        }
+        // // Jika ada perubahan pada foto_setelah, kembalikan stok barang
+        // if ($request->hasFile('foto_setelah') && $peminjamanBarang->foto_setelah) {
+        //     foreach ($peminjamanBarang->barang as $barang) {
+        //         $barang->tambahStok($barang->pivot->jumlah);
+        //     }
+        // }
         
         if ($peminjamanBarang->update($params)) {
-            // Tambah stok barang setelah pembaruan
-            foreach ($peminjamanBarang->barang as $barang) {
-                // Tambah stok hanya jika barang bertipe 'Unkonsumable'
-                if ($barang->tipe_barang === 'Unkonsumable') {
-                    $barang->tambahStok($barang->pivot->jumlah);
-                }
-            }
+            // // Tambah stok barang setelah pembaruan
+            // foreach ($peminjamanBarang->barang as $barang) {
+            //     // Tambah stok hanya jika barang bertipe 'Unkonsumable'
+            //     if ($barang->tipe_barang === 'Unkonsumable') {
+            //         $barang->tambahStok($barang->pivot->jumlah);
+            //     }
+            // }
         
             return redirect(route('riwayat_peminjaman_barang.mahasiswa'))->with('success', 'Data berhasil di simpan!');
         } else {
@@ -371,6 +377,8 @@ class PeminjamanBarangController extends Controller
         $peminjamanBarang = PeminjamanBarang::find($id);
     
         if ($peminjamanBarang) {
+            
+
             $peminjamanBarang->status = 'Disetujui';
             $peminjamanBarang->pengguna_id = Session::get('logged_in')->pengguna_id;
             $peminjamanBarang->save();
@@ -386,13 +394,21 @@ class PeminjamanBarangController extends Controller
         $peminjamanBarang = PeminjamanBarang::find($id);
     
         if ($peminjamanBarang) {
+            // Increase stock only for items with 'Unkonsumable' type
+            foreach ($peminjamanBarang->barang as $barang) {
+                if ($barang->tipe_barang === 'Unkonsumable') {
+                    $barang->tambahStok($barang->pivot->jumlah);
+                }
+            }
+    
             $peminjamanBarang->status = 'Selesai';
             $peminjamanBarang->pengguna_id = Session::get('logged_in')->pengguna_id;
             $peminjamanBarang->save();
     
-            return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('success', 'Data ID ' . $id . ' Menolak peminjaman ruangan.');
+            return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('success', 'Data ID ' . $id . ' Peminjaman barang selesai.');
         }
     
         return redirect()->route('riwayatPeminjamanBarang.mahasiswa')->with('error', 'Data not found.');
     }
+    
 }

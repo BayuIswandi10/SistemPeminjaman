@@ -33,7 +33,7 @@ class StorePeminjamanBarangRequest extends FormRequest
                         $query->whereIn('peminjaman_barang_id', function ($subquery) {
                             $subquery->from('peminjaman_barangs')
                                 ->select('peminjaman_barang_id')
-                                ->where('tanggal_pinjam', $this->input('tanggal_pinjam'))
+                                   ->where('tanggal_pinjam', $this->input('tanggal_pinjam'))
                                 ->where('sesi_id', $this->input('sesi_id'))
                                 ->whereIn('status', ['Disetujui', 'Dipinjam']); // Tambahkan status yang diperbolehkan
                         });
