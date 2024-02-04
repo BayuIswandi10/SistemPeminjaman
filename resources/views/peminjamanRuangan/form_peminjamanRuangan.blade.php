@@ -138,7 +138,7 @@
                         <span style="color: white; font-size: 18px;">Sesi Pinjam</span><span style="color:red;"> *</span>
                     </div>
                     <div class="col-md-8">
-                        <select name="sesi_id" class="form-control" >
+                        <select style="color:black;" id="sesiSelect" name="sesi_id" class="form-control" onchange="updateSesiDetails()">
                             <option value="">-- pilih sesi --</option>
                             @foreach ($sesi as $sesiID => $name)
                                 <option value="{{ $sesiID }}" @selected(old('sesi_id') == $sesiID)>
@@ -146,6 +146,24 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                        <span style="color: white; font-size: 18px;">Waktu Awal</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input style="color:black;" type="text" class="form-control" id="sesiAwal" name="sesi_awal" readonly>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 row" style="margin-top: 20px;">
+                    <div class="col-md-4 left">
+                        <span  style="color: white; font-size: 18px;">Waktu Akhir</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input style="color:black;" type="text" class="form-control" id="sesiAkhir" name="sesi_akhir" readonly>
                     </div>
                 </div>
                 
@@ -205,6 +223,25 @@
     </footer>
 </div>
 
+<script>
+    function updateSesiDetails() {
+        var selectedSesiId = document.getElementById('sesiSelect').value;
+
+        // Fetch the details from the database using AJAX (assuming you have a route and controller method)
+        $.ajax({
+            url: '/get-sesi-details/' + selectedSesiId,
+            type: 'GET',
+            success: function(response) {
+                // Update the Sesi Awal and Sesi Akhir fields with the fetched data
+                document.getElementById('sesiAwal').value = response.sesi_awal;
+                document.getElementById('sesiAkhir').value = response.sesi_akhir;
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -108,6 +108,7 @@ Route::put('pesanan_ruangan/{id}/updateRuanganSebelum', [PeminjamanRuanganContro
 Route::get('pesanan_ruangan/{id}/editRuanganSesudah', [PeminjamanRuanganController::class, 'editRuanganSesudah'])->name('pesanan_ruangan.editRuanganSesudah');
 Route::put('pesanan_ruangan/{id}/updateRuanganSesudah', [PeminjamanRuanganController::class, 'updateRuanganSesudah'])->name('pesanan_ruangan.updateRuanganSesudah');
 Route::get('pesanan_ruangan_detail/{id}', [PeminjamanRuanganController::class, 'formDetail'])->name('pesanan_ruangan.formDetail');
+Route::get('/get-sesi-details/{sesi_id}', [PeminjamanRuanganController::class, 'getSesiDetails']);
 
 //Routes riwayat peminjaman ruangan user
 Route::get('RiwayatPeminjamanRuangan', [PeminjamanRuanganController::class, 'riwayatPeminjamanRuangan'])->name('riwayatPeminjamanRuangan.mahasiswa');
@@ -130,6 +131,7 @@ Route::get('keranjang', [PeminjamanBarangController::class, 'viewKeranjang'])->n
 Route::put('/barang/addQuantity/{id}/{jmlh}', [PeminjamanBarangController::class, 'addQuantity']);
 Route::put('/barang/subtractQuantity/{id}/{jmlh}', [PeminjamanBarangController::class, 'subtractQuantity']);
 Route::delete('/barang/deleteItem/{id}', [PeminjamanBarangController::class, 'deleteItem']);
+Route::get('/get-sesi-details/{sesi_id}', [PeminjamanBarangController::class, 'getSesiDetails']);
 
 //Routes riwayat peminjaman barang user
 Route::get('RiwayatPeminjamanBarang', [PeminjamanBarangController::class, 'riwayatPeminjamanBarang'])->name('riwayatPeminjamanBarang.mahasiswa');

@@ -104,17 +104,17 @@
                                 <td>{{ $data2->nama_barang }}</td>
                                 <td>{{ $data2->jumlah }}</td>
                                 <td>
-                                    @if(isset($data2->foto_sebelum) && $data2->foto_sebelum !== null)
-                                        <img style="max-height: 50; max-width: 20%;" src="{{ asset('assets/foto/riwayat_barang/' . $data2->foto_sebelum) }}">
-                                    @else
+                                    @if($peminjamanBarang->foto_sebelum == '')
                                         -
+                                    @else
+                                        <img style="max-height: 50; max-width: 20%;" src="{{ asset($peminjamanBarang->foto_sebelum) }}">
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($data2->foto_setelah) && $data2->foto_setelah !== null)
-                                        <img style="max-height: 50; max-width: 20%;" src="{{ asset('assets/foto/riwayat_barang/' . $data2->foto_setelah) }}">
-                                    @else
+                                    @if($peminjamanBarang->foto_setelah == '')
                                         -
+                                    @else
+                                        <img style="max-height: 50; max-width: 20%;" src="{{ asset($peminjamanBarang->foto_setelah) }}">
                                     @endif
                                 </td>
                             </tr>

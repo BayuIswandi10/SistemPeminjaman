@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Session;
 
 class PeminjamanBarangController extends Controller
 {
+    public function getSesiDetails($sesi_id) {
+        $sesi = Sesi::findOrFail($sesi_id);
+    
+        return response()->json([
+            'sesi_awal' => $sesi->sesi_awal,
+            'sesi_akhir' => $sesi->sesi_akhir,
+        ]);
+    }
+    
     public function addKeranjang($barang_id)
     {
         $nim = isset($_COOKIE['nim']) ? $_COOKIE['nim'] : null;
